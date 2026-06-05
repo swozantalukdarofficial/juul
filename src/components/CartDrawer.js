@@ -32,28 +32,28 @@ export default function CartDrawer({ isOpen, onClose, cart, onRemoveFromCart, se
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 300 }}
-            className={`fixed right-0 top-0 h-screen w-full sm:max-w-[400px] border-l z-50 shadow-2xl flex flex-col justify-between transition-colors duration-500 ${
+            className={`fixed right-0 top-0 h-screen w-full sm:max-w-[400px] border-l z-50 shadow-2xl flex flex-col transition-colors duration-500 overflow-hidden ${
               isLight ? "bg-white border-zinc-200" : "bg-[#0A0A0B] border-white/5"
             }`}
           >
             {/* Header */}
-            <div className={`p-6 border-b flex items-center justify-between ${isLight ? "border-zinc-100" : "border-white/5"}`}>
-              <div className={`flex items-center gap-2 ${isLight ? "text-zinc-900" : "text-white"}`}>
-                <ShoppingBag className={`w-5 h-5 ${isLight ? "text-blue-600" : "text-emerald-400"}`} />
-                <span className="font-bold uppercase tracking-wider text-sm">Shopping Cart ({cart.length})</span>
+            <div className={`px-5 py-4 border-b flex items-center justify-between gap-2 flex-shrink-0 ${isLight ? "border-zinc-100" : "border-white/5"}`}>
+              <div className={`flex items-center gap-2 min-w-0 overflow-hidden ${isLight ? "text-zinc-900" : "text-white"}`}>
+                <ShoppingBag className={`w-4 h-4 flex-shrink-0 ${isLight ? "text-blue-600" : "text-emerald-400"}`} />
+                <span className="font-bold uppercase tracking-wider text-xs truncate">Shopping Cart ({cart.length})</span>
               </div>
               <button 
                 onClick={onClose}
-                className={`p-1 rounded-full transition-colors cursor-pointer ${
+                className={`p-1.5 rounded-full transition-colors cursor-pointer flex-shrink-0 ${
                   isLight ? "hover:bg-zinc-100 text-zinc-400 hover:text-zinc-900" : "hover:bg-white/5 text-zinc-400 hover:text-white"
                 }`}
               >
-                <X className="w-6 h-6" />
+                <X className="w-5 h-5" />
               </button>
             </div>
 
             {/* Items List */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-4">
+            <div className="flex-1 overflow-y-auto p-5 space-y-4">
               {cart.length === 0 ? (
                 <div className="h-full flex flex-col items-center justify-center text-center space-y-4">
                   <ShoppingBag className={`w-12 h-12 ${isLight ? "text-zinc-300" : "text-zinc-700"}`} />
@@ -95,7 +95,7 @@ export default function CartDrawer({ isOpen, onClose, cart, onRemoveFromCart, se
 
             {/* Footer Summary & Checkout */}
             {cart.length > 0 && (
-              <div className={`p-6 border-t backdrop-blur-md space-y-6 transition-colors duration-500 ${
+              <div className={`p-5 border-t backdrop-blur-md space-y-4 flex-shrink-0 transition-colors duration-500 ${
                 isLight ? "border-zinc-100 bg-zinc-50/80" : "border-white/5 bg-[#0D0D0E]/80"
               }`}>
                 <div className="flex justify-between items-end text-left">
