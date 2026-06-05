@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ShoppingBag, ChevronRight, Menu, X, Sun, Moon } from "lucide-react";
+import { ShoppingBag, ChevronRight, Menu, X } from "lucide-react";
 import { useState } from "react";
 
 export default function Navbar({ currentPage, setCurrentPage, cartCount, setIsCartOpen, theme, setTheme, versionFilter = "all", setVersionFilter }) {
@@ -124,20 +124,6 @@ export default function Navbar({ currentPage, setCurrentPage, cartCount, setIsCa
         {/* Right Side: Sci-fi Cart, Theme Toggle & Glowing Action CTA */}
         <div className="flex items-center gap-3">
           
-          {/* Dynamic Theme Toggle Switch */}
-          {/* Dynamic Theme Toggle Switch */}
-          <button
-            onClick={() => setTheme(isLight ? "dark" : "light")}
-            className={`p-2.5 rounded-full border transition-all cursor-pointer relative group ${
-              isLight 
-                ? "bg-zinc-50 border-zinc-200 text-zinc-700 hover:text-zinc-950 hover:bg-zinc-100" 
-                : "bg-white/[0.03] border-white/10 text-zinc-300 hover:text-white hover:bg-white/[0.08]"
-            }`}
-            title={isLight ? "Activate Dark Mode" : "Activate Light Mode"}
-          >
-            {isLight ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4 text-amber-400" />}
-          </button>
-
           {/* Cart Icon */}
           <button 
             onClick={() => setIsCartOpen(true)}
