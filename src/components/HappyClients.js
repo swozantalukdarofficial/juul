@@ -274,7 +274,7 @@ export default function HappyClients({ theme }) {
           className="flex"
           animate={{ x: ["0%", "-50%"] }}
           transition={{
-            duration: 40,
+            duration: 20,
             repeat: Infinity,
             ease: "linear"
           }}

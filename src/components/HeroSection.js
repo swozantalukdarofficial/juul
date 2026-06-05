@@ -291,15 +291,21 @@ export default function HeroSection({ setCurrentPage, setCategoryFilter, setVers
 
             {/* Elegant Floating Specs Grid surrounding the device */}
             <div className="absolute inset-0 flex items-center justify-center w-full h-full pointer-events-none z-20">
-               <div className="grid grid-cols-2 gap-x-44 sm:gap-x-64 lg:gap-x-80 gap-y-48 lg:gap-y-60 w-full max-w-[340px] sm:max-w-[520px] lg:max-w-[700px] px-4">
-                 <AnimatePresence>
-                    {s.specs?.map((spec, i) => (
-                      <motion.div
-                        key={`${s.id}-spec-${i}`}
-                        initial={{ opacity: 0, x: i % 2 === 0 ? -40 : 40, filter: "blur(10px)", scale: 0.9 }}
-                        animate={{ opacity: 1, x: 0, filter: "blur(0px)", scale: 1 }}
-                        exit={{ opacity: 0, x: i % 2 === 0 ? -20 : 20, filter: "blur(10px)", scale: 0.9 }}
-                        transition={{ delay: i * 0.15, duration: 0.6, ease: "easeOut" }}
+              <AnimatePresence mode="wait">
+                <motion.div 
+                  key={cur}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="grid grid-cols-2 gap-x-44 sm:gap-x-64 lg:gap-x-80 gap-y-48 lg:gap-y-60 w-full max-w-[340px] sm:max-w-[520px] lg:max-w-[700px] px-4"
+                >
+                  {s.specs?.map((spec, i) => (
+                    <motion.div
+                      key={`${s.id}-spec-${i}`}
+                      initial={{ opacity: 0, x: i % 2 === 0 ? -40 : 40, filter: "blur(10px)", scale: 0.9 }}
+                      animate={{ opacity: 1, x: 0, filter: "blur(0px)", scale: 1 }}
+                      transition={{ delay: i * 0.15, duration: 0.6, ease: "easeOut" }}
                         className={`flex flex-col items-center justify-center text-center px-4 py-3 sm:py-3.5 rounded-2xl backdrop-blur-xl border transition-transform duration-500 will-change-transform ${
                           isLight 
                             ? "bg-white/70 border-white shadow-[0_8px_30px_rgba(0,0,0,0.06)]" 
@@ -325,8 +331,8 @@ export default function HeroSection({ setCurrentPage, setCategoryFilter, setVers
                          </span>
                       </motion.div>
                     ))}
-                 </AnimatePresence>
-               </div>
+                  </motion.div>
+                </AnimatePresence>
             </div>
 
             {/* 360 Degree True CSS 3D Device Container */}
