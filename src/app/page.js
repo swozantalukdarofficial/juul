@@ -12,7 +12,8 @@ import Footer from "@/components/Footer";
 import FloatingSocials from "@/components/FloatingSocials";
 
 export default function MainApp() {
-  const [currentPage, setCurrentPage] = useState("home");
+  const [currentPage, _setCurrentPage] = useState("home");
+  const [showComingSoon, setShowComingSoon] = useState(false);
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -20,6 +21,16 @@ export default function MainApp() {
   const [versionFilter, setVersionFilter] = useState("all");
   const [theme, setTheme] = useState("light"); // Default is light ("Samsung Website White Edition")
   const [isLoading, setIsLoading] = useState(true);
+
+  const setCurrentPage = (page) => {
+    if (page === "home") {
+      _setCurrentPage("home");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      setShowComingSoon(true);
+      setIsCartOpen(false); // Close cart if they tried to checkout from the drawer
+    }
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 2500);
@@ -252,6 +263,53 @@ export default function MainApp() {
           {renderPage()}
         </motion.div>
       </main>
+
+      {/* Coming Soon Modal */}
+      <AnimatePresence>
+        {showComingSoon && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              className={`max-w-sm w-full p-8 rounded-3xl text-center shadow-2xl border ${
+                theme === "light" 
+                  ? "bg-white border-zinc-200" 
+                  : "bg-zinc-900 border-white/10"
+              }`}
+            >
+              <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
+                <span className="text-2xl">🚧</span>
+              </div>
+              <h3 className={`text-2xl font-black tracking-tight mb-2 ${
+                theme === "light" ? "text-zinc-950" : "text-white"
+              }`}>
+                Under Development
+              </h3>
+              <p className={`text-sm mb-8 leading-relaxed ${
+                theme === "light" ? "text-zinc-600" : "text-zinc-400"
+              }`}>
+                This section is coming soon! We are currently working hard to bring you this experience.
+              </p>
+              <button
+                onClick={() => setShowComingSoon(false)}
+                className={`w-full py-4 rounded-xl text-sm font-black uppercase tracking-widest transition-all ${
+                  theme === "light"
+                    ? "bg-zinc-950 text-white hover:bg-zinc-800"
+                    : "bg-white text-zinc-950 hover:bg-zinc-200"
+                }`}
+              >
+                Got It
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Floating Cart Drawer overlay */}
       <CartDrawer

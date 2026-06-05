@@ -198,6 +198,14 @@ function ReviewCard({ review, isLight }) {
 
 export default function HappyClients({ theme }) {
   const isLight = theme === "light";
+  const [scrollDuration, setScrollDuration] = useState(20);
+
+  useEffect(() => {
+    const updateSpeed = () => setScrollDuration(window.innerWidth < 640 ? 2 : 10);
+    updateSpeed();
+    window.addEventListener('resize', updateSpeed);
+    return () => window.removeEventListener('resize', updateSpeed);
+  }, []);
 
   return (
     <section className={`py-24 overflow-hidden transition-colors duration-500 ${
@@ -274,7 +282,7 @@ export default function HappyClients({ theme }) {
           className="flex"
           animate={{ x: ["0%", "-50%"] }}
           transition={{
-            duration: 20,
+            duration: scrollDuration,
             repeat: Infinity,
             ease: "linear"
           }}

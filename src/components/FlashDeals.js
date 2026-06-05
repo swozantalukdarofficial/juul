@@ -1,8 +1,8 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
-import { ShoppingBag, Timer, Zap, Tag } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { ShoppingBag, Timer, Zap, Tag, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 
 const DEALS = [
@@ -224,6 +224,47 @@ function DealCard({ deal, isLight, onAddToCart, index }) {
 export default function FlashDeals({ theme, onAddToCart }) {
   const { h, m, s } = useCountdown();
   const isLight = theme === "light";
+  const scrollRef = useRef(null);
+  const [isPaused, setIsPaused] = useState(false);
+
+  useEffect(() => {
+    if (isPaused) return;
+    const interval = setInterval(() => {
+      if (scrollRef.current) {
+        const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+        if (scrollLeft + clientWidth >= scrollWidth - 10) {
+          scrollRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          scrollRef.current.scrollBy({ left: 320, behavior: 'smooth' });
+        }
+      }
+    }, 1300);
+    return () => clearInterval(interval);
+  }, [isPaused]);
+
+  const scrollLeftNav = () => {
+    if (scrollRef.current) {
+      const { scrollLeft, scrollWidth } = scrollRef.current;
+      if (scrollLeft <= 0) {
+        scrollRef.current.scrollTo({ left: scrollWidth, behavior: 'smooth' });
+      } else {
+        scrollRef.current.scrollBy({ left: -320, behavior: 'smooth' });
+      }
+    }
+  };
+
+  const scrollRightNav = () => {
+    if (scrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+      if (scrollLeft + clientWidth >= scrollWidth - 10) {
+        scrollRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        scrollRef.current.scrollBy({ left: 320, behavior: 'smooth' });
+      }
+    }
+  };
+
+  const repeatedDeals = [...DEALS, ...DEALS, ...DEALS, ...DEALS];
 
   return (
     <section className={`py-20 transition-colors duration-500 relative overflow-hidden ${
@@ -273,18 +314,42 @@ export default function FlashDeals({ theme, onAddToCart }) {
             </div>
           </div>
         </div>
+        {/* Auto Scrolling Deals Slider */}
+        <div 
+          className="relative w-full overflow-hidden py-4 group/slider"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
+          {/* Navigation Arrows */}
+          <button 
+            onClick={scrollLeftNav} 
+            className="absolute left-2 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white/80 dark:bg-black/80 backdrop-blur-md shadow-xl border border-zinc-200 dark:border-white/10 opacity-0 group-hover/slider:opacity-100 transition-opacity cursor-pointer hidden sm:flex"
+          >
+            <ChevronLeft className="w-5 h-5 text-zinc-900 dark:text-white" />
+          </button>
+          <button 
+            onClick={scrollRightNav} 
+            className="absolute right-2 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white/80 dark:bg-black/80 backdrop-blur-md shadow-xl border border-zinc-200 dark:border-white/10 opacity-0 group-hover/slider:opacity-100 transition-opacity cursor-pointer hidden sm:flex"
+          >
+            <ChevronRight className="w-5 h-5 text-zinc-900 dark:text-white" />
+          </button>
 
-        {/* ── Deals Grid ── */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {DEALS.map((deal, i) => (
-            <DealCard
-              key={deal.id}
-              deal={deal}
-              isLight={isLight}
-              onAddToCart={onAddToCart}
-              index={i}
-            />
-          ))}
+          <div 
+            ref={scrollRef}
+            className="flex gap-6 w-full overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-8 px-2"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            {repeatedDeals.map((deal, i) => (
+              <div key={`${deal.id}-${i}`} className="w-[85vw] sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] snap-center flex-shrink-0">
+                <DealCard
+                  deal={deal}
+                  isLight={isLight}
+                  onAddToCart={onAddToCart}
+                  index={i}
+                />
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Footer note */}

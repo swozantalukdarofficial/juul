@@ -16,6 +16,7 @@ import Juul360Viewer from "./Juul360Viewer";
 import HappyClients from "./HappyClients";
 import FAQ from "./FAQ";
 import SEOContentBlock from "./SEOContentBlock";
+import BlogSection from "./BlogSection";
 
 export default function Home({ 
   setCurrentPage, 
@@ -93,12 +94,14 @@ export default function Home({
       <HappyClients theme={theme} />
 
 
-
       {/* 10. FAQ (Collapsible rows) */}
       <FAQ theme={theme} />
 
       {/* 11. SEO Content Block */}
       <SEOContentBlock theme={theme} />
+
+      {/* 12. Blog / Journal Section (Right above Footer) */}
+      <BlogSection theme={theme} />
     </motion.div>
   );
 }

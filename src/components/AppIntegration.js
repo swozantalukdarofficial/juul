@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import {
   Bluetooth,
@@ -67,7 +67,16 @@ const SCREENS = [
 
 export default function AppIntegration({ theme }) {
   const [activeScreen, setActiveScreen] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   const isLight = theme === "light";
+
+  useEffect(() => {
+    if (isPaused) return;
+    const interval = setInterval(() => {
+      setActiveScreen((prev) => (prev + 1) % SCREENS.length);
+    }, 1300);
+    return () => clearInterval(interval);
+  }, [isPaused]);
 
   return (
     <section className={`py-24 transition-colors duration-500 overflow-hidden relative ${
@@ -118,7 +127,11 @@ export default function AppIntegration({ theme }) {
         </motion.div>
 
         {/* ── Main Content: Phone Mockups + Features ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div 
+          className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
 
           {/* LEFT: Phone mockup carousel */}
           <motion.div 
