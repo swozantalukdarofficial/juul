@@ -188,56 +188,6 @@ export default function MainApp() {
           63%,69% { transform: translate(0, -95px) scale(0.4, 0.2); border-radius: 10px; }
         }
       `}</style>
-      {/* Premium Marquee Announcement Bar */}
-      <div className={`fixed top-0 left-0 right-0 w-full z-[60] overflow-hidden select-none border-b ${
-        theme === "light"
-          ? "bg-zinc-50 border-zinc-200/80"
-          : "bg-[#0A0A0B] border-white/5"
-      }`} style={{ height: "36px" }}>
-        <div className="flex items-center h-full">
-          <div
-            className="flex items-center gap-0 animate-[marquee_28s_linear_infinite] whitespace-nowrap"
-            style={{ willChange: "transform", transform: "translateZ(0)" }}
-          >
-            {[...Array(6)].map((_, i) => (
-              <span key={i} className="flex items-center gap-6 px-6">
-                <span className={`text-[10px] font-bold uppercase tracking-[0.18em] ${
-                  theme === "light" ? "text-zinc-700" : "text-zinc-300"
-                }`}>
-                  🚚 Free Delivery on AED 150+
-                </span>
-                <span className={`w-1 h-1 rounded-full flex-shrink-0 ${
-                  theme === "light" ? "bg-zinc-300" : "bg-zinc-600"
-                }`} />
-                <span className={`text-[10px] font-bold uppercase tracking-[0.18em] ${
-                  theme === "light" ? "text-zinc-700" : "text-zinc-300"
-                }`}>
-                  ✅ 100% Authentic JUUL Products
-                </span>
-                <span className={`w-1 h-1 rounded-full flex-shrink-0 ${
-                  theme === "light" ? "bg-zinc-300" : "bg-zinc-600"
-                }`} />
-                <span className={`text-[10px] font-bold uppercase tracking-[0.18em] ${
-                  theme === "light" ? "text-zinc-700" : "text-zinc-300"
-                }`}>
-                  ⚡ 2-Hour Dispatch · Dubai & UAE
-                </span>
-                <span className={`w-1 h-1 rounded-full flex-shrink-0 ${
-                  theme === "light" ? "bg-zinc-300" : "bg-zinc-600"
-                }`} />
-                <span className={`text-[10px] font-bold uppercase tracking-[0.18em] ${
-                  theme === "light" ? "text-zinc-700" : "text-zinc-300"
-                }`}>
-                  💳 Cash on Delivery Available
-                </span>
-                <span className={`w-1 h-1 rounded-full flex-shrink-0 ${
-                  theme === "light" ? "bg-zinc-300" : "bg-zinc-600"
-                }`} />
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
 
       {/* Sleek Floating Header */}
       <Navbar

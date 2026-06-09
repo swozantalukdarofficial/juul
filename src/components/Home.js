@@ -15,8 +15,8 @@ import Accessories from "./Accessories";
 import Juul360Viewer from "./Juul360Viewer";
 import HappyClients from "./HappyClients";
 import FAQ from "./FAQ";
-import SEOContentBlock from "./SEOContentBlock";
 import BlogSection from "./BlogSection";
+import OfficialTrust from "./OfficialTrust";
 
 export default function Home({ 
   setCurrentPage, 
@@ -96,8 +96,8 @@ export default function Home({
       {/* 10. FAQ (Collapsible rows) */}
       <FAQ theme={theme} />
 
-      {/* 11. SEO Content Block */}
-      <SEOContentBlock theme={theme} />
+      {/* 11. Official JUUL Trust Showcase */}
+      <OfficialTrust theme={theme} />
 
       {/* 12. Blog / Journal Section (Right above Footer) */}
       <BlogSection theme={theme} />

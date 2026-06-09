@@ -68,7 +68,7 @@ export default function Navbar({ currentPage, setCurrentPage, cartCount, setIsCa
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.2, ease: "easeOut" }}
-      className={`fixed top-10 left-1/2 -translate-x-1/2 w-[92%] max-w-7xl z-50 rounded-2xl sm:rounded-full backdrop-blur-2xl border transition-all duration-500 py-3 px-4 sm:px-6 ${
+      className={`fixed top-6 left-1/2 -translate-x-1/2 w-[92%] max-w-7xl z-50 rounded-2xl sm:rounded-full backdrop-blur-2xl border transition-all duration-500 py-3 px-4 sm:px-6 ${
         isLight 
           ? "bg-white/75 border-zinc-200/80 shadow-[0_15px_40px_rgba(0,0,0,0.06)] text-zinc-950" 
           : "bg-[#0A0A0B]/70 border-white/10 shadow-[0_30px_60px_rgba(0,0,0,0.8),0_0_20px_rgba(16,185,129,0.03)] text-white"
