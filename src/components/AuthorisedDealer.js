@@ -30,115 +30,131 @@ export default function AuthorisedDealer({ theme }) {
 
       {/* Futuristic Background Grids & Ambient Lights */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808005_1px,transparent_1px),linear-gradient(to_bottom,#80808005_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none" />
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-amber-500/[0.02] dark:bg-amber-500/[0.012] blur-[150px] pointer-events-none rounded-full" />
+      <div className="absolute top-1/4 left-1/4 w-[600px] h-[400px] bg-amber-500/[0.02] dark:bg-amber-500/[0.012] blur-[150px] pointer-events-none rounded-full" />
 
-      <div className="max-w-5xl mx-auto px-6 relative z-10 flex flex-col items-center">
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
         
-        {/* 1. Top: Header Block (Centered with scroll reveal) */}
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="space-y-4 text-center max-w-3xl mb-12"
-        >
-          <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-[9px] font-black uppercase tracking-[0.25em] mx-auto ${
-            isLight ? "bg-amber-50 border-amber-200 text-amber-600" : "bg-amber-950/20 border-amber-500/20 text-amber-400"
-          }`}>
-            <Award className="w-3.5 h-3.5" />
-            JUUL Authorized Sourcing
-          </span>
+        {/* Top Section: Split Layout (Title Left, Shield Right) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-10">
           
-          <h2 className={`text-4xl sm:text-6xl font-black tracking-tight leading-none ${
-            isLight ? "text-zinc-950" : "text-white"
-          }`}>
-            Official & Authorised <br />
-            <span className={isLight ? "text-amber-600" : "text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500"}>JUUL Partner UAE</span>
-          </h2>
-          <p className={`text-sm max-w-2xl mx-auto ${isLight ? "text-zinc-500" : "text-zinc-400"}`}>
-            We strictly enforce quality, compliance, and anti-counterfeiting measures. Learn more about our direct import protocols and official status.
-          </p>
-        </motion.div>
-
-        {/* 2. Middle: Centered Gold Shield Badge (with smooth floating hover) */}
-        <div className="flex items-center justify-center relative min-h-[260px] mb-16">
-          {/* Concentric Rotating Gold Dashed Rings in background */}
-          <div className="absolute w-[250px] h-[250px] rounded-full border-2 border-dashed border-amber-500/20 ring-clockwise pointer-events-none" />
-          <div className="absolute w-[220px] h-[220px] rounded-full border border-dashed border-amber-500/10 ring-counter pointer-events-none" />
-          
-          {/* Premium Gold Shield Badge with Levitating float animation */}
+          {/* Top Left: Heading & Intro */}
           <motion.div 
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            animate={{
-              y: [0, -8, 0],
-            }}
-            transition={{
-              y: {
-                duration: 5,
-                repeat: Infinity,
-                ease: "easeInOut"
-              },
-              default: { duration: 0.6 }
-            }}
-            whileHover={{ scale: 1.05, rotate: 0.5 }}
-            className="relative w-[180px] h-[212px] sm:w-[200px] sm:h-[236px] flex items-center justify-center filter drop-shadow-[0_15px_40px_rgba(0,0,0,0.5)] z-10 cursor-pointer"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="lg:col-span-8 space-y-4 text-left"
           >
-            {/* SVG Shield Path with Gold Gradient and Dark Slate Fill */}
-            <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 118" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <linearGradient id="shieldBg" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#1C2333" />
-                  <stop offset="100%" stopColor="#0B0F19" />
-                </linearGradient>
-                <linearGradient id="goldBorder" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#FBBF24" />
-                  <stop offset="50%" stopColor="#F59E0B" />
-                  <stop offset="100%" stopColor="#D97706" />
-                </linearGradient>
-              </defs>
-              {/* Outer gold border path */}
-              <path 
-                d="M50 3 L92 18 V55 C92 78.5 74 97.5 50 112 C26 97.5 8 78.5 8 55 V18 L50 3 Z" 
-                fill="url(#shieldBg)" 
-                stroke="url(#goldBorder)" 
-                strokeWidth="2.5"
-              />
-              {/* Inner gold accent dashed path */}
-              <path 
-                d="M50 9 L86 22 V53 C86 73 71 89.5 50 102 C29 89.5 14 73 14 53 V22 L50 9 Z" 
-                stroke="url(#goldBorder)" 
-                strokeWidth="0.8" 
-                strokeOpacity="0.5" 
-                strokeDasharray="3 3"
-              />
-            </svg>
-
-            {/* Shield Content */}
-            <div className="relative z-10 flex flex-col items-center text-center p-4">
-              <Award className="w-9 h-9 sm:w-11 sm:h-11 text-amber-400 mb-2 filter drop-shadow-[0_2px_8px_rgba(245,158,11,0.4)] animate-pulse" />
-              
-              <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-[0.22em] text-amber-400 leading-none">
-                OFFICIAL
-              </span>
-              <span className="text-[11px] sm:text-[12.5px] font-black uppercase tracking-[0.12em] text-white mt-1 leading-none">
-                JUUL
-              </span>
-              <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-[0.22em] text-amber-400 mt-1 leading-none">
-                GUARANTEE
-              </span>
-              
-              <div className="w-8 h-px bg-amber-500/35 my-2" />
-              
-              <span className="text-[7.5px] sm:text-[8.5px] font-mono tracking-widest text-zinc-400 uppercase">
-                ESTD 2021
-              </span>
-            </div>
+            <span className={`inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full border text-[9px] font-black uppercase tracking-[0.25em] ${
+              isLight ? "bg-amber-50 border-amber-200 text-amber-600" : "bg-amber-950/20 border-amber-500/20 text-amber-400"
+            }`}>
+              <Award className="w-3.5 h-3.5" />
+              OFFICIAL VERIFICATION
+            </span>
+            
+            <h2 className={`text-4xl sm:text-6xl font-black tracking-tight leading-none ${
+              isLight ? "text-zinc-950" : "text-white"
+            }`}>
+              Official & Authorised <br />
+              <span className={isLight ? "text-amber-600" : "text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500"}>JUUL Partner UAE</span>
+            </h2>
+            <p className={`text-sm max-w-2xl leading-relaxed ${isLight ? "text-zinc-500" : "text-zinc-400"}`}>
+              We strictly enforce quality controls, import compliance, and anti-counterfeiting measures. Learn more about our direct import protocols and official status.
+            </p>
           </motion.div>
+
+          {/* Top Right: Gold Shield Badge Centered Wrapper */}
+          <div className="lg:col-span-4 flex items-center justify-center lg:justify-end min-h-[280px]">
+            
+            {/* Outer motion wrapper that floats the whole assembly together to prevent rings from drifting */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              animate={{
+                y: [0, -6, 0],
+              }}
+              transition={{
+                y: {
+                  duration: 5,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                },
+                default: { duration: 0.6 }
+              }}
+              className="relative w-[280px] h-[280px] flex items-center justify-center lg:justify-end"
+            >
+              {/* Concentric Rotating Gold Dashed Rings in background */}
+              <div className="absolute w-[240px] h-[240px] rounded-full border-2 border-dashed border-amber-500/20 ring-clockwise pointer-events-none left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 lg:left-auto lg:translate-x-0 lg:right-[15px]" />
+              <div className="absolute w-[210px] h-[210px] rounded-full border border-dashed border-amber-500/10 ring-counter pointer-events-none left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 lg:left-auto lg:translate-x-0 lg:right-[30px]" />
+              
+              {/* Premium Gold Shield Badge */}
+              <motion.div 
+                whileHover={{ scale: 1.05, rotate: 0.5 }}
+                className="relative w-[150px] h-[176px] sm:w-[170px] sm:h-[200px] flex items-center justify-center filter drop-shadow-[0_15px_30px_rgba(0,0,0,0.5)] z-10 cursor-pointer mr-0 lg:mr-[50px]"
+              >
+                {/* SVG Shield Path with Gold Gradient and Dark Slate Fill */}
+                <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 118" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <linearGradient id="shieldBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#1C2333" />
+                      <stop offset="100%" stopColor="#0B0F19" />
+                    </linearGradient>
+                    <linearGradient id="goldBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#FBBF24" />
+                      <stop offset="50%" stopColor="#F59E0B" />
+                      <stop offset="100%" stopColor="#D97706" />
+                    </linearGradient>
+                  </defs>
+                  {/* Outer gold border path */}
+                  <path 
+                    d="M50 3 L92 18 V55 C92 78.5 74 97.5 50 112 C26 97.5 8 78.5 8 55 V18 L50 3 Z" 
+                    fill="url(#shieldBg)" 
+                    stroke="url(#goldBorder)" 
+                    strokeWidth="2.5"
+                  />
+                  {/* Inner gold accent dashed path */}
+                  <path 
+                    d="M50 9 L86 22 V53 C86 73 71 89.5 50 102 C29 89.5 14 73 14 53 V22 L50 9 Z" 
+                    stroke="url(#goldBorder)" 
+                    strokeWidth="0.8" 
+                    strokeOpacity="0.5" 
+                    strokeDasharray="3 3"
+                  />
+                </svg>
+
+                {/* Shield Content */}
+                <div className="relative z-10 flex flex-col items-center text-center p-3">
+                  <Award className="w-8 h-8 text-amber-400 mb-1.5 filter drop-shadow-[0_2px_8px_rgba(245,158,11,0.4)] animate-pulse" />
+                  
+                  <span className="text-[8px] sm:text-[9px] font-black uppercase tracking-[0.22em] text-amber-400 leading-none">
+                    OFFICIAL
+                  </span>
+                  <span className="text-[10px] sm:text-[11.5px] font-black uppercase tracking-[0.12em] text-white mt-1 leading-none">
+                    JUUL
+                  </span>
+                  <span className="text-[8px] sm:text-[9px] font-black uppercase tracking-[0.22em] text-amber-400 mt-1 leading-none">
+                    GUARANTEE
+                  </span>
+                  
+                  <div className="w-7 h-px bg-amber-500/35 my-1.5" />
+                  
+                  <span className="text-[6.5px] sm:text-[7.5px] font-mono tracking-widest text-zinc-400 uppercase">
+                    ESTD 2021
+                  </span>
+                </div>
+              </motion.div>
+            </motion.div>
+          </div>
+
         </div>
 
-        {/* 3. Bottom: Cards Presentation Container */}
+        {/* Horizontal Divider Line */}
+        <div className={`w-full h-px mb-16 ${
+          isLight ? "bg-zinc-200" : "bg-white/10"
+        }`} />
+
+        {/* Bottom Section: Cards Presentation Container (Full Width Stack) */}
         <div className="w-full flex flex-col gap-6 text-left">
           
           {/* Top Single Full-Width Card (Sourcing Integrity) */}

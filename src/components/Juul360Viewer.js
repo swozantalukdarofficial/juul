@@ -9,7 +9,7 @@ export default function Juul360Viewer({ theme }) {
   const [rotation, setRotation] = useState(0);
   const [isAutoSpin, setIsAutoSpin] = useState(true);
   const [activeColor, setActiveColor] = useState("#10B981"); // Default Mint Green
-  const [zoom, setZoom] = useState(2.2); // Default is 2.2x to make it huge and detailed by default!
+  const [zoom, setZoom] = useState(1.0); // Default is 1.0x
   const dragX = useMotionValue(0);
 
   // Auto spin loop
@@ -121,48 +121,84 @@ export default function Juul360Viewer({ theme }) {
               <RotateCw className="w-3 h-3" /> Click & Drag Left-Right to Spin
             </span>
 
-            {/* The 3D Rotating Device (Cosine-Scale simulated projection + Dynamic Zoom multiplier) */}
-            <div 
-              className={`w-36 h-80 relative flex items-center justify-center transition-all duration-75 ${
-                isLight ? "mix-blend-multiply" : ""
-              }`}
-              style={{ transform: `scaleX(${scaleX * zoom}) scaleY(${zoom})` }}
+            {/* The 3D Rotating Device Container (True CSS 3D Box Model matching Hero section) */}
+            <div
+              className="relative w-[44px] h-[340px] flex items-center justify-center pointer-events-none transition-all duration-75"
+              style={{ 
+                transformStyle: "preserve-3d", 
+                perspective: 1200,
+                transform: `scale(${zoom})`
+              }}
             >
-              <img 
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsRxpaQKJx-yaAxeceU9D0KKUvvPi4A7GjRg&s"
-                alt="JUUL 3D Rotating Chassis"
-                className={`w-full h-full object-contain pointer-events-none transition-all ${
-                  isLight ? "mix-blend-multiply" : "invert-[0.93] hue-rotate-180 brightness-[1.1] contrast-[1.05]"
-                }`}
+              {/* ----- BOTTOM SHADOW (FLOOR) ----- */}
+              <div className="absolute top-[102%] left-1/2 -translate-x-1/2 w-[54px] h-[24px] rounded-[50%]" 
+                   style={{ 
+                     background: isLight ? "rgba(0,0,0,0.15)" : "rgba(0,0,0,0.7)",
+                     boxShadow: isLight ? "0 0 15px 5px rgba(0,0,0,0.1)" : "0 0 20px 10px rgba(0,0,0,0.6)",
+                     transform: "translateY(10px) rotateX(90deg)", 
+                     filter: "blur(4px)" 
+                   }} 
               />
 
-              {/* Dynamic LED Light (only visible when facing front) */}
-              {!isFacingBack && (
-                <span 
-                  className="absolute w-1.5 h-1.5 rounded-full z-20 shadow-lg"
-                  style={{ 
-                    top: "55.8%",
-                    left: "48.5%",
-                    backgroundColor: activeColor,
-                    boxShadow: `0 0 10px ${activeColor}`
-                  }}
-                />
-              )}
+              {/* The Inner Box that rotates via Y-axis */}
+              <div
+                className="absolute inset-0 w-full h-full"
+                style={{ 
+                  transformStyle: "preserve-3d",
+                  transform: `rotateY(${rotation}deg)`
+                }}
+              >
+                {/* ----- FRONT FACE ----- */}
+                <div className="absolute inset-0 flex flex-col items-center shadow-2xl" style={{ transform: "translateZ(8px)", backfaceVisibility: "hidden" }}>
+                  <div className="w-full h-[15%] bg-[#1a1a1c] relative rounded-t-[2px] border-b-[1.5px] border-black/60 shadow-[inset_0_2px_4px_rgba(255,255,255,0.05)]">
+                    {/* Mouthpiece Curve */}
+                    <div className="absolute -top-1 w-[45%] left-1/2 -translate-x-1/2 h-1.5 bg-[#1a1a1c] rounded-t-[4px]" />
+                  </div>
+                  <div className="w-full flex-1 relative rounded-b-[2px] overflow-hidden shadow-[inset_0_0_12px_rgba(0,0,0,0.3)]" 
+                       style={{ background: isLight ? "linear-gradient(160deg, #d4d4d8, #71717a)" : "linear-gradient(160deg, #27272a, #09090b)" }}>
+                     {/* Diamond Window */}
+                     <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-[#1a1a1c] rotate-45 border-[1.5px] border-black/40 shadow-[inset_0_2px_4px_rgba(0,0,0,0.8)]" />
+                     {/* LED Indicator */}
+                     <motion.div 
+                       animate={{ opacity: [0.4, 1, 0.4] }} 
+                       transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                       className="absolute top-[35%] left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full"
+                       style={{ backgroundColor: activeColor, boxShadow: `0 0 12px ${activeColor}, 0 0 20px ${activeColor}` }}
+                     />
+                  </div>
+                </div>
 
-              {/* Simulated back branding (only visible when facing rear) */}
-              {isFacingBack && (
-                <span 
-                  className={`absolute text-[8px] font-black tracking-widest uppercase opacity-40 select-none ${
-                    isLight ? "text-zinc-950" : "text-white"
-                  }`} 
-                  style={{ 
-                    top: "60%",
-                    transform: "scaleX(-1)" // un-flip the text so it's readable when the card is flipped!
-                  }}
-                >
-                  JUUL
-                </span>
-              )}
+                {/* ----- BACK FACE ----- */}
+                <div className="absolute inset-0 flex flex-col items-center" style={{ transform: "rotateY(180deg) translateZ(8px)", backfaceVisibility: "hidden" }}>
+                  <div className="w-full h-[15%] bg-[#111] relative rounded-t-[2px] border-b-[1.5px] border-black/60 shadow-[inset_0_2px_4px_rgba(255,255,255,0.02)]" />
+                  <div className="w-full flex-1 relative rounded-b-[2px] shadow-[inset_0_0_12px_rgba(0,0,0,0.3)]" 
+                       style={{ background: isLight ? "linear-gradient(160deg, #a1a1aa, #d4d4d8)" : "linear-gradient(160deg, #18181b, #27272a)" }}>
+                     <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-[#111] rotate-45 border-[1.5px] border-black/40 shadow-[inset_0_2px_4px_rgba(0,0,0,0.8)]" />
+                     <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-[7px] tracking-widest opacity-40 rotate-90 font-black text-black select-none">JUUL</div>
+                  </div>
+                </div>
+
+                {/* ----- LEFT FACE (SIDE PROFILE) ----- */}
+                <div className="absolute h-full w-[16px] left-1/2 -translate-x-1/2 flex flex-col items-center shadow-2xl" 
+                     style={{ transform: "rotateY(-90deg) translateZ(22px)", filter: "brightness(0.65)" }}>
+                   <div className="w-full h-[15%] bg-[#0a0a0a] relative rounded-t-[2px] border-r border-black/30 shadow-[inset_0_2px_4px_rgba(255,255,255,0.02)]">
+                     {/* Liquid window side slit */}
+                     <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-[2.5px] h-[10px] bg-amber-500/60 rounded-full shadow-[inset_0_2px_4px_rgba(0,0,0,0.8)]" />
+                   </div>
+                   <div className="w-full flex-1 rounded-b-[2px] shadow-[inset_0_0_8px_rgba(0,0,0,0.4)]" 
+                        style={{ background: isLight ? "#71717a" : "#09090b" }} />
+                </div>
+
+                {/* ----- RIGHT FACE (SIDE PROFILE) ----- */}
+                <div className="absolute h-full w-[16px] left-1/2 -translate-x-1/2 flex flex-col items-center shadow-2xl" 
+                     style={{ transform: "rotateY(90deg) translateZ(22px)", filter: "brightness(0.4)" }}>
+                   <div className="w-full h-[15%] bg-[#0a0a0a] relative rounded-t-[2px] border-l border-black/30 shadow-[inset_0_2px_4px_rgba(255,255,255,0.02)]">
+                     <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-[2.5px] h-[10px] bg-amber-500/60 rounded-full shadow-[inset_0_2px_4px_rgba(0,0,0,0.8)]" />
+                   </div>
+                   <div className="w-full flex-1 rounded-b-[2px] shadow-[inset_0_0_8px_rgba(0,0,0,0.4)]" 
+                        style={{ background: isLight ? "#71717a" : "#09090b" }} />
+                </div>
+              </div>
             </div>
           </motion.div>
 
