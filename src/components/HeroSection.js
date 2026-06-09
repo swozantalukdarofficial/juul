@@ -187,10 +187,8 @@ export default function HeroSection({ setCurrentPage, setCategoryFilter, setVers
                   {s.title}
                   <span className="block mt-1">
                     <span
-                      className="shimmer-text"
-                      style={{
-                        backgroundImage: `linear-gradient(90deg, ${s.color}, ${isLight ? "#18181b" : "#ffffff"}, ${s.color}, ${isLight ? "#18181b" : "#ffffff"})`,
-                      }}
+                      className="transition-colors duration-700"
+                      style={{ color: s.color }}
                     >
                       {s.subtitle}
                     </span>
