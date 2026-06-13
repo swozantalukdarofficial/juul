@@ -39,14 +39,30 @@ export default function Footer({ setCurrentPage, theme }) {
               setCurrentPage("home");
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
-            className="cursor-pointer flex items-center gap-2 group w-fit"
+            className="cursor-pointer flex items-center gap-1 group w-fit select-none"
           >
-            <span className={`text-lg font-black tracking-[0.2em] transition-colors ${isLight ? "text-zinc-950 group-hover:text-blue-600" : "text-white group-hover:text-emerald-400"
-              }`}>
-              VAPE PODS
+            <span className="text-base font-black tracking-wider transition-colors font-outfit">
+              <span className={isLight ? "text-zinc-950 group-hover:text-red-500" : "text-white group-hover:text-red-400"}>VAPE</span>
+              <span className={isLight ? "text-zinc-950 group-hover:text-red-500" : "text-white group-hover:text-red-400"}>POD</span>
+              <span className="relative text-red-500 group-hover:text-red-400">
+                S
+                <svg 
+                  className="absolute -top-1.5 -right-3 w-3 h-5 text-red-500 overflow-visible" 
+                  viewBox="0 0 16 24" 
+                  fill="none" 
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path 
+                    d="M1 23C3 18 2 15 5 11C8 7 11 5 7 1" 
+                    stroke="currentColor" 
+                    strokeWidth="2.5" 
+                    strokeLinecap="round"
+                    className="animate-pulse"
+                  />
+                </svg>
+              </span>
             </span>
-            <span className={`w-1.5 h-1.5 rounded-full animate-ping ${isLight ? "bg-blue-600" : "bg-emerald-400"
-              }`} />
+            <span className="w-1.5 h-1.5 rounded-full animate-ping bg-red-500 ml-3.5" />
           </div>
 
           <p className="leading-relaxed font-medium">
