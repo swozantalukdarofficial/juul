@@ -1,11 +1,14 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { ShieldAlert, Sparkles, CheckSquare, Zap, Leaf } from "lucide-react";
+import { ShieldAlert, Sparkles, CheckSquare, Zap, Leaf, Truck, RefreshCcw } from "lucide-react";
 
 export default function ProductRichDescription({ product, theme }) {
   const isLight = theme === "light";
+  const [activeTab, setActiveTab] = useState("description");
+
   if (!product) return null;
 
   // ─── PREMIUM ANIMATION VARIANTS ───
@@ -39,9 +42,86 @@ export default function ProductRichDescription({ product, theme }) {
   const imageBgClassName = "bg-[#0b1121] border border-zinc-800 shadow-xl";
 
   return (
-    <div className={`mt-16 pt-16 border-t ${isLight ? "border-zinc-200" : "border-white/5"} space-y-16 lg:space-y-20 overflow-hidden`}>
+    <div className={`mt-6 pt-10 border-t ${isLight ? "border-zinc-200" : "border-white/5"} overflow-hidden`}>
       
-      {/* ═══ SECTION 1: POD ALIGNMENT ═══ */}
+      {/* ═══ TAB NAVIGATION ═══ */}
+      <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-10">
+        <button 
+          onClick={() => setActiveTab("description")}
+          className={`px-6 py-3 text-[11px] sm:text-xs font-black uppercase tracking-widest rounded-xl border transition-all duration-300 ${
+            activeTab === "description"
+              ? isLight 
+                ? "bg-zinc-950 text-white border-zinc-950 shadow-md" 
+                : "bg-white text-black border-white shadow-[0_0_20px_rgba(255,255,255,0.1)]"
+              : isLight 
+                ? "bg-zinc-50 text-zinc-500 border-zinc-200 hover:border-zinc-300" 
+                : "bg-transparent text-zinc-400 border-zinc-800 hover:border-zinc-600 hover:text-white"
+          }`}
+        >
+          Description
+        </button>
+        <button 
+          onClick={() => setActiveTab("shipping")}
+          className={`px-6 py-3 text-[11px] sm:text-xs font-black uppercase tracking-widest rounded-xl border transition-all duration-300 ${
+            activeTab === "shipping"
+              ? isLight 
+                ? "bg-zinc-950 text-white border-zinc-950 shadow-md" 
+                : "bg-white text-black border-white shadow-[0_0_20px_rgba(255,255,255,0.1)]"
+              : isLight 
+                ? "bg-zinc-50 text-zinc-500 border-zinc-200 hover:border-zinc-300" 
+                : "bg-transparent text-zinc-400 border-zinc-800 hover:border-zinc-600 hover:text-white"
+          }`}
+        >
+          Shipping & Return
+        </button>
+      </div>
+
+      <AnimatePresence mode="wait">
+        {activeTab === "description" ? (
+          <motion.div 
+            key="description"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4 }}
+            className="space-y-8 lg:space-y-10"
+          >
+            {/* ═══ DYNAMIC TEXT SEO OVERVIEW ═══ */}
+            <div className={`p-8 lg:p-12 rounded-[2rem] border ${isLight ? "bg-white border-zinc-200" : "bg-zinc-900/40 border-white/5"} space-y-10`}>
+              {/* Text Section 1 */}
+              <div className="space-y-4 text-center sm:text-left">
+                <h2 className={`text-xl sm:text-2xl font-black ${isLight ? "text-blue-900" : "text-blue-400"}`}>
+                  Buy {product.name} in UAE – Premium Vaping Experience
+                </h2>
+                <p className={`text-[13px] sm:text-sm leading-relaxed font-medium ${isLight ? "text-zinc-600" : "text-zinc-400"}`}>
+                  If you are searching for a device that combines advanced technology and a premium experience, the {product.name} is made to meet this need. It features a sleek body, advanced coil technology, and an extraordinary battery life. This is a modern vape device that ensures smooth flavor delivery, dense vapor clouds, and a satisfying throat hit from the first to the last puff. It stands out in the Dubai vape market for its convenience and uncompromised performance.
+                </p>
+                <p className={`text-[13px] sm:text-sm leading-relaxed font-medium ${isLight ? "text-zinc-600" : "text-zinc-400"}`}>
+                  You can buy the {product.name} in the UAE directly from our store. We offer competitive prices and fast express shipping. This device is an excellent choice if you are looking for a reliable, long-lasting device, or just want to enjoy rich, authentic flavors. It is a highly popular option for adult users across the Emirates.
+                </p>
+              </div>
+
+              {/* Text Section 2 (Product Overview with Border) */}
+              <div className="space-y-4">
+                <div className="flex items-center">
+                  <div className="w-1 h-6 sm:h-7 bg-orange-500 rounded-full mr-3"></div>
+                  <h3 className={`text-lg sm:text-xl font-black ${isLight ? "text-blue-900" : "text-blue-400"}`}>
+                    {product.name} – Product Overview
+                  </h3>
+                </div>
+                <p className={`text-[13px] sm:text-sm leading-relaxed font-medium ${isLight ? "text-zinc-600" : "text-zinc-400"}`}>
+                  This premium device is engineered for users who demand modern convenience, flavor consistency, and longevity. Its compact design makes it easy to carry as a daily portable device. It features advanced heating technology to enhance vapor density, ensuring every draw delivers full flavor. The optimized battery supports extended use, while the high-capacity setup guarantees long sessions without flavor fade. The balanced nicotine strength provides smooth throat hits, making it a strong smoking alternative for adult users. The inhale-activated system eliminates buttons and offers an easy, natural draw.
+                </p>
+                <p className={`text-[13px] sm:text-sm leading-relaxed font-medium ${isLight ? "text-zinc-600" : "text-zinc-400"}`}>
+                  Safety and reliability are paramount. The design incorporates leak-proof engineering, short-circuit prevention, and overcharge safeguards, ensuring peace of mind across thousands of draws. It fully complies with ESMA standards in the UAE for electronic cigarette products and aligns perfectly with local regulations.
+                </p>
+                <p className={`text-[13px] sm:text-sm leading-relaxed font-medium ${isLight ? "text-zinc-600" : "text-zinc-400"}`}>
+                  Whether you prefer classic tobacco, refreshing mint, or exotic fruity blends, this system offers a diverse flavor portfolio designed to satisfy every palate. Combined with its precision atomizer, every flavor profile is delivered with clarity, richness, and a smooth exhale. This makes it a highly dependable device in the growing UAE vaping culture.
+                </p>
+              </div>
+            </div>
+
+            {/* ═══ SECTION 1: POD ALIGNMENT ═══ */}
       <motion.div 
         initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} 
         variants={containerVariants}
@@ -247,7 +327,72 @@ export default function ProductRichDescription({ product, theme }) {
           </div>
         </motion.div>
       </motion.div>
+          </motion.div>
+        ) : (
+          <motion.div 
+            key="shipping"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4 }}
+            className={`p-8 lg:p-12 rounded-[2rem] border ${isLight ? "bg-white border-zinc-200" : "bg-zinc-900/40 border-white/5"} space-y-10`}
+          >
+            <div className="space-y-4">
+              <h3 className={`text-2xl sm:text-3xl font-black ${isLight ? "text-zinc-900" : "text-white"}`}>
+                Cool and Crisp: JUUL Menthol 3% Pod
+              </h3>
+              <p className={`text-[13px] sm:text-sm leading-relaxed font-medium ${isLight ? "text-zinc-600" : "text-zinc-400"}`}>
+                Few flavors are as energizing and reviving in the vaping industry as menthol. The JUUL pods UAE Menthol 3% stands out among the variety of vaping options available because it provides a crisp and cold menthol experience with a moderate nicotine dosage. In this blog post, we’ll go into the world of this particular pod, explaining its menthol flavour profile, moderate nicotine level, and why menthol fans and those looking for a cooling vaping experience choose it.
+              </p>
+            </div>
 
+            <div className="space-y-4">
+              <h4 className={`text-xl font-black ${isLight ? "text-zinc-900" : "text-white"}`}>
+                Juul Pods UAE Menthol Magic:
+              </h4>
+              <p className={`text-[13px] sm:text-sm leading-relaxed font-medium ${isLight ? "text-zinc-600" : "text-zinc-400"}`}>
+                Let’s begin by discussing the JUUL Menthol 3% pod’s menthol flavour profile. Describe how menthol gives out a chilly, refreshing feeling that makes it a favourite among people who like to get an icy blast with each puff.
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <h4 className={`text-xl font-black ${isLight ? "text-zinc-900" : "text-white"}`}>
+                Juul Pods UAE Menthol Nicotine Equilibrium:
+              </h4>
+              <p className={`text-[13px] sm:text-sm leading-relaxed font-medium ${isLight ? "text-zinc-600" : "text-zinc-400"}`}>
+                Talk about the 3% nicotine content in e-liquid, which is 30 milligrammes of nicotine per millilitre. Describe how the balance of the moderate nicotine concentration provides a nice hit without being too strong. Mention that it is appropriate for both first-time vapers and seasoned vapers searching for a more comfortable experience.
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <h4 className={`text-xl font-black ${isLight ? "text-zinc-900" : "text-white"}`}>
+                Friendly User Interface:
+              </h4>
+              <p className={`text-[13px] sm:text-sm leading-relaxed font-medium ${isLight ? "text-zinc-600" : "text-zinc-400"}`}>
+                Emphasise the JUUL pods’ user-friendly design by demonstrating how simple it is to insert the Menthol 3% pod into a JUUL device. Mention how the pre-filled format means there are no messy refills, making it a practical option for all vapers.
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <h4 className={`text-xl font-black ${isLight ? "text-zinc-900" : "text-white"}`}>
+                Nicotine Equilibrium:
+              </h4>
+              <p className={`text-[13px] sm:text-sm leading-relaxed font-medium ${isLight ? "text-zinc-600" : "text-zinc-400"}`}>
+                Talk about the 3% nicotine content in e-liquid, which is 30 milligrams of nicotine per milliliter. Describe how the balance of the moderate nicotine concentration provides a nice hit without being too strong. Mention that it is appropriate for both first-time vapers and seasoned vapers searching for a more comfortable experience.
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <h4 className={`text-xl font-black ${isLight ? "text-zinc-900" : "text-white"}`}>
+                Friendly User Interface:
+              </h4>
+              <p className={`text-[13px] sm:text-sm leading-relaxed font-medium ${isLight ? "text-zinc-600" : "text-zinc-400"}`}>
+                Emphasize the user-friendly design by demonstrating how simple it is to insert the Menthol 3% pod into a JUUL device. Mention how the pre-filled format means there are no messy refills, making it a practical option for all vapers.
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

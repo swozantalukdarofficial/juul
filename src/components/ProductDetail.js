@@ -8,7 +8,7 @@ import ProductGallery from "./ProductGallery";
 
 import ProductReviews from "./ProductReviews";
 import ProductRecommendations from "./ProductRecommendations";
-import ProductSEO from "./ProductSEO";
+import ProductFeatures from "./ProductFeatures";
 import ProductRichDescription from "./ProductRichDescription";
 
 export default function ProductDetail({ selectedProduct, onAddToCart, setCurrentPage, theme }) {
@@ -272,7 +272,7 @@ export default function ProductDetail({ selectedProduct, onAddToCart, setCurrent
           </span>
         </nav>
 
-        <div className={`p-4 sm:p-6 rounded-3xl border transition-all duration-500 mb-16 ${
+        <div className={`p-4 sm:p-6 rounded-3xl border transition-all duration-500 mb-6 ${
           isLight 
             ? "bg-white border-zinc-200/80 shadow-md shadow-zinc-100" 
             : "bg-[#0b0b0d] border-zinc-800"
@@ -484,6 +484,9 @@ export default function ProductDetail({ selectedProduct, onAddToCart, setCurrent
           </div>
         </div>
 
+        {/* Features / Trust Badges (Free Shipping, Fast Delivery etc) */}
+        <ProductFeatures theme={theme} />
+
         {/* Dynamic SEO detailed Rich Description Showcase with Images */}
         <ProductRichDescription
           product={product}
@@ -499,11 +502,7 @@ export default function ProductDetail({ selectedProduct, onAddToCart, setCurrent
           theme={theme}
         />
 
-        {/* Dynamic SEO Rich Snippets, FAQs, Guides & Warnings */}
-        <ProductSEO
-          product={product}
-          theme={theme}
-        />
+
 
         {/* Verified Reviews Section (Moved to the bottom) */}
         <ProductReviews

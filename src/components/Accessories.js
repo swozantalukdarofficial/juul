@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ShoppingBag, ChevronLeft, ChevronRight, Star } from "lucide-react";
+import { ShoppingBag, ChevronLeft, ChevronRight, Star, Check } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
@@ -137,185 +137,200 @@ export default function Accessories({ onAddToCart, setSelectedProduct, setCurren
     }
   };
 
-  const repeatedProducts = [...accessoryProducts, ...accessoryProducts];
+  const chargerProduct = accessoryProducts.find(p => p.id === "juul-usb-dock") || accessoryProducts[0];
 
   return (
-    <section className={`py-24 border-b transition-colors duration-500 ${
-      isLight ? "bg-white" : "bg-[#09090A]"
+    <section className={`py-10 lg:py-16 border-y transition-colors duration-500 ${
+      isLight ? "bg-zinc-100 border-zinc-200" : "bg-[#09090A] border-white/5"
     }`}>
-      <div className="max-w-7xl mx-auto px-6 text-left">
-        {/* Section Header */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.6 }}
-          className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12"
-        >
-          <div className="space-y-3">
-            <span className={`text-xs font-bold uppercase tracking-widest ${
-              isLight ? "text-zinc-400" : "text-zinc-500"
-            }`}>
-              Genuine Gear
-            </span>
-            <h2 className={`text-3xl sm:text-5xl font-black tracking-tight ${
-              isLight ? "text-zinc-950" : "text-white"
-            }`}>
-              JUUL Accessories
-            </h2>
-            <p className={`text-sm max-w-xl ${isLight ? "text-zinc-500" : "text-zinc-400"}`}>
-              Power up and protect your device with authentic JUUL accessories. Engineered for seamless compatibility and peak performance.
-            </p>
-          </div>
-        </motion.div>
-
-        {/* Scrolling Product Slider */}
-        <div 
-          className="relative w-full overflow-hidden py-4 group/slider"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-        >
-          {/* Navigation Arrows */}
-          <button 
-            onClick={scrollLeftNav} 
-            className="absolute left-2 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white/80 dark:bg-black/80 backdrop-blur-md shadow-xl border border-zinc-200 dark:border-white/10 opacity-0 group-hover/slider:opacity-100 transition-opacity cursor-pointer hidden sm:flex"
-          >
-            <ChevronLeft className="w-5 h-5 text-zinc-900 dark:text-white" />
-          </button>
-          <button 
-            onClick={scrollRightNav} 
-            className="absolute right-2 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white/80 dark:bg-black/80 backdrop-blur-md shadow-xl border border-zinc-200 dark:border-white/10 opacity-0 group-hover/slider:opacity-100 transition-opacity cursor-pointer hidden sm:flex"
-          >
-            <ChevronRight className="w-5 h-5 text-zinc-900 dark:text-white" />
-          </button>
-
-          <div 
-            ref={scrollRef}
-            className="flex gap-6 w-full overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-8 px-2 scroll-smooth"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-          >
-            {repeatedProducts.map((prod, i) => {
-              const savings = prod.originalPrice ? (prod.originalPrice - prod.salePrice).toFixed(2) : null;
+      <div className="max-w-[1500px] mx-auto px-4 sm:px-8 lg:px-12 text-left">
+        
+        {/* Main Outer Card Wrapper */}
+        <div className={`rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-8 lg:p-10 xl:p-12 transition-all duration-300 ${
+          isLight 
+            ? "bg-white border border-zinc-200 shadow-[0_8px_30px_rgb(0,0,0,0.06)]" 
+            : "bg-[#111112] border border-white/10 shadow-2xl"
+        }`}>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            
+            {/* Left Side: Premium Text Block */}
+            <div className="flex flex-col justify-center space-y-6 lg:pr-8">
               
-              return (
-                <motion.div
-                  key={`${prod.id}-${i}`}
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-40px" }}
-                  transition={{ delay: (i % accessoryProducts.length) * 0.1, duration: 0.5, ease: "easeOut" }}
-                  className={`group relative rounded-3xl border overflow-hidden flex flex-col transition-all duration-300 snap-center flex-shrink-0 w-[calc(100vw-48px)] sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] ${
-                    prod.inStock === false ? "opacity-65" : "hover:-translate-y-1.5"
-                  } ${
-                    isLight
-                      ? "bg-white border-zinc-200/80 shadow-[0_2px_20px_rgba(0,0,0,0.05)] hover:shadow-[0_10px_36px_rgba(0,0,0,0.09)]"
-                      : "bg-[#111112] border-white/[0.06] hover:border-white/10"
+              {/* Badge */}
+              <div>
+                <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full ${
+                  isLight ? "bg-blue-50 text-blue-600 border border-blue-100" : "bg-blue-500/10 text-blue-400 border border-blue-500/20"
+                }`}>
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  <span className="text-[10px] font-black tracking-widest uppercase">
+                    GENUINE GEAR
+                  </span>
+                </div>
+              </div>
+              
+              {/* Title */}
+              <h3 className={`text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1] ${isLight ? "text-zinc-950" : "text-white"}`}>
+                JUUL <br className="hidden sm:block" />
+                <span className={`${isLight ? "text-blue-500" : "text-blue-400"}`}>
+                  Accessories
+                </span>
+              </h3>
+              
+              {/* Description */}
+              <p className={`text-[13px] sm:text-[15px] font-medium leading-relaxed max-w-lg ${isLight ? "text-zinc-500" : "text-zinc-400"}`}>
+                Power up and protect your device with authentic JUUL accessories. Engineered exclusively for seamless compatibility and peak performance. With gold-plated contacts and a precise fit, you are guaranteed consistent charging.
+              </p>
+
+              {/* Bullet Points */}
+              <ul className="grid gap-3 pt-4">
+                <li className="flex items-center gap-3 group">
+                  <div className={`flex-shrink-0 w-5 h-5 rounded flex items-center justify-center ${
+                    isLight ? "bg-blue-50 text-blue-500" : "bg-blue-500/20 text-blue-400"
+                  }`}>
+                    <Check className="w-3 h-3 stroke-[3]" />
+                  </div>
+                  <span className={`text-[13px] sm:text-sm font-bold tracking-wide ${isLight ? "text-zinc-800" : "text-zinc-200"}`}>
+                    100% Authentic Products
+                  </span>
+                </li>
+                <li className="flex items-center gap-3 group">
+                  <div className={`flex-shrink-0 w-5 h-5 rounded flex items-center justify-center ${
+                    isLight ? "bg-blue-50 text-blue-500" : "bg-blue-500/20 text-blue-400"
+                  }`}>
+                    <Check className="w-3 h-3 stroke-[3]" />
+                  </div>
+                  <span className={`text-[13px] sm:text-sm font-bold tracking-wide ${isLight ? "text-zinc-800" : "text-zinc-200"}`}>
+                    Perfect Device Compatibility
+                  </span>
+                </li>
+                <li className="flex items-center gap-3 group">
+                  <div className={`flex-shrink-0 w-5 h-5 rounded flex items-center justify-center ${
+                    isLight ? "bg-blue-50 text-blue-500" : "bg-blue-500/20 text-blue-400"
+                  }`}>
+                    <Check className="w-3 h-3 stroke-[3]" />
+                  </div>
+                  <span className={`text-[13px] sm:text-sm font-bold tracking-wide ${isLight ? "text-zinc-800" : "text-zinc-200"}`}>
+                    Premium Build Quality
+                  </span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Right Side: Single Product Display */}
+            <div className="w-full flex justify-center lg:justify-end">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+                className={`w-full max-w-[380px] group relative flex flex-col justify-between rounded-3xl p-6 border transition-all duration-300 hover:-translate-y-1 ${
+                  isLight
+                    ? "bg-white border-zinc-200 shadow-xl hover:shadow-2xl hover:border-zinc-300"
+                    : "bg-[#0A0A0B] border-white/10 shadow-2xl hover:border-white/20"
+                }`}
+              >
+                {/* Top Badges */}
+                <div className="flex justify-between items-start absolute top-5 left-5 right-5 z-10">
+                  {chargerProduct.inStock === false ? (
+                    <span className="px-3 py-1.5 text-[10px] font-black uppercase tracking-wider bg-rose-600 text-white rounded-md shadow-sm">
+                      STOCK OUT
+                    </span>
+                  ) : chargerProduct.discount ? (
+                    <span className="px-3 py-1.5 text-[10px] font-black uppercase tracking-wider text-white rounded-md shadow-sm" style={{ backgroundColor: chargerProduct.imgColor || "#2563EB" }}>
+                      -{chargerProduct.discount}% OFF
+                    </span>
+                  ) : (
+                    <div />
+                  )}
+                  <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[11px] font-black shadow-sm ${isLight ? "bg-white" : "bg-black/80"}`}>
+                    <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                    <span>{chargerProduct.rating}</span>
+                  </div>
+                </div>
+
+                {/* Image Box */}
+                <div 
+                  onClick={() => handleProductClick(chargerProduct)}
+                  className={`w-full h-64 rounded-2xl relative overflow-hidden flex items-center justify-center cursor-pointer transition-colors mb-5 mt-4 ${
+                    isLight ? "bg-zinc-50" : "bg-zinc-950 border border-white/5"
                   }`}
                 >
-                  {/* Stock/Discount badge */}
-                  {prod.inStock === false ? (
-                    <div
-                      className="absolute top-3 left-3 z-10 px-2.5 py-1 rounded-full bg-rose-600 text-white text-[10px] font-black uppercase tracking-wider shadow-md"
-                    >
-                      STOCK OUT
-                    </div>
+                  {chargerProduct.image ? (
+                    <Image
+                      src={chargerProduct.image}
+                      alt={chargerProduct.name}
+                      fill
+                      className={`object-contain p-8 transition-transform duration-500 group-hover:scale-110 ${chargerProduct.inStock === false ? "grayscale opacity-50" : ""}`}
+                      sizes="(max-width: 640px) 100vw, 400px"
+                    />
                   ) : (
-                    prod.discount && (
-                      <div
-                        className="absolute top-3 left-3 z-10 px-2.5 py-1 rounded-full text-white text-[10px] font-black uppercase tracking-wider shadow-md"
-                        style={{ backgroundColor: prod.imgColor }}
-                      >
-                        -{prod.discount}% OFF
-                      </div>
-                    )
+                    <div className="w-20 h-20 rounded-full bg-zinc-800 flex items-center justify-center">
+                      <ShoppingBag className="text-white w-10 h-10" />
+                    </div>
                   )}
+                </div>
 
-                  {/* Rating Badge */}
-                  <div className={`absolute top-3 right-3 z-10 px-2 py-0.5 rounded-full text-[10px] font-bold flex items-center gap-1 ${
-                    isLight ? "bg-zinc-100 text-zinc-800" : "bg-zinc-800/80 text-zinc-200"
-                  }`}>
-                    <Star className="w-3 h-3 fill-amber-400 stroke-amber-400" />
-                    {prod.rating}
+                {/* Content info */}
+                <div className="flex-1 space-y-2">
+                  <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-zinc-400">
+                    <span className="w-2 h-2 rounded-full" style={{ backgroundColor: chargerProduct.inStock === false ? "#6B7280" : chargerProduct.imgColor }}></span>
+                    <span className={chargerProduct.inStock === false ? "text-rose-500" : ""}>
+                      {chargerProduct.inStock === false ? "OUT OF STOCK" : chargerProduct.tag}
+                    </span>
                   </div>
 
-                  {/* Product Image */}
-                  <div 
-                    onClick={() => handleProductClick(prod)}
-                    className={`relative w-full h-48 overflow-hidden cursor-pointer ${
-                      isLight ? "bg-zinc-50" : "bg-zinc-900/50"
+                  <h4 
+                    onClick={() => handleProductClick(chargerProduct)}
+                    className={`text-lg font-black transition-colors cursor-pointer hover:underline ${
+                      isLight ? "text-zinc-900" : "text-white"
                     }`}
                   >
-                    <motion.div
-                      whileHover={prod.inStock === false ? undefined : { scale: 1.05 }}
-                      transition={{ duration: 0.4, ease: "easeOut" }}
-                      className="relative w-full h-full flex items-center justify-center p-5"
+                    {chargerProduct.name}
+                  </h4>
+                  
+                  <p className={`text-xs font-medium leading-relaxed ${isLight ? "text-zinc-500" : "text-zinc-400"}`}>
+                    {chargerProduct.desc}
+                  </p>
+                </div>
+
+                {/* Footer action */}
+                <div className="mt-6 pt-5 border-t border-zinc-100 dark:border-white/5 space-y-4">
+                  <div className="flex items-baseline gap-3">
+                    <span className={`text-2xl font-black tracking-tight ${isLight ? "text-zinc-900" : "text-white"}`}>AED {chargerProduct.salePrice || chargerProduct.price}</span>
+                    {chargerProduct.originalPrice && (
+                      <span className="text-sm font-bold text-zinc-400 line-through">AED {chargerProduct.originalPrice}</span>
+                    )}
+                  </div>
+                  
+                  {chargerProduct.inStock === false ? (
+                    <button
+                      disabled
+                      className={`w-full py-3.5 rounded-xl text-xs font-black uppercase tracking-widest border flex items-center justify-center gap-2 ${
+                        isLight 
+                          ? "bg-zinc-50 text-zinc-400 border-zinc-200" 
+                          : "bg-transparent text-zinc-500 border-white/5"
+                      }`}
                     >
-                      {prod.image ? (
-                        <Image
-                          src={prod.image}
-                          alt={prod.name}
-                          fill
-                          className={`object-contain p-5 drop-shadow-md ${prod.inStock === false ? "grayscale opacity-50" : ""}`}
-                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                        />
-                      ) : (
-                        <div className="w-16 h-16 rounded-full bg-zinc-800 flex items-center justify-center">
-                          <ShoppingBag className="text-white w-8 h-8" />
-                        </div>
-                      )}
-                    </motion.div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="flex flex-col gap-3 p-5 flex-1 justify-between">
-                    <div className="space-y-1.5 text-left">
-                      <span className="text-[9px] font-black uppercase tracking-widest animate-pulse" style={{ color: prod.inStock === false ? "#6B7280" : prod.imgColor }}>
-                        {prod.inStock === false ? "⚠️ OUT OF STOCK" : `⚡ ${prod.tag}`}
-                      </span>
-                      <h3 
-                        onClick={() => handleProductClick(prod)}
-                        className={`text-sm sm:text-base font-black leading-snug cursor-pointer hover:underline min-h-[44px] line-clamp-2 ${isLight ? "text-zinc-950" : "text-white"}`}
-                      >
-                        {prod.name}
-                      </h3>
-                      <p className={`text-[11px] font-light leading-relaxed line-clamp-2 min-h-[32px] ${isLight ? "text-zinc-500" : "text-zinc-400"}`}>
-                        {prod.desc}
-                      </p>
-                    </div>
-
-                    {/* Pricing and Action row */}
-                    <div className="space-y-3 text-left pt-2">
-                      <div className="flex items-end flex-wrap gap-x-2 gap-y-1">
-                        <span className="text-2xl font-black" style={{ color: prod.inStock === false ? "#6B7280" : prod.imgColor }}>
-                          AED {prod.salePrice || prod.price}
-                        </span>
-                        {prod.originalPrice && (
-                          <span className={`text-sm line-through mb-0.5 ${isLight ? "text-zinc-400" : "text-zinc-600"}`}>
-                            AED {prod.originalPrice}
-                          </span>
-                        )}
-                      </div>
-
-                      {/* CTA Button */}
-                      <motion.button
-                        whileTap={prod.inStock === false ? undefined : { scale: 0.95 }}
-                        onClick={() => prod.inStock !== false && onAddToCart && onAddToCart(prod)}
-                        disabled={prod.inStock === false}
-                        className={`w-full py-3 rounded-2xl flex items-center justify-center gap-2 text-[11px] font-black uppercase tracking-wider transition-all border ${
-                          prod.inStock === false
-                            ? "bg-zinc-100 border-zinc-200 text-zinc-400 dark:bg-zinc-900/50 dark:border-white/5 dark:text-zinc-600 cursor-not-allowed"
-                            : isLight
-                              ? "bg-zinc-950 border-zinc-950 text-white hover:bg-zinc-800 cursor-pointer"
-                              : "bg-white border-white text-zinc-950 hover:bg-zinc-100 cursor-pointer"
-                        }`}
-                      >
-                        <ShoppingBag className="w-3.5 h-3.5" /> {prod.inStock === false ? "OUT OF STOCK" : "ADD TO CART"}
-                      </motion.button>
-                    </div>
-                  </div>
-                </motion.div>
-              );
-            })}
+                      <ShoppingBag className="w-4 h-4 opacity-50" /> OUT OF STOCK
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => onAddToCart(chargerProduct)}
+                      className={`w-full py-3.5 rounded-xl text-xs font-black uppercase tracking-widest flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer ${
+                        isLight 
+                          ? "bg-zinc-950 hover:bg-zinc-800 text-white shadow-lg hover:shadow-xl hover:shadow-zinc-900/20" 
+                          : "bg-white hover:bg-zinc-200 text-black shadow-lg hover:shadow-xl hover:shadow-white/20"
+                      }`}
+                    >
+                      <ShoppingBag className="w-4 h-4" /> ADD TO CART
+                    </button>
+                  )}
+                </div>
+              </motion.div>
+            </div>
           </div>
         </div>
       </div>
