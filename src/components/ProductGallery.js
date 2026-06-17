@@ -23,28 +23,10 @@ export default function ProductGallery({ selectedProduct, deviceColor, selectedF
   // Create a list of mock gallery images based on the product type
   const getGalleryImages = () => {
     if (!selectedProduct) return [];
-    
     const baseImage = selectedProduct.image || "/deal-bundle.png";
-    
-    if (selectedProduct.category === "kits") {
-      return [
-        { type: "device_render", label: "Smart 3D Device", url: baseImage },
-        { type: "image", label: "Full Kit Bundle", url: baseImage },
-        { type: "image", label: "Carry Case", url: "/deal-case.png" },
-      ];
-    } else if (selectedProduct.category === "pods") {
-      return [
-        { type: "image", label: "Retail Packaging", url: baseImage },
-        { type: "cartridge_render", label: "NFC Pod Detail", url: "/cat-pods.png" },
-        { type: "image", label: "Premium Bundle", url: "/cat-pods.png" },
-      ];
-    } else {
-      return [
-        { type: "image", label: "Accessory view 1", url: baseImage },
-        { type: "image", label: "Sleeve Details", url: "/deal-case.png" },
-        { type: "image", label: "Fitted Preview", url: baseImage },
-      ];
-    }
+    return [
+      { type: "image", label: selectedProduct.name, url: baseImage }
+    ];
   };
 
   const images = getGalleryImages();
@@ -102,48 +84,41 @@ export default function ProductGallery({ selectedProduct, deviceColor, selectedF
   };
 
   return (
-    <div className="flex flex-col gap-5 w-full">
+    <div className="flex flex-col gap-5 w-full h-full">
       {/* Main Preview Screen */}
-      <div className={`relative flex flex-col items-center justify-center border rounded-3xl p-6 overflow-hidden min-h-[380px] sm:min-h-[460px] transition-colors duration-300 ${
+      <div className={`relative flex flex-col items-center justify-center border rounded-3xl p-6 overflow-hidden min-h-[380px] sm:min-h-[460px] lg:min-h-[540px] h-full transition-colors duration-300 ${
         isLight ? "bg-white border-zinc-200/80 shadow-[0_8px_30px_rgba(0,0,0,0.02)]" : "bg-zinc-950/40 border-white/5"
       }`}>
 
 
         {/* Zoom & View indicator Badges */}
         <div className="absolute top-4 left-4 right-4 flex justify-between items-center z-10">
-          <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full border text-[9px] font-bold uppercase tracking-widest ${
-            isLight ? "bg-zinc-100 border-zinc-200 text-zinc-650" : "bg-white/5 border-white/10 text-zinc-400"
+          {images.length > 1 && (
+            <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full border text-[9px] font-bold uppercase tracking-widest ${
+              isLight ? "bg-zinc-100 border-zinc-200 text-zinc-650" : "bg-white/5 border-white/10 text-zinc-400"
+            }`}>
+              {currentView?.type === "device_render" && <Sparkles className="w-3 h-3 text-emerald-400" />}
+              {currentView?.type === "cartridge_render" ? "Smart NFC Chip" : "Gallery View"}
+            </div>
+          )}
+          <button className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ml-auto ${
+            isLight ? "hover:bg-zinc-100 text-zinc-650" : "hover:bg-white/10 text-zinc-400"
           }`}>
-            {currentView?.type === "device_render" && <Sparkles className="w-3 h-3 text-emerald-400" />}
-            {currentView?.type === "cartridge_render" && <Layers className="w-3 h-3 text-emerald-400" />}
-            {currentView?.type === "image" && <LayoutGrid className="w-3 h-3 text-blue-400" />}
-            <span>{currentView?.label}</span>
-          </div>
-
-          <button 
-            onClick={() => setIsZoomed(!isZoomed)}
-            className={`p-2 rounded-full border transition-all cursor-pointer ${
-              isLight 
-                ? "bg-white border-zinc-200 text-zinc-650 hover:bg-zinc-100 hover:text-zinc-950" 
-                : "bg-white/5 border-white/10 text-zinc-400 hover:bg-white/10 hover:text-white"
-            }`}
-            title="Toggle Zoom"
-          >
             <ZoomIn className="w-4 h-4" />
           </button>
         </div>
 
-        {/* Product Visualizer content */}
-        <div className="w-full h-full flex items-center justify-center p-4">
+        {/* The Product Graphic (Render or Image) */}
+        <div className="w-full flex-1 flex items-center justify-center pointer-events-none mt-4 sm:mt-0">
           <AnimatePresence mode="wait">
             {currentView?.type === "device_render" ? (
               <motion.div
-                key="juul-device-visual"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
+                key="device-render"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                className="w-full flex items-center justify-center"
+                className="w-full h-full flex items-center justify-center scale-110 sm:scale-125 lg:scale-150"
               >
                 <JuulDevice 
                   activeFlavor={selectedFlavor?.id || "mint"} 
@@ -152,7 +127,7 @@ export default function ProductGallery({ selectedProduct, deviceColor, selectedF
                 />
               </motion.div>
             ) : currentView?.type === "cartridge_render" ? (
-              <div key="cartridge-render" className="w-full flex items-center justify-center">
+              <div key="cartridge-render" className="w-full h-full flex items-center justify-center scale-125 sm:scale-150">
                 {renderPodCartridge()}
               </div>
             ) : (
@@ -162,7 +137,7 @@ export default function ProductGallery({ selectedProduct, deviceColor, selectedF
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.3 }}
-                className="relative w-64 h-64 sm:w-72 sm:h-72 flex items-center justify-center"
+                className="relative w-full h-full min-h-[350px] lg:min-h-[450px] flex items-center justify-center"
               >
                 <Image
                   src={currentView?.url || "/deal-bundle.png"}
@@ -178,15 +153,17 @@ export default function ProductGallery({ selectedProduct, deviceColor, selectedF
         </div>
 
         {/* Summary Info Pill */}
-        <div className={`absolute bottom-4 text-center px-4 py-1.5 rounded-full border ${
-          isLight ? "bg-zinc-100 border-zinc-200 text-zinc-650" : "bg-white/5 border-white/10 text-zinc-400"
-        }`}>
-          <span className="text-[10px] uppercase font-black tracking-widest">
-            {selectedProduct?.category === "kits" 
-              ? `Preview: Slate Grey + ${selectedFlavor?.label || "Mint"} Pod`
-              : `${selectedProduct?.name} - View ${activeImageIndex + 1}`}
-          </span>
-        </div>
+        {images.length > 1 && (
+          <div className={`absolute bottom-4 text-center px-4 py-1.5 rounded-full border ${
+            isLight ? "bg-zinc-100 border-zinc-200 text-zinc-650" : "bg-white/5 border-white/10 text-zinc-400"
+          }`}>
+            <span className="text-[10px] uppercase font-black tracking-widest">
+              {selectedProduct?.category === "kits" 
+                ? `Preview: Slate Grey + ${selectedFlavor?.label || "Mint"} Pod`
+                : `${selectedProduct?.name} - View ${activeImageIndex + 1}`}
+            </span>
+          </div>
+        )}
       </div>
 
       {/* Alternative Image Thumbnails */}

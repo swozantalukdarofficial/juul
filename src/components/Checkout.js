@@ -24,6 +24,10 @@ export default function Checkout({ cart, onClearCart, setCurrentPage, theme }) {
   const tax = subtotal * 0.08;
   const total = subtotal + shipping + tax;
 
+  const toDhs = (price) => {
+    return (parseFloat(price) * 4.725).toFixed(2);
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -341,19 +345,19 @@ export default function Checkout({ cart, onClearCart, setCurrentPage, theme }) {
                         )}
                       </div>
                     </div>
-                    <span className={`font-bold ${isLight ? "text-zinc-900" : "text-white"}`}>${item.price}</span>
+                    <span className={`font-bold ${isLight ? "text-zinc-900" : "text-white"}`}>Dhs. {toDhs(item.price)}</span>
                   </div>
                 ))}
               </div>
 
               {/* Totals Table */}
               <div className={`pt-4 border-t space-y-2 text-xs ${isLight ? "border-zinc-100 text-zinc-800" : "border-white/5 text-white"}`}>
-                <div className="flex justify-between"><span className="text-zinc-500 font-medium">Subtotal</span><span className={`font-bold ${isLight ? "text-zinc-900" : "text-white"}`}>${subtotal.toFixed(2)}</span></div>
-                <div className="flex justify-between"><span className="text-zinc-500 font-medium">Estimated Shipping</span><span className={`font-bold ${isLight ? "text-zinc-900" : "text-white"}`}>${shipping.toFixed(2)}</span></div>
-                <div className="flex justify-between"><span className="text-zinc-500 font-medium">Taxes (8%)</span><span className={`font-bold ${isLight ? "text-zinc-900" : "text-white"}`}>${tax.toFixed(2)}</span></div>
+                <div className="flex justify-between"><span className="text-zinc-500 font-medium">Subtotal</span><span className={`font-bold ${isLight ? "text-zinc-900" : "text-white"}`}>Dhs. {toDhs(subtotal)}</span></div>
+                <div className="flex justify-between"><span className="text-zinc-500 font-medium">Estimated Shipping</span><span className={`font-bold ${isLight ? "text-zinc-900" : "text-white"}`}>Dhs. {toDhs(shipping)}</span></div>
+                <div className="flex justify-between"><span className="text-zinc-500 font-medium">Taxes (8%)</span><span className={`font-bold ${isLight ? "text-zinc-900" : "text-white"}`}>Dhs. {toDhs(tax)}</span></div>
                 <div className={`flex justify-between pt-4 border-t text-sm font-black ${isLight ? "border-zinc-100" : "border-white/5"}`}>
                   <span className={`uppercase tracking-wider ${isLight ? "text-zinc-900" : "text-white"}`}>Order Total</span>
-                  <span className={`font-black ${isLight ? "text-blue-600" : "text-emerald-400"}`}>${total.toFixed(2)}</span>
+                  <span className={`font-black ${isLight ? "text-blue-600" : "text-emerald-400"}`}>Dhs. {toDhs(total)}</span>
                 </div>
               </div>
 

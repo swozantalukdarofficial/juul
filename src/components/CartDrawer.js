@@ -75,8 +75,8 @@ export default function CartDrawer({ isOpen, onClose, cart, onRemoveFromCart, se
                         style={{ backgroundColor: `${item.imgColor || '#4B5563'}40` }}
                       />
                       <div className="text-left min-w-0 flex-1 overflow-hidden">
-                        <p className={`text-xs font-bold truncate ${isLight ? "text-zinc-800" : "text-white"}`}>{item.name}</p>
-                        <p className={`text-[10px] font-black mt-0.5 ${isLight ? "text-zinc-900" : "text-zinc-500"}`}>${item.price}</p>
+                        <p className={`text-xs font-bold truncate ${isLight ? "text-zinc-850" : "text-white"}`}>{item.name}</p>
+                        <p className={`text-[10px] font-black mt-0.5 ${isLight ? "text-zinc-900" : "text-zinc-500"}`}>Dhs. {(parseFloat(item.price) * 4.725).toFixed(2)}</p>
                       </div>
                     </div>
 
@@ -103,7 +103,7 @@ export default function CartDrawer({ isOpen, onClose, cart, onRemoveFromCart, se
                     <p className="text-[10px] uppercase font-bold text-zinc-500 tracking-widest">Subtotal</p>
                     <p className="text-xs text-zinc-400 font-light mt-0.5">Taxes & shipping added at checkout</p>
                   </div>
-                  <span className={`text-2xl font-black ${isLight ? "text-zinc-950" : "text-white"}`}>${total.toFixed(2)}</span>
+                  <span className={`text-2xl font-black ${isLight ? "text-zinc-950" : "text-white"}`}>Dhs. {(total * 4.725).toFixed(2)}</span>
                 </div>
 
                 <button

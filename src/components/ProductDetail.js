@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { ShoppingCart, Star, Shield, ArrowLeft, Check, CheckCircle2, Truck, Award, ChevronDown, ChevronRight, Clock } from "lucide-react";
 import ProductGallery from "./ProductGallery";
-import ProductSpecs from "./ProductSpecs";
+
 import ProductReviews from "./ProductReviews";
 import ProductRecommendations from "./ProductRecommendations";
 import ProductSEO from "./ProductSEO";
@@ -36,6 +37,7 @@ export default function ProductDetail({ selectedProduct, onAddToCart, setCurrent
   const [packSize, setPackSize] = useState("2-Pack");
   const [nicotineLevel, setNicotineLevel] = useState("5.0%");
   const [quantity, setQuantity] = useState(1);
+  const [selectedAddons, setSelectedAddons] = useState([]);
 
   // Dropdown States
   const [isFlavorDropdownOpen, setIsFlavorDropdownOpen] = useState(false);
@@ -44,28 +46,11 @@ export default function ProductDetail({ selectedProduct, onAddToCart, setCurrent
   // Sticky Bottom CTA Drawer state
   const [showStickyBar, setShowStickyBar] = useState(false);
 
-  // Flash Deal Countdown Timer State
-  const [timeLeft, setTimeLeft] = useState({ hours: 2, minutes: 44, seconds: 59 });
-
-  useEffect(() => {
-    let totalSeconds = 2 * 3600 + 44 * 60 + 59;
-    const interval = setInterval(() => {
-      if (totalSeconds > 0) {
-        totalSeconds--;
-        const hours = Math.floor(totalSeconds / 3600);
-        const minutes = Math.floor((totalSeconds % 3600) / 60);
-        const seconds = totalSeconds % 60;
-        setTimeLeft({ hours, minutes, seconds });
-      } else {
-        totalSeconds = 3 * 3600; // auto-refresh timer to keep urgency high
-      }
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
 
   // Reset states when product changes
   useEffect(() => {
     setQuantity(1);
+    setSelectedAddons([]);
     setIsFlavorDropdownOpen(false);
     setIsNicotineDropdownOpen(false);
     if (product.category === "pods") {
@@ -102,7 +87,7 @@ export default function ProductDetail({ selectedProduct, onAddToCart, setCurrent
     { id: "mint", label: "Cool Mint", color: "#10B981", price: 15.99 },
     { id: "mango", label: "Royal Mango", color: "#F59E0B", price: 15.99 },
     { id: "berry", label: "Alpine Berry", color: "#EC4899", price: 16.99 },
-    { id: "classic", label: "Classic Tobacco", color: "#EF4444", price: 15.99 }
+    { id: "classic", label: "Virginia Tobacco", color: "#78716C", price: 15.99 }
   ];
 
   const podFlavors = [
@@ -113,16 +98,45 @@ export default function ProductDetail({ selectedProduct, onAddToCart, setCurrent
     { id: "menthol", label: "Classic Menthol", color: "#06B6D4" },
   ];
 
-  const getCalculatedPrice = () => {
-    let base = product.price;
-    if (product.category === "kits") {
-      base = product.price + selectedFlavor.price;
-    } else if (product.category === "pods") {
-      if (packSize === "4-Pack") {
-        base = product.price + 12.00;
-      }
+  const toDhs = (price) => {
+    return (parseFloat(price) * 4.725).toFixed(2);
+  };
+
+  const getRelevantAddons = () => {
+    if (product.category === "pods") {
+      return [
+        { id: "extra-device", name: "JUUL 2 Device Kit - Slate Grey", price: 29.99, priceDhs: 110, image: "/deal-bundle.png" },
+        { id: "magnetic-charger", name: "Magnetic USB Charging Dock", price: 9.99, priceDhs: 35, image: "/usb-dock.png" },
+        { id: "leather-case", name: "Tactical Leather Carry Case", price: 19.99, priceDhs: 70, image: "/deal-case.png" }
+      ];
+    } else {
+      return [
+        { id: "extra-pods", name: "JUUL 2 Pods - Polar Mint Pack", price: 17.99, priceDhs: 65, image: "/cat-pods.png" },
+        { id: "magnetic-charger", name: "Magnetic USB Charging Dock", price: 9.99, priceDhs: 35, image: "/usb-dock.png" },
+        { id: "leather-case", name: "Tactical Leather Carry Case", price: 19.99, priceDhs: 70, image: "/deal-case.png" }
+      ];
     }
-    return base.toFixed(2);
+  };
+
+  const toggleAddon = (addonId) => {
+    setSelectedAddons(prev => 
+      prev.includes(addonId) 
+        ? prev.filter(id => id !== addonId) 
+        : [...prev, addonId]
+    );
+  };
+
+  const relevantAddons = getRelevantAddons();
+
+  const getCalculatedPrice = () => {
+    return product.price;
+  };
+
+  const getAddonsPrice = () => {
+    return selectedAddons.reduce((acc, addonId) => {
+      const addon = relevantAddons.find(a => a.id === addonId);
+      return acc + (addon ? addon.price : 0);
+    }, 0);
   };
 
   const getProductSummary = () => {
@@ -150,7 +164,7 @@ export default function ProductDetail({ selectedProduct, onAddToCart, setCurrent
     }
   };
 
-  const totalPrice = (parseFloat(getCalculatedPrice()) * quantity).toFixed(2);
+  const totalPrice = ((getCalculatedPrice() + getAddonsPrice()) * quantity).toFixed(2);
   const originalPrice = (parseFloat(totalPrice) * 1.25).toFixed(2);
 
   const handleAddToCart = () => {
@@ -163,30 +177,39 @@ export default function ProductDetail({ selectedProduct, onAddToCart, setCurrent
       customDetails: {}
     };
 
-    if (product.category === "kits") {
-      cartItem.name = `${product.name} (+ ${selectedFlavor.label})`;
-      cartItem.customDetails = {
-        flavor: selectedFlavor.label,
-        nicotine: nicotineLevel
-      };
-      cartItem.imgColor = selectedFlavor.color;
-    } else if (product.category === "pods") {
-      cartItem.name = `${product.name} (${activeFlavor.label} - ${packSize})`;
-      cartItem.customDetails = {
-        flavor: activeFlavor.label,
-        packSize: packSize,
-        nicotine: nicotineLevel
-      };
-      cartItem.imgColor = activeFlavor.color;
-    } else if (product.category === "accessories") {
+    if (product.category === "accessories") {
       cartItem.customDetails = {
         compatibility: product.version === "juul2" ? "JUUL 2 Compatible" : "JUUL 1 Compatible"
       };
     }
 
+    // Add main product
     for (let i = 0; i < quantity; i++) {
       onAddToCart(cartItem);
     }
+
+    // Add selected addons
+    selectedAddons.forEach(addonId => {
+      const addon = relevantAddons.find(a => a.id === addonId);
+      if (addon) {
+        const addonCartItem = {
+          id: addon.id,
+          name: addon.name,
+          price: addon.price,
+          image: addon.image,
+          imgColor: "#4B5563",
+          customDetails: {
+            isAddon: "Product Add-on"
+          }
+        };
+        for (let i = 0; i < quantity; i++) {
+          onAddToCart(addonCartItem);
+        }
+      }
+    });
+
+    // Clear addons
+    setSelectedAddons([]);
   };
 
   const handleBuyNow = () => {
@@ -209,13 +232,13 @@ export default function ProductDetail({ selectedProduct, onAddToCart, setCurrent
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className={`pt-32 pb-20 min-h-screen text-left transition-colors duration-500 ${
+      className={`pt-24 pb-16 sm:pt-28 sm:pb-20 min-h-screen text-left transition-colors duration-500 ${
         isLight ? "bg-zinc-50 text-zinc-900" : "bg-[#09090A] text-white"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12">
         {/* Breadcrumb Navigation Trail */}
-        <nav className="flex flex-wrap items-center gap-1.5 text-[10px] sm:text-xs font-semibold uppercase tracking-wider mb-8 select-none">
+        <nav className="flex flex-wrap items-center gap-1.5 text-[10px] sm:text-xs font-semibold uppercase tracking-wider mb-3 sm:mb-4 select-none">
           <button 
             onClick={() => {
               setCurrentPage("home");
@@ -249,408 +272,215 @@ export default function ProductDetail({ selectedProduct, onAddToCart, setCurrent
           </span>
         </nav>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start mb-16">
-          {/* Left Column: Media Showcase */}
-          <div className="lg:col-span-5 w-full">
-            <ProductGallery
-              selectedProduct={product}
-              deviceColor={deviceColor}
-              selectedFlavor={selectedFlavor}
-              theme={theme}
-            />
-          </div>
+        <div className={`p-4 sm:p-6 rounded-3xl border transition-all duration-500 mb-16 ${
+          isLight 
+            ? "bg-white border-zinc-200/80 shadow-md shadow-zinc-100" 
+            : "bg-[#0b0b0d] border-zinc-800"
+        }`}>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start relative">
+            {/* Left Column: Media Showcase (Stretches to fill height) */}
+            <div className="lg:col-span-6 w-full h-full">
+              <ProductGallery
+                selectedProduct={product}
+                deviceColor={deviceColor}
+                selectedFlavor={selectedFlavor}
+                theme={theme}
+              />
+            </div>
 
-          {/* Right Column: Customizer & Details */}
-          <div className="lg:col-span-7 space-y-8">
-            {/* Header info */}
-            <div className="space-y-3">
-              <div className="flex items-center gap-2 text-emerald-400">
-                <Shield className="w-4 h-4 text-emerald-400" />
-                <span className="text-[10px] font-black uppercase tracking-widest">
-                  {product.tag || "Verified Original Product"}
-                </span>
-              </div>
-              <h1 className={`text-2xl sm:text-4xl font-black leading-tight tracking-tight ${isLight ? "text-zinc-950" : "text-white"}`}>
-                {product.name}
-              </h1>
-              <div className={`flex items-center gap-4 text-xs font-semibold ${isLight ? "text-zinc-550" : "text-zinc-450"}`}>
-                <div className="flex items-center gap-1 text-amber-400">
-                  <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                  <span className={`font-black ${isLight ? "text-zinc-800" : "text-white"}`}>
-                    {product.rating || "4.9"}
+            {/* Right Column: Customizer & Details */}
+            <div className="lg:col-span-6 space-y-4">
+              {/* Header info */}
+              <div className="space-y-1.5">
+                <div className="flex items-center gap-1.5 text-emerald-400">
+                  <Shield className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
+                  <span className="text-[9px] font-black uppercase tracking-widest">
+                    {product.tag || "Verified Original Product"}
                   </span>
-                  <span className="text-zinc-500 font-normal">({product.reviewsCount || 124} reviews)</span>
                 </div>
-                <span>|</span>
-                <span className="text-emerald-400">In Stock</span>
-              </div>
-              {/* Glassmorphic Beautiful Description Card */}
-              <div className={`p-5 rounded-3xl border transition-all duration-300 ${
-                isLight 
-                  ? "bg-white/60 border-zinc-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.02)]" 
-                  : "bg-white/[0.01] border-white/5 shadow-inner"
-              }`}>
-                {/* Hidden Featured Image & Microdata for Google SEO Crawlers Only */}
-                <div className="hidden" aria-hidden="true" style={{ display: "none" }}>
-                  <img src={product.image || "/deal-bundle.png"} alt={product.name} />
-                  <link itemprop="image" href={product.image || "/deal-bundle.png"} />
-                  <meta property="og:image" content={product.image || "/deal-bundle.png"} />
-                  <meta name="twitter:image" content={product.image || "/deal-bundle.png"} />
+                <h1 className={`text-xl sm:text-2xl font-extrabold leading-tight tracking-tight ${isLight ? "text-zinc-950" : "text-white"}`}>
+                  {product.name}
+                </h1>
+                
+                {/* Star Rating & Reviews */}
+                <div className="flex items-center gap-1.5 text-xs font-semibold">
+                  <div className="flex items-center gap-0.5 text-pink-500">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-3 h-3 fill-current text-pink-500" />
+                    ))}
+                  </div>
+                  <span className={`font-semibold text-[10px] ${isLight ? "text-zinc-500" : "text-zinc-450"}`}>
+                    ({product.reviewsCount || 10} reviews)
+                  </span>
+                  <span className="text-zinc-400 dark:text-zinc-650 text-[9px]">|</span>
+                  <span className="text-emerald-450 font-bold uppercase tracking-wider text-[9px]">In Stock</span>
                 </div>
 
-                <p className={`text-sm font-light leading-relaxed max-w-2xl ${isLight ? "text-zinc-700" : "text-zinc-350"}`}>
+                {/* Description */}
+                <p className={`text-[11px] sm:text-xs font-light leading-snug max-w-2xl pt-0.5 ${isLight ? "text-zinc-700" : "text-zinc-350"}`}>
                   {product.desc}
                 </p>
 
-                {/* Technical Specifications Summary List */}
-                <div className={`mt-5 pt-5 border-t border-dashed ${isLight ? "border-zinc-200" : "border-white/5"} space-y-2.5`}>
-                  <p className={`text-[10px] uppercase font-black tracking-widest ${isLight ? "text-zinc-400" : "text-zinc-500"}`}>
-                    Quick Specifications
-                  </p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5">
-                    {getProductSummary().map((spec, index) => (
-                      <div 
-                        key={index}
-                        className={`flex items-center justify-between py-1.5 border-b text-[11px] ${
-                          isLight ? "border-zinc-100/60" : "border-white/[0.02]"
-                        }`}
-                      >
-                        <span className={isLight ? "text-zinc-500 font-medium" : "text-zinc-400 font-normal"}>
-                          {spec.label}
-                        </span>
-                        <span className={`font-bold ${isLight ? "text-zinc-800" : "text-white"}`}>
-                          {spec.value}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
+                {/* Brand line */}
+                <div>
+                  <span className={`text-[11px] font-semibold ${isLight ? "text-zinc-900" : "text-zinc-300"}`}>
+                    Brand: Juul {product.version === "juul2" ? "2" : "1"}
+                  </span>
+                </div>
+
+                {/* Gradient Divider Line */}
+                <div className="h-[1px] w-full bg-gradient-to-r from-pink-500 via-pink-500/20 to-transparent mt-3 mb-2" />
+
+                {/* Price Display */}
+                <div className="flex items-baseline gap-2">
+                  <span className={`text-[10px] font-bold uppercase tracking-wider ${isLight ? "text-zinc-500" : "text-zinc-400"}`}>
+                    Price:
+                  </span>
+                  <span className="text-xl sm:text-2xl font-black text-[#FF5A36] tracking-tight leading-none">
+                    Dhs. {toDhs(getCalculatedPrice())}
+                  </span>
                 </div>
               </div>
-            </div>
 
-            {/* Custom Options Panel */}
-            <div className="space-y-6">
-              {/* Option A: Kits Customization */}
-              {product.category === "kits" && (
-                <>
+              {/* ═══ SHIPPING & DELIVERY Highlights Box ═══ */}
+              <div className={`p-5 rounded-2xl border transition-all duration-300 ${
+                isLight 
+                  ? "bg-zinc-100/50 border-zinc-200" 
+                  : "bg-[#121214] border-white/5"
+              }`}>
+                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 text-xs text-left">
+                  {[
+                    "Free delivery on orders above 250 DHS",
+                    "Cash, card & payment link on delivery",
+                    "Same day delivery in Dubai, Sharjah & Ajman before 9 PM",
+                    "Express delivery in Dubai within 1-2 hours",
+                    "Standard delivery within 2-4 hours",
+                    "Next day delivery to other Emirates"
+                  ].map((bullet, idx) => (
+                    <li key={idx} className="flex items-start gap-2.5 leading-snug text-zinc-650 dark:text-zinc-300">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#FF2A7A] mt-1.5 flex-shrink-0" />
+                      <span>{bullet}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-                  {/* Starter Pod - Dropdown box */}
-                  <div className="space-y-3 relative">
-                    <h4 className={`text-xs uppercase font-bold tracking-widest ${isLight ? "text-zinc-500" : "text-zinc-400"}`}>
-                      2. Bundle Premium Starter Pod
-                    </h4>
-                    <div className="relative">
-                      <button
-                        type="button"
-                        onClick={() => setIsFlavorDropdownOpen(!isFlavorDropdownOpen)}
-                        className={`w-full px-5 py-3.5 rounded-2xl border text-left flex items-center justify-between transition-all duration-300 cursor-pointer ${
-                          isLight ? "bg-white border-zinc-200 text-zinc-900 shadow-sm" : "bg-zinc-950 border-white/5 text-white"
-                        }`}
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className="w-3.5 h-3.5 rounded-full" style={{ backgroundColor: selectedFlavor.color }} />
-                          <span className="text-xs font-black">{selectedFlavor.label}</span>
-                          <span className="text-[10px] text-zinc-500 font-semibold">(+AED {selectedFlavor.price})</span>
-                        </div>
-                        <ChevronDown className="w-4 h-4 text-zinc-500" />
-                      </button>
-
-                      <AnimatePresence>
-                        {isFlavorDropdownOpen && (
-                          <motion.div
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: 10 }}
-                            className={`absolute z-30 w-full mt-2 rounded-2xl border shadow-2xl overflow-hidden ${
-                              isLight ? "bg-white border-zinc-200" : "bg-[#111112] border-white/10"
-                            }`}
-                          >
-                            <div className="p-1 divide-y divide-zinc-100 dark:divide-white/5">
-                              {flavorPods.map((flavor) => (
-                                <button
-                                  key={flavor.id}
-                                  type="button"
-                                  onClick={() => {
-                                    setSelectedFlavor(flavor);
-                                    setIsFlavorDropdownOpen(false);
-                                  }}
-                                  className={`w-full px-4 py-3 text-left flex items-center justify-between hover:bg-zinc-100 dark:hover:bg-white/5 transition-colors cursor-pointer ${
-                                    selectedFlavor.id === flavor.id ? "bg-zinc-50 dark:bg-white/5" : ""
-                                  }`}
-                                >
-                                  <div className="flex items-center gap-3">
-                                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: flavor.color }} />
-                                    <span className={`text-xs ${selectedFlavor.id === flavor.id ? "font-black" : "font-medium"}`}>{flavor.label}</span>
-                                  </div>
-                                  <span className="text-[10px] font-bold text-zinc-500">+AED {flavor.price}</span>
-                                </button>
-                              ))}
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
-                  </div>
-                </>
-              )}
-
-              {/* Option B: Pod Packs Customization */}
-              {product.category === "pods" && (
-                <>
-                  {/* Pod Flavors - Dropdown box */}
-                  <div className="space-y-3 relative">
-                    <h4 className={`text-xs uppercase font-bold tracking-widest ${isLight ? "text-zinc-500" : "text-zinc-400"}`}>
-                      1. Select Flavor Profile
-                    </h4>
-                    <div className="relative">
-                      <button
-                        type="button"
-                        onClick={() => setIsFlavorDropdownOpen(!isFlavorDropdownOpen)}
-                        className={`w-full px-5 py-3.5 rounded-2xl border text-left flex items-center justify-between transition-all duration-300 cursor-pointer ${
-                          isLight ? "bg-white border-zinc-200 text-zinc-900 shadow-sm" : "bg-zinc-950 border-white/5 text-white"
-                        }`}
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className="w-3.5 h-3.5 rounded-full" style={{ backgroundColor: activeFlavor.color }} />
-                          <span className="text-xs font-black">{activeFlavor.label}</span>
-                        </div>
-                        <ChevronDown className="w-4 h-4 text-zinc-500" />
-                      </button>
-
-                      <AnimatePresence>
-                        {isFlavorDropdownOpen && (
-                          <motion.div
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: 10 }}
-                            className={`absolute z-30 w-full mt-2 rounded-2xl border shadow-2xl overflow-hidden ${
-                              isLight ? "bg-white border-zinc-200" : "bg-[#111112] border-white/10"
-                            }`}
-                          >
-                            <div className="p-1 divide-y divide-zinc-100 dark:divide-white/5">
-                              {podFlavors.map((flavor) => (
-                                <button
-                                  key={flavor.id}
-                                  type="button"
-                                  onClick={() => {
-                                    setActiveFlavor(flavor);
-                                    setIsFlavorDropdownOpen(false);
-                                  }}
-                                  className={`w-full px-4 py-3 text-left flex items-center hover:bg-zinc-100 dark:hover:bg-white/5 transition-colors cursor-pointer ${
-                                    activeFlavor.id === flavor.id ? "bg-zinc-50 dark:bg-white/5" : ""
-                                  }`}
-                                >
-                                  <div className="w-3.5 h-3.5 rounded-full mr-3" style={{ backgroundColor: flavor.color }} />
-                                  <span className={`text-xs ${activeFlavor.id === flavor.id ? "font-black" : "font-medium"}`}>{flavor.label}</span>
-                                </button>
-                              ))}
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
-                  </div>
-
-                  {/* Pack size */}
-                  <div className="space-y-3">
-                    <h4 className={`text-xs uppercase font-bold tracking-widest ${isLight ? "text-zinc-500" : "text-zinc-400"}`}>
-                      2. Pack Size
-                    </h4>
-                    <div className="flex gap-3">
-                      {["2-Pack", "4-Pack"].map((size) => (
-                        <button
-                          key={size}
-                          onClick={() => setPackSize(size)}
-                          className={`px-5 py-3 rounded-full border text-xs font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer ${
-                            packSize === size
-                              ? isLight
-                                ? "bg-zinc-950 text-white border-zinc-950 shadow-md"
-                                : "bg-white text-black border-white"
-                              : isLight
-                              ? "bg-white text-zinc-650 border-zinc-200 hover:border-zinc-350"
-                              : "bg-transparent text-zinc-400 border-white/5 hover:border-white/15"
-                          }`}
-                        >
-                          {size} {size === "4-Pack" && "(+AED 12.00)"}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                </>
-              )}
-
-              {/* Nicotine Strength Dropdown (Common for pods/kits) */}
-              {product.category !== "accessories" && (
-                <div className="space-y-3 relative">
-                  <h4 className={`text-xs uppercase font-bold tracking-widest ${isLight ? "text-zinc-500" : "text-zinc-400"}`}>
-                    Nicotine Strength
+              {/* ═══ ADD-ONS SECTION ═══ */}
+              <div className="space-y-3 pt-3 border-t border-zinc-150 dark:border-white/5">
+                <div className="w-full">
+                  <h4 className={`w-full text-xs sm:text-[13px] uppercase font-bold tracking-widest py-2.5 px-3 rounded-lg border flex items-center justify-center gap-2.5 ${
+                    isLight 
+                      ? "bg-gradient-to-r from-pink-50 to-orange-50 text-pink-600 border-pink-200/50 shadow-sm shadow-pink-100/50" 
+                      : "bg-gradient-to-r from-[#FF2A7A]/10 to-[#FF7A00]/10 text-pink-400 border-[#FF2A7A]/20"
+                  }`}>
+                    <Star className="w-4 h-4 fill-current" />
+                    <span>Upgrade Your Experience <span className="opacity-75 font-semibold">(Compatible Add-ons)</span></span>
                   </h4>
-                  <div className="relative">
-                    <button
-                      type="button"
-                      onClick={() => setIsNicotineDropdownOpen(!isNicotineDropdownOpen)}
-                      className={`w-full px-5 py-3.5 rounded-2xl border text-left flex items-center justify-between transition-all duration-300 cursor-pointer ${
-                        isLight ? "bg-white border-zinc-200 text-zinc-900 shadow-sm" : "bg-zinc-950 border-white/5 text-white"
-                      }`}
-                    >
-                      <span className="text-xs font-black">{nicotineLevel}</span>
-                      <ChevronDown className="w-4 h-4 text-zinc-500" />
-                    </button>
-
-                    <AnimatePresence>
-                      {isNicotineDropdownOpen && (
-                        <motion.div
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: 10 }}
-                          className={`absolute z-30 w-full mt-2 rounded-2xl border shadow-2xl overflow-hidden ${
-                            isLight ? "bg-white border-zinc-200" : "bg-[#111112] border-white/10"
-                          }`}
-                        >
-                          <div className="p-1">
-                            {["1.8% (18mg/mL)", "3.0% (30mg/mL)", "5.0% (50mg/mL)"].map((str) => (
-                              <button
-                                key={str}
-                                type="button"
-                                onClick={() => {
-                                  setNicotineLevel(str.split(" ")[0]);
-                                  setIsNicotineDropdownOpen(false);
-                                }}
-                                className={`w-full px-4 py-3 text-xs text-left hover:bg-zinc-100 dark:hover:bg-white/5 transition-colors cursor-pointer ${
-                                  nicotineLevel === str.split(" ")[0] ? "font-black bg-zinc-50 dark:bg-white/5" : "font-medium"
-                                }`}
-                              >
-                                {str}
-                              </button>
-                            ))}
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
                 </div>
-              )}
-            </div>
+                <div className={`flex flex-col gap-1 p-2 rounded-2xl border transition-all ${
+                  isLight ? "bg-zinc-50/70 border-zinc-200" : "bg-[#121214] border-white/5"
+                }`}>
+                  {relevantAddons.slice(0, 3).map((addon) => {
+                    const isChecked = selectedAddons.includes(addon.id);
+                    return (
+                      <div
+                        key={addon.id}
+                        onClick={() => toggleAddon(addon.id)}
+                        className={`flex items-center gap-3 p-2.5 rounded-xl cursor-pointer transition-all duration-300 select-none ${
+                          isChecked
+                            ? isLight
+                              ? "bg-white border border-zinc-200 shadow-sm"
+                              : "bg-[#202024]/80 border border-[#FF2A7A]/50 shadow-[0_0_15px_rgba(255,42,122,0.08)]"
+                            : isLight
+                            ? "bg-transparent border border-transparent hover:bg-white/50"
+                            : "bg-transparent border border-transparent hover:bg-white/[0.02]"
+                        }`}
+                      >
+                        {/* Checkbox */}
+                        <div className={`w-4 h-4 rounded flex items-center justify-center border transition-all flex-shrink-0 ${
+                          isChecked 
+                            ? "bg-[#FF2A7A] border-[#FF2A7A] text-white" 
+                            : isLight ? "border-zinc-300 bg-white" : "border-white/20 bg-white/5"
+                        }`}>
+                          {isChecked && <Check className="w-3 h-3 stroke-[3]" />}
+                        </div>
+                        
+                        {/* Add-on Thumbnail */}
+                        <div className={`w-9 h-9 rounded-lg overflow-hidden flex items-center justify-center flex-shrink-0 border ${
+                          isLight ? "bg-white border-zinc-200" : "bg-[#0b0b0d] border-white/10"
+                        }`}>
+                          <Image 
+                            src={addon.image || "/deal-bundle.png"} 
+                            alt={addon.name} 
+                            width={28} 
+                            height={28} 
+                            className="object-contain"
+                          />
+                        </div>
 
-            {/* Limited Time Discount Countdown */}
-            <div className={`p-4 rounded-2xl border flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${
-              isLight ? "bg-amber-500/5 border-amber-500/15" : "bg-amber-500/[0.02] border-amber-500/10"
-            }`}>
-              <div className="flex items-center gap-2 text-amber-500">
-                <Clock className="w-4 h-4 animate-pulse flex-shrink-0" />
-                <span className="text-[10px] font-black uppercase tracking-wider">
-                  Limited Time Flash Offer
-                </span>
-              </div>
-              
-              <div className="flex items-center gap-1.5 text-[10px] font-bold">
-                <span className={isLight ? "text-zinc-500" : "text-zinc-400"}>Offer expires in:</span>
-                <div className="flex items-center gap-1 font-mono text-[11px]">
-                  <span className="bg-amber-500/10 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400 px-1.5 py-0.5 rounded font-black">
-                    {timeLeft.hours.toString().padStart(2, '0')}
-                  </span>
-                  <span>:</span>
-                  <span className="bg-amber-500/10 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400 px-1.5 py-0.5 rounded font-black">
-                    {timeLeft.minutes.toString().padStart(2, '0')}
-                  </span>
-                  <span>:</span>
-                  <span className="bg-amber-500/10 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400 px-1.5 py-0.5 rounded font-black text-rose-500">
-                    {timeLeft.seconds.toString().padStart(2, '0')}
-                  </span>
+                        {/* Text & Price */}
+                        <div className="flex-1 min-w-0 flex items-center justify-between gap-3">
+                          <p className={`text-[11px] font-bold truncate ${isLight ? "text-zinc-850" : "text-zinc-200"}`} title={addon.name}>
+                            {addon.name}
+                          </p>
+                          <p className="text-[10px] font-black text-[#FF2A7A] flex-shrink-0">
+                            +Dhs. {addon.priceDhs}
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
-            </div>
 
-            {/* Price & Cart addition block */}
-            <div className={`pt-6 border-t flex flex-col lg:flex-row items-center gap-6 ${isLight ? "border-zinc-200" : "border-white/5"}`}>
-              <div className="flex items-center justify-between w-full lg:w-auto gap-6">
-                <div className="text-left">
-                  <div className="flex items-center gap-2 mb-0.5">
-                    <span className="text-xs text-zinc-500 uppercase tracking-widest font-bold">Total price</span>
-                    <span className="bg-red-500/10 dark:bg-red-500/20 text-red-500 dark:text-red-400 text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md">
-                      Save 20%
-                    </span>
-                  </div>
-                  <div className="flex items-baseline gap-2">
-                    <p className={`text-2xl font-black whitespace-nowrap ${isLight ? "text-zinc-950" : "text-white"}`}>
-                      AED {totalPrice}
-                    </p>
-                    <p className="text-sm text-zinc-400 dark:text-zinc-500 line-through font-medium">
-                      AED {originalPrice}
-                    </p>
-                  </div>
-                </div>
-
+              {/* ═══ QUANTITY & TOTAL PRICE ═══ */}
+              <div className="flex items-center justify-between py-1 mb-2 mt-2">
                 {/* Quantity Selector */}
-                <div className={`flex items-center border rounded-full px-2 py-1 ${
-                  isLight ? "bg-white border-zinc-200 text-zinc-800" : "bg-zinc-950 border-white/10 text-white"
+                <div className={`flex items-center border rounded-full px-2 justify-between w-[90px] sm:w-28 h-10 flex-shrink-0 ${
+                  isLight ? "bg-white border-zinc-200 text-zinc-800" : "bg-[#202024] border-white/5 text-white"
                 }`}>
                   <button 
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className={`w-7 h-7 rounded-full transition-colors font-bold text-base cursor-pointer ${isLight ? "hover:bg-zinc-150" : "hover:bg-white/5"}`}
+                    className={`w-7 h-7 rounded-full transition-colors font-bold text-lg cursor-pointer flex items-center justify-center ${isLight ? "hover:bg-zinc-150" : "hover:bg-white/5"}`}
                   >
                     -
                   </button>
-                  <span className="text-xs font-bold px-2.5">{quantity}</span>
+                  <span className="text-[11px] sm:text-xs font-bold">{quantity}</span>
                   <button 
                     onClick={() => setQuantity(quantity + 1)}
-                    className={`w-7 h-7 rounded-full transition-colors font-bold text-base cursor-pointer ${isLight ? "hover:bg-zinc-150" : "hover:bg-white/5"}`}
+                    className={`w-7 h-7 rounded-full transition-colors font-bold text-lg cursor-pointer flex items-center justify-center ${isLight ? "hover:bg-zinc-150" : "hover:bg-white/5"}`}
                   >
                     +
                   </button>
                 </div>
+
+                {/* Total Price */}
+                <span className={`text-xs font-semibold uppercase tracking-wider ${isLight ? "text-zinc-500" : "text-zinc-455"}`}>
+                  Total: <span className="text-[#FF5A36] font-black text-xl ml-1.5">Dhs. {toDhs(totalPrice)}</span>
+                </span>
               </div>
 
-              {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row gap-3 w-full lg:flex-1">
+              {/* ═══ CART ACTION ROW ═══ */}
+              <div className="flex flex-row items-center gap-2 w-full">
                 {/* Add to Cart */}
                 <button
                   onClick={handleAddToCart}
-                  className={`w-full sm:flex-1 font-bold uppercase tracking-widest text-[10px] px-6 py-3.5 rounded-full flex items-center justify-center gap-2 transition-all transform hover:scale-[1.01] cursor-pointer ${
-                    isLight 
-                      ? "bg-zinc-100 hover:bg-zinc-200 text-zinc-900 border border-zinc-200 shadow-sm" 
-                      : "bg-white/5 hover:bg-white/10 text-white border border-white/10"
-                  }`}
+                  className="flex-1 h-12 font-bold uppercase tracking-widest text-[10px] sm:text-xs rounded-full flex items-center justify-center gap-2 transition-all transform hover:scale-[1.02] cursor-pointer bg-gradient-to-r from-[#FF7A00] to-[#FF007A] text-white shadow-md hover:brightness-110 whitespace-nowrap"
                 >
-                  <ShoppingCart className="w-3.5 h-3.5" /> Add to Cart
+                  <ShoppingCart className="w-4 h-4" /> ADD TO CART
                 </button>
 
-                {/* Buy Now */}
+                {/* Buy It Now */}
                 <button
                   onClick={handleBuyNow}
-                  className={`w-full sm:flex-1 font-bold uppercase tracking-widest text-[10px] px-6 py-3.5 rounded-full flex items-center justify-center gap-2 transition-all transform hover:scale-[1.01] cursor-pointer ${
-                    isLight 
-                      ? "bg-zinc-950 hover:bg-zinc-900 text-white shadow-lg shadow-zinc-950/20" 
-                      : "bg-emerald-400 hover:bg-emerald-350 text-black shadow-lg shadow-emerald-400/20"
-                  }`}
+                  className="flex-1 h-12 font-bold uppercase tracking-widest text-[10px] sm:text-xs rounded-full flex items-center justify-center gap-2 transition-all transform hover:scale-[1.02] cursor-pointer bg-[#2E2E32] hover:bg-[#1A1A1D] text-white border border-zinc-700 whitespace-nowrap"
                 >
-                  ⚡ Buy Now
+                  BUY IT NOW
                 </button>
               </div>
+
+
             </div>
-
-            {/* Shipping badges */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-zinc-150 dark:border-white/5 text-xs text-zinc-500 font-medium">
-              <div className="flex items-center gap-2">
-                <Truck className="w-4 h-4 text-emerald-400" />
-                <span>Free UAE Delivery &gt; 150 AED</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Award className="w-4 h-4 text-emerald-400" />
-                <span>100% Genuine Certified</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                <span>2-Year Official Warranty</span>
-              </div>
-            </div>
-
-            {/* Product Specifications & Shipping tabs */}
-            <ProductSpecs
-              category={product.category}
-              theme={theme}
-            />
-
           </div>
         </div>
 
@@ -708,11 +538,11 @@ export default function ProductDetail({ selectedProduct, onAddToCart, setCurrent
                   {product.name}
                 </h4>
                 <div className="flex items-center gap-1.5">
-                  <span className={`text-xs font-black ${isLight ? "text-zinc-900" : "text-emerald-450"}`}>
-                    AED {totalPrice}
+                  <span className={`text-xs font-black ${isLight ? "text-zinc-900" : "text-[#FF2A7A]"}`}>
+                    Dhs. {toDhs(totalPrice)}
                   </span>
                   <span className="text-[10px] text-zinc-500 line-through">
-                    AED {originalPrice}
+                    Dhs. {toDhs(originalPrice)}
                   </span>
                 </div>
               </div>
@@ -738,7 +568,7 @@ export default function ProductDetail({ selectedProduct, onAddToCart, setCurrent
                 className={`px-5 py-2.5 rounded-full text-xs font-black uppercase tracking-wider transition-colors cursor-pointer whitespace-nowrap shadow-md ${
                   isLight 
                     ? "bg-zinc-950 hover:bg-zinc-900 text-white shadow-zinc-950/20" 
-                    : "bg-emerald-400 hover:bg-emerald-350 text-black shadow-emerald-400/20"
+                    : "bg-gradient-to-r from-[#FF7A00] to-[#FF007A] text-white shadow-lg"
                 }`}
               >
                 ⚡ Buy Now
