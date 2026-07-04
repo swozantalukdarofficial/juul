@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import { ShoppingBag, Timer, Zap, Tag, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useApp } from "@/context/AppContext";
 
 const DEALS = [
   {
@@ -250,10 +251,42 @@ function DealCard({ deal, isLight, onAddToCart, index, onProductClick }) {
 }
 
 export default function FlashDeals({ theme, onAddToCart, setSelectedProduct, setCurrentPage }) {
+  const { products } = useApp();
   const { h, m, s } = useCountdown();
   const isLight = theme === "light";
   const scrollRef = useRef(null);
   const [isPaused, setIsPaused] = useState(false);
+
+  const specialOffers = products && products.length > 0 ? products.filter(p => p.tag === "Special Offer") : [];
+
+  // Map static deals to live Shopify prices/details
+  const activeDeals = specialOffers.length > 0
+    ? specialOffers.map(matched => ({
+        id: matched.id,
+        name: matched.name,
+        desc: matched.desc || "Limited time premium bundle offer.",
+        salePrice: matched.price,
+        originalPrice: matched.originalPrice || parseFloat((matched.price * 1.3).toFixed(2)),
+        discount: matched.originalPrice ? Math.round(((matched.originalPrice - matched.price) / matched.originalPrice) * 100) : 25,
+        badge: "🔥 Best Deal",
+        accentColor: matched.imgColor || "#E11D48",
+        image: matched.image,
+        stock: 5
+      }))
+    : DEALS.map(deal => {
+        const matched = products.find(p => p.id === deal.id || p.handle === deal.id);
+        if (matched) {
+          return {
+            ...deal,
+            name: matched.name,
+            desc: matched.desc || deal.desc,
+            salePrice: matched.price,
+            originalPrice: matched.originalPrice || parseFloat((matched.price * 1.3).toFixed(2)),
+            discount: matched.originalPrice ? Math.round(((matched.originalPrice - matched.price) / matched.originalPrice) * 100) : 25
+          };
+        }
+        return deal;
+      });
 
   useEffect(() => {
     if (isPaused) return;
@@ -302,7 +335,7 @@ export default function FlashDeals({ theme, onAddToCart, setSelectedProduct, set
     }
   };
 
-  const repeatedDeals = [...DEALS, ...DEALS, ...DEALS, ...DEALS];
+  const repeatedDeals = [...activeDeals, ...activeDeals, ...activeDeals, ...activeDeals];
 
   return (
     <section className={`py-20 transition-colors duration-500 relative overflow-hidden ${

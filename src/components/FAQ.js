@@ -1,14 +1,13 @@
-"use client";
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
+import { getShopifyPage } from "@/utils/shopify";
 
 export default function FAQ({ theme }) {
   const isLight = theme === "light";
   const [openIndex, setOpenIndex] = useState(null);
 
-  const faqs = [
+  const [faqs, setFaqs] = useState([
     {
       q: "What is the JUUL 1 Kit and what comes in the box?",
       a: "The JUUL 1 Kit is a compact closed pod vaping device. Designed for adult users who want a simple and satisfying experience. When you open the box you will find the JUUL 1 device itself, a magnetic USB charging dock and a starter pack of JUUL pods. Everything you need to get started is right there in the box. No complicated setup and no technical knowledge required."
@@ -41,7 +40,59 @@ export default function FAQ({ theme }) {
       q: "Is the JUUL 1 Kit compliant with UAE regulations?",
       a: "Yes. The JUUL 1 Kit and compatible JUUL pods available in our store are fully compliant with ESMA regulations and UAE vape safety standards. The available pod flavors including Virginia Tobacco and Menthol are approved for sale in the UAE market."
     }
-  ];
+  ]);
+
+  useEffect(() => {
+    async function loadFaqs() {
+      try {
+        const page = await getShopifyPage("faq");
+        if (page && page.body) {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(page.body, "text/html");
+          const items = [];
+          
+          // Look for heading tags like H3, H4, or strong elements as questions
+          const questionElements = doc.querySelectorAll("h3, h4, p strong, li strong");
+          
+          questionElements.forEach((el) => {
+            const questionText = el.textContent.trim();
+            if (!questionText) return;
+            
+            // Find the subsequent paragraphs/content until the next question element
+            let answerText = "";
+            let sibling = el.parentElement?.tagName === "P" || el.parentElement?.tagName === "LI" 
+              ? el.parentElement.nextElementSibling 
+              : el.nextElementSibling;
+              
+            while (sibling) {
+              const text = sibling.textContent.trim();
+              if (["H1", "H2", "H3", "H4", "H5", "H6"].includes(sibling.tagName)) {
+                break;
+              }
+              if (sibling.querySelector("strong")) {
+                break;
+              }
+              if (text) {
+                answerText += (answerText ? "\n\n" : "") + text;
+              }
+              sibling = sibling.nextElementSibling;
+            }
+            
+            if (questionText && answerText) {
+              items.push({ q: questionText, a: answerText });
+            }
+          });
+          
+          if (items.length > 0) {
+            setFaqs(items);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to load dynamic FAQs from Shopify:", err);
+      }
+    }
+    loadFaqs();
+  }, []);
 
   const handleToggle = (index) => {
     setOpenIndex(openIndex === index ? null : index);

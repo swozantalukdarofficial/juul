@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useApp } from "@/context/AppContext";
+import { allProducts as defaultProducts } from "@/data/products";
 
 export default function BestSellers({ onAddToCart, setCurrentPage, setSelectedProduct, theme }) {
   const isLight = theme === "light";
@@ -117,9 +118,10 @@ export default function BestSellers({ onAddToCart, setCurrentPage, setSelectedPr
   ];
 
   const { products: contextProducts } = useApp();
-  const activeBestProducts = contextProducts && contextProducts.length > 0
-    ? contextProducts.filter(p => p.tag === "Best Seller" || p.rating >= 4.8)
-    : bestProducts;
+  const activeBestProducts = (contextProducts && contextProducts.length > 0 ? contextProducts : defaultProducts)
+    .filter(p => p.rating >= 4.8 || p.tag === "Best Seller")
+    .slice(0, 4);
+  const dummyBestProducts = [];
 
   const repeatedProducts = [...activeBestProducts, ...activeBestProducts, ...activeBestProducts];
 
@@ -181,7 +183,11 @@ export default function BestSellers({ onAddToCart, setCurrentPage, setSelectedPr
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {repeatedProducts.map((prod, idx) => {
-              const savings = prod.originalPrice ? (prod.originalPrice - prod.salePrice).toFixed(2) : null;
+              const currentPrice = parseFloat(prod.salePrice || prod.price || 0);
+              const originalPrice = parseFloat(prod.originalPrice || 0);
+              const savings = (originalPrice > currentPrice && !isNaN(originalPrice) && !isNaN(currentPrice)) 
+                ? (originalPrice - currentPrice).toFixed(2) 
+                : null;
               
               return (
                 <div
@@ -268,11 +274,11 @@ export default function BestSellers({ onAddToCart, setCurrentPage, setSelectedPr
                     <div className="space-y-3 text-left">
                       <div className="flex items-end flex-wrap gap-x-2 gap-y-1">
                         <span className="text-2xl font-black" style={{ color: prod.imgColor }}>
-                          AED {prod.salePrice || prod.price}
+                          AED {parseFloat(prod.salePrice || prod.price).toFixed(2)}
                         </span>
                         {prod.originalPrice && (
-                          <span className={`text-sm line-through mb-0.5 ${isLight ? "text-zinc-400" : "text-zinc-600"}`}>
-                            {prod.originalPrice}
+                          <span className={`text-sm line-through mb-0.5 ${isLight ? "text-zinc-400" : "text-zinc-655"}`}>
+                            AED {parseFloat(prod.originalPrice).toFixed(2)}
                           </span>
                         )}
                         {savings && (

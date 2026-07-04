@@ -4,14 +4,18 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Trash2, ArrowRight, ShoppingBag } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-export default function CartDrawer({ isOpen, onClose, cart, onRemoveFromCart, theme }) {
+export default function CartDrawer({ isOpen, onClose, cart, onRemoveFromCart, theme, onCheckout }) {
   const total = cart.reduce((sum, item) => sum + parseFloat(item.price), 0);
   const router = useRouter();
   const isLight = theme === "light";
 
   const handleCheckoutClick = () => {
     onClose();
-    router.push("/checkout");
+    if (onCheckout) {
+      onCheckout();
+    } else {
+      router.push("/checkout");
+    }
   };
 
   return (
@@ -71,13 +75,21 @@ export default function CartDrawer({ isOpen, onClose, cart, onRemoveFromCart, th
                     }`}
                   >
                     <div className="flex items-center gap-3 min-w-0 flex-1">
-                      <div 
-                        className="w-8 h-8 rounded-full flex-shrink-0"
-                        style={{ backgroundColor: `${item.imgColor || '#4B5563'}40` }}
-                      />
+                      {item.image ? (
+                        <img 
+                          src={item.image} 
+                          alt={item.name}
+                          className="w-10 h-10 rounded-xl object-cover flex-shrink-0 border border-zinc-200/20"
+                        />
+                      ) : (
+                        <div 
+                          className="w-10 h-10 rounded-xl flex-shrink-0"
+                          style={{ backgroundColor: `${item.imgColor || '#4B5563'}40` }}
+                        />
+                      )}
                       <div className="text-left min-w-0 flex-1 overflow-hidden">
                         <p className={`text-xs font-bold truncate ${isLight ? "text-zinc-850" : "text-white"}`}>{item.name}</p>
-                        <p className={`text-[10px] font-black mt-0.5 ${isLight ? "text-zinc-900" : "text-zinc-500"}`}>Dhs. {(parseFloat(item.price) * 4.725).toFixed(2)}</p>
+                        <p className={`text-[10px] font-black mt-0.5 ${isLight ? "text-zinc-900" : "text-zinc-500"}`}>Dhs. {parseFloat(item.price).toFixed(2)}</p>
                       </div>
                     </div>
 
@@ -104,7 +116,7 @@ export default function CartDrawer({ isOpen, onClose, cart, onRemoveFromCart, th
                     <p className="text-[10px] uppercase font-bold text-zinc-500 tracking-widest">Subtotal</p>
                     <p className="text-xs text-zinc-400 font-light mt-0.5">Taxes & shipping added at checkout</p>
                   </div>
-                  <span className={`text-2xl font-black ${isLight ? "text-zinc-950" : "text-white"}`}>Dhs. {(total * 4.725).toFixed(2)}</span>
+                  <span className={`text-2xl font-black ${isLight ? "text-zinc-950" : "text-white"}`}>Dhs. {total.toFixed(2)}</span>
                 </div>
 
                 <button

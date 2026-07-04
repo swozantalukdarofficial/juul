@@ -5,14 +5,17 @@ import { Star, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { allProducts } from "@/data/products";
+import { useApp } from "@/context/AppContext";
 
 export default function ProductRecommendations({ category, currentProductId, onProductClick, onAddToCart, theme }) {
   const isLight = theme === "light";
+  const { products } = useApp();
+  const sourceProducts = products && products.length > 0 ? products : allProducts;
 
   // Filter out current product, prefer same category, fill with others
   const recommendations = (() => {
-    const sameCat = allProducts.filter(p => p.id !== currentProductId && p.category === category);
-    const others = allProducts.filter(p => p.id !== currentProductId && p.category !== category);
+    const sameCat = sourceProducts.filter(p => p.id !== currentProductId && p.category === category);
+    const others = sourceProducts.filter(p => p.id !== currentProductId && p.category !== category);
     return [...sameCat, ...others].slice(0, 4);
   })();
 
@@ -85,7 +88,16 @@ export default function ProductRecommendations({ category, currentProductId, onP
 
             {/* Footer action */}
             <div className="flex items-center justify-between mt-4 pt-3 border-t border-zinc-100 dark:border-white/5">
-              <span className={`text-sm font-black ${isLight ? "text-zinc-950" : "text-white"}`}>AED {prod.price}</span>
+              <div className="flex flex-col text-left">
+                <div className="flex items-baseline gap-1.5">
+                  <span className={`text-sm font-black ${isLight ? "text-zinc-950" : "text-white"}`}>AED {parseFloat(prod.price).toFixed(2)}</span>
+                  {prod.originalPrice && prod.originalPrice > prod.price && (
+                    <span className="text-[10px] line-through text-zinc-500 font-semibold">
+                      AED {parseFloat(prod.originalPrice).toFixed(2)}
+                    </span>
+                  )}
+                </div>
+              </div>
               <button
                 onClick={() => onAddToCart(prod)}
                 className={`p-2 rounded-full transition-all duration-300 cursor-pointer ${isLight

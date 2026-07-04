@@ -10,9 +10,11 @@ import ProductDetail from "@/components/ProductDetail";
 export default function ProductPage({ params }) {
   // Next.js 15+: params is a Promise, must be unwrapped with React.use()
   const { id } = use(params);
-  const { theme, handleAddToCart } = useApp();
+  const { theme, handleAddToCart, products } = useApp();
   const router = useRouter();
-  const product = getProductById(id);
+  
+  // Find in dynamically fetched products from context first, otherwise fallback to local data
+  const product = products.find(p => p.id === id || p.handle === id) || getProductById(id);
 
   useEffect(() => {
     if (!product) {

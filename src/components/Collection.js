@@ -3,10 +3,12 @@
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ShoppingCart, Star, Filter, Heart, Eye, BookOpen, Award, Droplet, Layers, Shield, Search, Smartphone, Info, AlertCircle, ThumbsUp, CheckCircle, Zap, ChevronLeft, ChevronRight } from "lucide-react";
+import { useApp } from "@/context/AppContext";
+import { allProducts as defaultProducts } from "@/data/products";
 import FAQ from "./FAQ";
 
 export default function Collection({ onAddToCart, setCurrentPage, setSelectedProduct, theme, activeCategory = "all", setActiveCategory, versionFilter = "all", setVersionFilter }) {
-
+  const { products: contextProducts } = useApp();
   const flavorScrollRef = useRef(null);
 
   const scrollFlavorLeft = () => {
@@ -27,7 +29,8 @@ export default function Collection({ onAddToCart, setCurrentPage, setSelectedPro
     { id: "pods", label: "JUUL Pods" }
   ];
 
-  const products = [
+  const products = (contextProducts && contextProducts.length > 0 ? contextProducts : defaultProducts).filter(p => p.version === "juul2");
+  const dummyProducts = [
     // JUUL 2 Series (Enhanced smart device & many flavors!)
     {
       id: "juul2-device",
@@ -339,48 +342,58 @@ export default function Collection({ onAddToCart, setCurrentPage, setSelectedPro
                     <Heart className="w-3.5 h-3.5" />
                   </button>
 
-                  {/* Aesthetic device mock representation */}
-                  <motion.div
-                    whileHover={{ scale: 1.08, rotate: -5 }}
-                    transition={{ duration: 0.3 }}
-                    className={`w-10 h-36 rounded-md border flex flex-col items-center justify-between p-1 transition-all duration-500 shadow-xl ${isLight ? "border-zinc-200/50" : "border-white/10"
-                      }`}
-                    style={{
-                      backgroundColor: "#18181A",
-                      boxShadow: isLight ? `0 10px 30px ${prod.imgColor}15` : `0 0 30px ${prod.imgColor}20`
-                    }}
-                  >
-                    <div
-                      className="w-full h-10 rounded-sm border-b border-black/40 flex flex-col justify-end p-0.5"
-                      style={{ backgroundColor: `${prod.imgColor}20`, borderColor: `${prod.imgColor}40` }}
+                  {prod.image && !prod.image.includes("/cat-") && !prod.image.includes("placeholder") ? (
+                    <motion.img
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ duration: 0.3 }}
+                      src={prod.image}
+                      alt={prod.name}
+                      className="w-full h-full object-contain p-4 transition-transform duration-300"
+                    />
+                  ) : (
+                    /* Aesthetic device mock representation */
+                    <motion.div
+                      whileHover={{ scale: 1.08, rotate: -5 }}
+                      transition={{ duration: 0.3 }}
+                      className={`w-10 h-36 rounded-md border flex flex-col items-center justify-between p-1 transition-all duration-500 shadow-xl ${isLight ? "border-zinc-200/50" : "border-white/10"
+                        }`}
+                      style={{
+                        backgroundColor: "#18181A",
+                        boxShadow: isLight ? `0 10px 30px ${prod.imgColor}15` : `0 0 30px ${prod.imgColor}20`
+                      }}
                     >
-                      <div className="w-full h-3 bg-black/60 rounded-sm" />
-                    </div>
-                    {prod.version === "juul2" ? (
-                      <div className="flex flex-col gap-0.5 justify-center items-center">
-                        {[...Array(4)].map((_, i) => (
-                          <div
-                            key={i}
-                            className="w-1.5 h-1.5 rounded-full shadow-lg"
-                            style={{
-                              backgroundColor: prod.imgColor,
-                              boxShadow: `0 0 5px ${prod.imgColor}`,
-                              opacity: i === 0 ? 1 : 0.4
-                            }}
-                          />
-                        ))}
-                      </div>
-                    ) : (
                       <div
-                        className="w-2.5 h-2.5 rounded-full shadow-lg"
-                        style={{
-                          backgroundColor: prod.imgColor,
-                          boxShadow: `0 0 10px ${prod.imgColor}`
-                        }}
-                      />
-                    )}
-                    <div className="w-full h-1 bg-zinc-800 rounded-full" />
-                  </motion.div>
+                        className="w-full h-10 rounded-sm border-b border-black/40 flex flex-col justify-end p-0.5"
+                        style={{ backgroundColor: `${prod.imgColor}20`, borderColor: `${prod.imgColor}40` }}
+                      >
+                        <div className="w-full h-3 bg-black/60 rounded-sm" />
+                      </div>
+                      {prod.version === "juul2" ? (
+                        <div className="flex flex-col gap-0.5 justify-center items-center">
+                          {[...Array(4)].map((_, i) => (
+                            <div
+                              key={i}
+                              className="w-1.5 h-1.5 rounded-full shadow-lg"
+                              style={{
+                                backgroundColor: prod.imgColor,
+                                boxShadow: `0 0 5px ${prod.imgColor}`,
+                                opacity: i === 0 ? 1 : 0.4
+                              }}
+                            />
+                          ))}
+                        </div>
+                      ) : (
+                        <div
+                          className="w-2.5 h-2.5 rounded-full shadow-lg"
+                          style={{
+                            backgroundColor: prod.imgColor,
+                            boxShadow: `0 0 10px ${prod.imgColor}`
+                          }}
+                        />
+                      )}
+                      <div className="w-full h-1 bg-zinc-800 rounded-full" />
+                    </motion.div>
+                  )}
 
                   {/* Quick-view overlay */}
                   <div className="absolute inset-0 bg-black/40 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
@@ -432,7 +445,16 @@ export default function Collection({ onAddToCart, setCurrentPage, setSelectedPro
                 {/* Footer Purchase Actions */}
                 <div className={`flex items-center justify-between pt-4 mt-4 border-t ${isLight ? "border-zinc-100" : "border-white/5"
                   }`}>
-                  <span className={`text-lg font-black ${isLight ? "text-zinc-950" : "text-white"}`}>${prod.price}</span>
+                  <div className="flex flex-col text-left">
+                    <div className="flex items-baseline gap-2">
+                      <span className={`text-lg font-black ${isLight ? "text-zinc-950" : "text-white"}`}>AED {parseFloat(prod.price).toFixed(2)}</span>
+                      {prod.originalPrice && prod.originalPrice > prod.price && (
+                        <span className="text-xs line-through text-zinc-500 font-semibold">
+                          AED {parseFloat(prod.originalPrice).toFixed(2)}
+                        </span>
+                      )}
+                    </div>
+                  </div>
                   <button
                     onClick={() => onAddToCart(prod)}
                     className={`flex items-center gap-1.5 font-bold text-[10px] uppercase tracking-wider px-4 py-2 rounded-full transition-all duration-300 cursor-pointer ${isLight

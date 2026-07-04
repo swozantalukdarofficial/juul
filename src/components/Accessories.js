@@ -4,8 +4,10 @@ import { motion } from "framer-motion";
 import { ShoppingBag, ChevronLeft, ChevronRight, Star, Check } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { useApp } from "@/context/AppContext";
 
 export default function Accessories({ onAddToCart, setSelectedProduct, setCurrentPage, theme }) {
+  const { products: contextProducts } = useApp();
   const isLight = theme === "light";
   const scrollRef = useRef(null);
   const [isPaused, setIsPaused] = useState(false);
@@ -47,85 +49,11 @@ export default function Accessories({ onAddToCart, setSelectedProduct, setCurren
     }
   };
 
-  const accessoryProducts = [
-    {
-      id: "juul-charging-case",
-      name: "JUUL Portable Charging Case",
-      category: "accessories",
-      price: 119.00,
-      originalPrice: 149.00,
-      salePrice: 119.00,
-      discount: 20,
-      rating: 4.9,
-      reviewsCount: 124,
-      imgColor: "#18181B",
-      tag: "Best Seller",
-      desc: "Charge your JUUL device on the go. High-capacity battery case holds 1 JUUL device and 4 spare pods.",
-      image: "/deal-case.png",
-      inStock: false
-    },
-    {
-      id: "juul-usb-dock",
-      name: "Magnetic USB Charging Dock",
-      category: "accessories",
-      price: 29.00,
-      originalPrice: 39.00,
-      salePrice: 29.00,
-      discount: 25,
-      rating: 4.7,
-      reviewsCount: 88,
-      imgColor: "#3F3F46",
-      tag: "Essential",
-      desc: "Sleek, small, and cord-free magnetic USB charging dock. Get a full charge in under an hour from any USB port.",
-      image: "/juul1-charger.png"
-    },
-    {
-      id: "juul-charging-cable",
-      name: "Premium USB-C Charging Cable",
-      category: "accessories",
-      price: 39.00,
-      originalPrice: 49.00,
-      salePrice: 39.00,
-      discount: 20,
-      rating: 4.8,
-      reviewsCount: 45,
-      imgColor: "#111827",
-      tag: "New Drop",
-      desc: "High-durability braided USB-C fast charging cable featuring a magnetic dock interface designed for JUUL.",
-      image: "/cat-accessories.png"
-    },
-    {
-      id: "juul-silicone-sleeve",
-      name: "Silicone Protective Sleeve & Lanyard",
-      category: "accessories",
-      price: 19.00,
-      originalPrice: 29.00,
-      salePrice: 19.00,
-      discount: 34,
-      rating: 4.5,
-      reviewsCount: 56,
-      imgColor: "#DC2626",
-      tag: "Trending",
-      desc: "Keep your JUUL safe and easily accessible with this anti-slip, shockproof silicone case sleeve and neck lanyard.",
-      image: "/cat-accessories.png",
-      inStock: false
-    },
-    {
-      id: "juul-car-charger",
-      name: "Smart Dual USB Car Charger Adapter",
-      category: "accessories",
-      price: 25.00,
-      originalPrice: 35.00,
-      salePrice: 25.00,
-      discount: 28,
-      rating: 4.6,
-      reviewsCount: 37,
-      imgColor: "#2563EB",
-      tag: "Utility",
-      desc: "High-speed dual port USB car charger. Charge your JUUL and smartphone simultaneously while driving.",
-      image: "/cat-accessories.png"
-    }
-  ];
+  const accessoryProducts = contextProducts && contextProducts.length > 0 ? contextProducts.filter(p => p.category === "accessories") : [];
+
+  if (accessoryProducts.length === 0) {
+    return null;
+  }
 
   const handleProductClick = (prod) => {
     if (setSelectedProduct) {

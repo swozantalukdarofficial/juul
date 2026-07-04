@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Droplet, ShoppingCart, Check, Zap } from "lucide-react";
 import { useState } from "react";
+import { useApp } from "@/context/AppContext";
 
 const FLAVORS = [
   {
@@ -96,8 +97,34 @@ const FLAVORS = [
 ];
 
 export default function Juul2Flavors({ theme, onAddToCart }) {
+  const { products } = useApp();
   const isLight = theme === "light";
   const [addedId, setAddedId] = useState(null);
+
+  const activeFlavors = FLAVORS.map(flavor => {
+    const matched = products.find(p => {
+      if (p.version !== "juul2") return false;
+      const t = p.name.toLowerCase();
+      if (flavor.id === "juul2-apple" && t.includes("apple")) return true;
+      if (flavor.id === "juul2-mango" && t.includes("mango")) return true;
+      if (flavor.id === "juul2-polar-mint" && t.includes("polar")) return true;
+      if (flavor.id === "juul2-blackcurrant" && t.includes("blackcurrant")) return true;
+      if (flavor.id === "juul2-autumn-gold" && t.includes("autumn")) return true;
+      if (flavor.id === "juul2-summer-gold" && t.includes("summer")) return true;
+      if (flavor.id === "juul2-virginia" && t.includes("virginia")) return true;
+      if (flavor.id === "juul2-crisp-menthol" && t.includes("crisp")) return true;
+      return false;
+    });
+
+    if (matched) {
+      return {
+        ...flavor,
+        id: matched.id, // Use the real Shopify handle!
+        price: matched.price
+      };
+    }
+    return flavor;
+  });
 
   const handleBuy = (flavor) => {
     const productAdapter = {
@@ -147,7 +174,7 @@ export default function Juul2Flavors({ theme, onAddToCart }) {
 
         {/* ── Pods Grid Layout (Inspired by XROS grid) ── */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-          {FLAVORS.map((flavor, index) => {
+          {activeFlavors.map((flavor, index) => {
             const isAdded = addedId === flavor.id;
             return (
               <motion.div
@@ -232,7 +259,7 @@ export default function Juul2Flavors({ theme, onAddToCart }) {
                     Strength: {flavor.strength}
                   </p>
                   <p className={`text-sm font-black pt-1 ${isLight ? "text-zinc-900" : "text-zinc-100"}`}>
-                    ${flavor.price}
+                    AED {flavor.price}
                   </p>
                 </div>
 

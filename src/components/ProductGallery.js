@@ -20,9 +20,19 @@ export default function ProductGallery({ selectedProduct, deviceColor, selectedF
   // Determine colors and visual indicators
   const activeColor = selectedProduct?.imgColor || selectedFlavor?.color || "#10B981";
 
-  // Create a list of mock gallery images based on the product type
+  // Create a list of gallery images based on the product images
   const getGalleryImages = () => {
     if (!selectedProduct) return [];
+    
+    // If the product has multiple images, map them
+    if (selectedProduct.images && selectedProduct.images.length > 0) {
+      return selectedProduct.images.map((url, idx) => ({
+        type: "image",
+        label: `${selectedProduct.name} - View ${idx + 1}`,
+        url: url
+      }));
+    }
+    
     const baseImage = selectedProduct.image || "/deal-bundle.png";
     return [
       { type: "image", label: selectedProduct.name, url: baseImage }
@@ -168,14 +178,19 @@ export default function ProductGallery({ selectedProduct, deviceColor, selectedF
 
       {/* Alternative Image Thumbnails */}
       {images.length > 1 && (
-        <div className="flex gap-3 justify-center">
+        <div 
+          className={`flex gap-2.5 py-2 px-1 overflow-x-auto max-w-full scrollbar-hide snap-x snap-mandatory ${
+            images.length > 5 ? "justify-start" : "justify-start md:justify-center"
+          }`}
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
           {images.map((img, idx) => (
             <button
               key={idx}
               onClick={() => {
                 setActiveImageIndex(idx);
               }}
-              className={`relative w-16 h-16 rounded-xl border overflow-hidden p-1 transition-all cursor-pointer ${
+              className={`relative w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 flex-shrink-0 snap-center rounded-xl border overflow-hidden p-1 transition-all cursor-pointer ${
                 activeImageIndex === idx
                   ? isLight
                     ? "border-zinc-950 bg-white shadow-md scale-105"

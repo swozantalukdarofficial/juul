@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, useEffect } from "react";
 import { allProducts as defaultProducts } from "@/data/products";
+import { createShopifyCheckout } from "@/utils/shopify";
 
 const AppContext = createContext(null);
 
@@ -19,7 +20,7 @@ export function AppProvider({ children }) {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [theme, setTheme] = useState("light");
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState(defaultProducts);
   const [siteContent, setSiteContent] = useState(defaultSiteContent);
 
   // Persist theme in localStorage
@@ -37,18 +38,74 @@ export function AppProvider({ children }) {
     }
   }, [theme]);
 
-  // Persist products list
+  // Load products list from Shopify with local fallback
   useEffect(() => {
-    const storedProducts = localStorage.getItem("vapepods-products");
-    if (storedProducts) {
+    async function loadProducts() {
       try {
-        setProducts(JSON.parse(storedProducts));
+        console.log("Fetching products from Shopify Storefront API proxy...");
+        const res = await fetch("/api/products");
+        const data = await res.json();
+        const shopifyProducts = data.success ? data.products : [];
+        console.log("Successfully fetched products count from Shopify API proxy:", shopifyProducts?.length || 0);
+        
+        if (shopifyProducts && shopifyProducts.length > 0) {
+          console.log("Shopify products list:", shopifyProducts.map(p => ({ handle: p.handle, price: p.price })));
+          
+          // Merge Shopify products with local default products
+          const merged = defaultProducts.map(local => {
+            const match = shopifyProducts.find(sp => {
+              const normSp = sp.handle.toLowerCase().replace(/[^a-z0-9]/g, "");
+              const normLocalId = local.id.toLowerCase().replace(/[^a-z0-9]/g, "");
+              const normLocalName = local.name.toLowerCase().replace(/[^a-z0-9]/g, "");
+              return normSp === normLocalId || normSp === normLocalName || normSp.includes(normLocalId) || normLocalId.includes(normSp);
+            });
+
+            if (match) {
+              console.log(`Merged Product Match Found: ${local.id} -> Shopify handle: ${match.handle}. Price updated: ${local.price} -> ${match.price}`);
+              return {
+                ...local,
+                shopifyId: match.shopifyId,
+                name: match.name,
+                price: match.price,
+                originalPrice: match.originalPrice || local.originalPrice,
+                desc: match.desc || local.desc,
+                image: match.image || local.image,
+                images: match.images || (local.image ? [local.image] : []),
+                variants: match.variants,
+                shopifyVariantId: match.variants[0]?.id
+              };
+            }
+            return local;
+          });
+
+          // Also append any shopify products that didn't match any local products
+          const unmatched = shopifyProducts.filter(sp => {
+            return !defaultProducts.some(local => {
+              const normSp = sp.handle.toLowerCase().replace(/[^a-z0-9]/g, "");
+              const normLocalId = local.id.toLowerCase().replace(/[^a-z0-9]/g, "");
+              const normLocalName = local.name.toLowerCase().replace(/[^a-z0-9]/g, "");
+              return normSp === normLocalId || normSp === normLocalName || normSp.includes(normLocalId) || normLocalId.includes(normSp);
+            });
+          });
+
+          const finalProducts = [...merged, ...unmatched];
+          setProducts(finalProducts);
+          localStorage.setItem("vapepods-products", JSON.stringify(finalProducts));
+        } else {
+          const storedProducts = localStorage.getItem("vapepods-products");
+          if (storedProducts) {
+            setProducts(JSON.parse(storedProducts));
+          }
+        }
       } catch (e) {
-        setProducts(defaultProducts);
+        console.error("Error loading products from Shopify:", e);
+        const storedProducts = localStorage.getItem("vapepods-products");
+        if (storedProducts) {
+          setProducts(JSON.parse(storedProducts));
+        }
       }
-    } else {
-      setProducts(defaultProducts);
     }
+    loadProducts();
   }, []);
 
   const saveProducts = (newProducts) => {
@@ -119,6 +176,84 @@ export function AppProvider({ children }) {
 
   const handleClearCart = () => setCart([]);
 
+  const redirectToShopifyCheckout = async () => {
+    if (cart.length === 0) return;
+    
+    let currentProducts = products;
+    if (!products.some(p => p.variants && p.variants.length > 0)) {
+      try {
+        console.log("Fetching latest product data before checkout...");
+        const res = await fetch("/api/products");
+        const data = await res.json();
+        if (data.success && data.products && data.products.length > 0) {
+          const shopifyProducts = data.products;
+          const merged = products.map(local => {
+            const match = shopifyProducts.find(sp => {
+              const normSp = sp.handle.toLowerCase().replace(/[^a-z0-9]/g, "");
+              const normLocalId = local.id.toLowerCase().replace(/[^a-z0-9]/g, "");
+              const normLocalName = local.name.toLowerCase().replace(/[^a-z0-9]/g, "");
+              return normSp === normLocalId || normSp === normLocalName || normSp.includes(normLocalId) || normLocalId.includes(normSp);
+            });
+            if (match) {
+              return {
+                ...local,
+                shopifyId: match.shopifyId,
+                variants: match.variants,
+                shopifyVariantId: match.variants[0]?.id
+              };
+            }
+            return local;
+          });
+          currentProducts = merged;
+          setProducts(merged);
+        }
+      } catch (e) {
+        console.error("Failed to fetch latest products for checkout:", e);
+      }
+    }
+
+    const skippedItems = [];
+    const lineItems = [];
+
+    for (const item of cart) {
+      const matchedProd = currentProducts.find(p => p.id === item.id);
+      const variantId = item.variantId || matchedProd?.variants?.[0]?.id || matchedProd?.shopifyVariantId;
+      
+      const isValidShopifyId = typeof variantId === 'string' && (variantId.startsWith('gid://') || variantId.startsWith('Z2lkOi8v'));
+
+      if (isValidShopifyId) {
+        lineItems.push({
+          variantId: variantId,
+          quantity: item.quantity || 1
+        });
+      } else {
+        skippedItems.push(item.name || "Accessory");
+      }
+    }
+
+    if (lineItems.length === 0) {
+      alert("None of the items in your cart can be checked out online. Please add devices or pods to checkout.");
+      return;
+    }
+
+    if (skippedItems.length > 0) {
+      const skippedNames = [...new Set(skippedItems)].join(", ");
+      alert(`Note: The following items are not available for online checkout and have been skipped: ${skippedNames}. You can complete your order for devices/pods.`);
+    }
+
+    try {
+      const checkoutUrl = await createShopifyCheckout(lineItems);
+      if (checkoutUrl) {
+        window.location.href = checkoutUrl;
+      } else {
+        alert("Failed to initiate checkout. Please try again or verify your Shopify settings.");
+      }
+    } catch (err) {
+      console.error("Checkout redirection error:", err);
+      alert("An error occurred while creating checkout.");
+    }
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -140,6 +275,7 @@ export function AppProvider({ children }) {
         handleAddToCart,
         handleRemoveFromCart,
         handleClearCart,
+        redirectToShopifyCheckout,
       }}
     >
       {children}

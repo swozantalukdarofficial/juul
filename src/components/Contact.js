@@ -2,8 +2,28 @@
 import { motion } from "framer-motion";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
 
-export default function Contact({ theme }) {
+export default function Contact({ theme, shopifyPage }) {
   const isLight = theme === "light";
+
+  if (shopifyPage) {
+    return (
+      <div className={`min-h-screen pt-32 pb-20 px-4 sm:px-6 w-full max-w-4xl mx-auto ${isLight ? "text-zinc-900" : "text-white"}`}>
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="space-y-8 text-left"
+        >
+          <h1 className="text-4xl sm:text-6xl font-black tracking-tight mb-8">
+            {shopifyPage.title}
+          </h1>
+          <div 
+            className={`shopify-page-body text-base leading-relaxed space-y-6 ${isLight ? "text-zinc-700" : "text-zinc-300"}`}
+            dangerouslySetInnerHTML={{ __html: shopifyPage.body }}
+          />
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <div className={`min-h-screen pt-32 pb-20 px-4 sm:px-6 lg:px-8 w-full max-w-7xl mx-auto ${isLight ? "text-zinc-900" : "text-white"}`}>

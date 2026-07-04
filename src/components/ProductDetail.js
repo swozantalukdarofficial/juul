@@ -21,17 +21,17 @@ export default function ProductDetail({ selectedProduct, onAddToCart, setCurrent
   const isLight = theme === "light";
 
   const defaultProduct = {
-    id: "juul2-device",
-    name: "JUUL 2 Device Kit - Slate Grey",
+    id: "juul-2-device-uae-slate-grey-made-in-uk",
+    name: "Juul 2 Device UAE Slate Grey | Made in UK",
     category: "kits",
     version: "juul2",
-    price: 29.99,
-    rating: 5.0,
-    reviewsCount: 194,
-    imgColor: "#1E1E20",
-    tag: "Smart Gen 2",
-    desc: "Enhanced vapor draw, massive battery, and dynamic smart LED indicators.",
-    image: "/deal-bundle.png"
+    price: 120,
+    rating: 4.7,
+    reviewsCount: 173,
+    imgColor: "#3B82F6",
+    tag: "UK Edition",
+    desc: "Original premium JUUL 2 device kit. Sleek look, smart features.",
+    image: "https://cdn.shopify.com/s/files/1/0982/3325/4208/files/Juul-2-Device-UAE-Slate-Grey-Juul-Vape-Dubai_fd10755f-f534-494f-8d04-42dff6e51bf2.jpg?v=1783200504"
   };
 
   const product = selectedProduct || defaultProduct;
@@ -105,21 +105,21 @@ export default function ProductDetail({ selectedProduct, onAddToCart, setCurrent
   ];
 
   const toDhs = (price) => {
-    return (parseFloat(price) * 4.725).toFixed(2);
+    return parseFloat(price).toFixed(2);
   };
 
   const getRelevantAddons = () => {
     if (product.category === "pods") {
       return [
-        { id: "extra-device", name: "JUUL 2 Device Kit - Slate Grey", price: 29.99, priceDhs: 110, image: "/deal-bundle.png" },
-        { id: "magnetic-charger", name: "Magnetic USB Charging Dock", price: 9.99, priceDhs: 35, image: "/usb-dock.png" },
-        { id: "leather-case", name: "Tactical Leather Carry Case", price: 19.99, priceDhs: 70, image: "/deal-case.png" }
+        { id: "extra-device", name: "JUUL 2 Device Kit - Slate Grey", price: 110.00, image: "/deal-bundle.png" },
+        { id: "magnetic-charger", name: "Magnetic USB Charging Dock", price: 35.00, image: "/usb-dock.png" },
+        { id: "leather-case", name: "Tactical Leather Carry Case", price: 70.00, image: "/deal-case.png" }
       ];
     } else {
       return [
-        { id: "extra-pods", name: "JUUL 2 Pods - Polar Mint Pack", price: 17.99, priceDhs: 65, image: "/cat-pods.png" },
-        { id: "magnetic-charger", name: "Magnetic USB Charging Dock", price: 9.99, priceDhs: 35, image: "/usb-dock.png" },
-        { id: "leather-case", name: "Tactical Leather Carry Case", price: 19.99, priceDhs: 70, image: "/deal-case.png" }
+        { id: "extra-pods", name: "JUUL 2 Pods - Polar Mint Pack", price: 65.00, image: "/cat-pods.png" },
+        { id: "magnetic-charger", name: "Magnetic USB Charging Dock", price: 35.00, image: "/usb-dock.png" },
+        { id: "leather-case", name: "Tactical Leather Carry Case", price: 70.00, image: "/deal-case.png" }
       ];
     }
   };
@@ -331,13 +331,23 @@ export default function ProductDetail({ selectedProduct, onAddToCart, setCurrent
                 <div className="h-[1px] w-full bg-gradient-to-r from-pink-500 via-pink-500/20 to-transparent mt-3 mb-2" />
 
                 {/* Price Display */}
-                <div className="flex items-baseline gap-2">
+                <div className="flex items-baseline gap-3 flex-wrap">
                   <span className={`text-[10px] font-bold uppercase tracking-wider ${isLight ? "text-zinc-500" : "text-zinc-400"}`}>
                     Price:
                   </span>
                   <span className="text-xl sm:text-2xl font-black text-[#FF5A36] tracking-tight leading-none">
                     Dhs. {toDhs(getCalculatedPrice())}
                   </span>
+                  {product.originalPrice && product.originalPrice > getCalculatedPrice() && (
+                    <span className={`text-sm line-through font-semibold ${isLight ? "text-zinc-400" : "text-zinc-500"}`}>
+                      Dhs. {toDhs(product.originalPrice)}
+                    </span>
+                  )}
+                  {product.originalPrice && product.originalPrice > getCalculatedPrice() && (
+                    <span className="text-[10px] bg-red-500/10 text-red-500 border border-red-500/20 font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                      Save {Math.round(((product.originalPrice - getCalculatedPrice()) / product.originalPrice) * 100)}%
+                    </span>
+                  )}
                 </div>
               </div>
 
@@ -423,7 +433,7 @@ export default function ProductDetail({ selectedProduct, onAddToCart, setCurrent
                             {addon.name}
                           </p>
                           <p className="text-[10px] font-black text-[#FF2A7A] flex-shrink-0">
-                            +Dhs. {addon.priceDhs}
+                            +Dhs. {addon.price.toFixed(2)}
                           </p>
                         </div>
                       </div>
