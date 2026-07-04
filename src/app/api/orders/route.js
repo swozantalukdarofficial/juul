@@ -89,10 +89,23 @@ export async function POST(req) {
       const digits = raw.replace(/[^0-9+]/g, '');
       if (digits.startsWith('+')) return digits; // Already has country code
       if (digits.startsWith('00')) return '+' + digits.slice(2); // International dialing
-      if (digits.startsWith('05') && digits.length >= 9) return '+971' + digits.slice(1); // UAE mobile (05x)
-      if (digits.startsWith('971')) return '+' + digits; // UAE without +
-      if (digits.startsWith('01') && digits.length >= 10) return '+880' + digits.slice(1); // BD mobile (01x)
-      if (digits.startsWith('880')) return '+' + digits; // BD without +
+      
+      // Bangladesh formatting (starts with 01 or 1, length 11 or 10)
+      if (digits.startsWith('01') && digits.length === 11) return '+880' + digits.slice(1);
+      if (digits.startsWith('1') && digits.length === 10) return '+880' + digits;
+      if (digits.startsWith('880')) return '+' + digits;
+      
+      // UAE formatting (starts with 05 or 5, length 10 or 9)
+      if (digits.startsWith('05') && digits.length === 10) return '+971' + digits.slice(1);
+      if (digits.startsWith('5') && digits.length === 9) return '+971' + digits;
+      if (digits.startsWith('971')) return '+' + digits;
+
+      // If it looks like it already has some country code
+      if (digits.length >= 9 && !digits.startsWith('0')) {
+        return '+' + digits;
+      }
+      
+      // Fallback
       return '+971' + digits; // Default: treat as UAE local
     };
 
@@ -141,7 +154,8 @@ export async function POST(req) {
         note: `Payment Method: ${paymentMethod}.${transactionId ? ` Transaction ID: ${transactionId}` : ''} | Phone: ${phone}`,
         note_attributes: [
           { name: 'Payment Method', value: paymentMethod },
-          { name: 'Transaction ID', value: transactionId || 'N/A' }
+          { name: 'Transaction ID', value: transactionId || 'N/A' },
+          { name: 'Customer Phone', value: phone }
         ]
       }
     };
@@ -157,26 +171,59 @@ export async function POST(req) {
       body: JSON.stringify(orderPayload)
     });
 
-    const resBody = await res.json();
+    let finalResBody = await res.json();
+    let finalRes = res;
 
-    if (!res.ok) {
-      console.error('Failed to create order in Shopify:', JSON.stringify(resBody));
+    if (!finalRes.ok) {
+      const errorStr = JSON.stringify(finalResBody.errors || {}).toLowerCase();
+      if (errorStr.includes('phone')) {
+        console.warn('Shopify rejected order phone formatting. Retrying order creation without phone field...');
+        
+        // Strip phone from customer and shipping address to ensure Shopify API acceptance
+        const retryPayload = {
+          order: {
+            ...orderPayload.order,
+            customer: customerId ? { id: customerId } : { first_name: name },
+            shipping_address: {
+              ...orderPayload.order.shipping_address
+            }
+          }
+        };
+        
+        delete retryPayload.order.shipping_address.phone;
+
+        const retryRes = await fetch(endpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Shopify-Access-Token': accessToken
+          },
+          body: JSON.stringify(retryPayload)
+        });
+
+        finalRes = retryRes;
+        finalResBody = await retryRes.json();
+      }
+    }
+
+    if (!finalRes.ok) {
+      console.error('Failed to create order in Shopify:', JSON.stringify(finalResBody));
       // Shopify errors can be an object like {"base":["msg"]}, stringify it for the client
       let errorMsg = 'Failed to create order';
-      if (resBody.errors) {
-        if (typeof resBody.errors === 'string') {
-          errorMsg = resBody.errors;
+      if (finalResBody.errors) {
+        if (typeof finalResBody.errors === 'string') {
+          errorMsg = finalResBody.errors;
         } else {
           // Flatten object errors into a readable string
-          errorMsg = Object.entries(resBody.errors)
+          errorMsg = Object.entries(finalResBody.errors)
             .map(([key, val]) => `${key}: ${Array.isArray(val) ? val.join(', ') : val}`)
             .join('; ');
         }
       }
-      return NextResponse.json({ error: errorMsg }, { status: res.status });
+      return NextResponse.json({ error: errorMsg }, { status: finalRes.status });
     }
 
-    return NextResponse.json({ success: true, order: resBody.order });
+    return NextResponse.json({ success: true, order: finalResBody.order });
   } catch (error) {
     console.error('Error creating order:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });

@@ -5,26 +5,6 @@ import { Mail, Phone, MapPin, Send } from "lucide-react";
 export default function Contact({ theme, shopifyPage }) {
   const isLight = theme === "light";
 
-  if (shopifyPage) {
-    return (
-      <div className={`min-h-screen pt-32 pb-20 px-4 sm:px-6 w-full max-w-4xl mx-auto ${isLight ? "text-zinc-900" : "text-white"}`}>
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="space-y-8 text-left"
-        >
-          <h1 className="text-4xl sm:text-6xl font-black tracking-tight mb-8">
-            {shopifyPage.title}
-          </h1>
-          <div 
-            className={`shopify-page-body text-base leading-relaxed space-y-6 ${isLight ? "text-zinc-700" : "text-zinc-300"}`}
-            dangerouslySetInnerHTML={{ __html: shopifyPage.body }}
-          />
-        </motion.div>
-      </div>
-    );
-  }
-
   return (
     <div className={`min-h-screen pt-32 pb-20 px-4 sm:px-6 lg:px-8 w-full max-w-7xl mx-auto ${isLight ? "text-zinc-900" : "text-white"}`}>
       <div className="flex flex-col items-center text-center mb-16">
@@ -33,16 +13,28 @@ export default function Contact({ theme, shopifyPage }) {
           animate={{ opacity: 1, y: 0 }}
           className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tighter mb-6"
         >
-          Get In <span className="text-red-500">Touch</span>
+          {shopifyPage ? shopifyPage.title : (
+            <>Get In <span className="text-red-500">Touch</span></>
+          )}
         </motion.h1>
-        <motion.p 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className={`max-w-2xl text-lg sm:text-xl leading-relaxed ${isLight ? "text-zinc-600" : "text-zinc-400"}`}
-        >
-          Have questions about our products or need wholesale information? We're here to help. Reach out to us anytime.
-        </motion.p>
+        {shopifyPage?.body ? (
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className={`shopify-page-body max-w-2xl text-base text-left leading-relaxed space-y-4 ${isLight ? "text-zinc-700" : "text-zinc-300"}`}
+            dangerouslySetInnerHTML={{ __html: shopifyPage.body }}
+          />
+        ) : (
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className={`max-w-2xl text-lg sm:text-xl leading-relaxed ${isLight ? "text-zinc-600" : "text-zinc-400"}`}
+          >
+            Have questions about our products or need wholesale information? We're here to help. Reach out to us anytime.
+          </motion.p>
+        )}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
