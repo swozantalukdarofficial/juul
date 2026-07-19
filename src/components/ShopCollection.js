@@ -422,6 +422,135 @@ export default function ShopCollection({ onAddToCart, setCurrentPage, setSelecte
             </div>
           </motion.section>
 
+          {/* SECTION: What is JUUL? */}
+          <motion.section
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className={`p-8 md:p-12 rounded-[2.5rem] border ${
+              isLight ? "bg-white border-zinc-200" : "bg-zinc-900/40 border-white/10"
+            }`}>
+              <div className="flex items-center gap-3 mb-6">
+                <Zap className="w-8 h-8 text-red-500 animate-pulse" />
+                <h2 className="text-2xl sm:text-3xl font-black">What is JUUL? Technology & Brand Overview</h2>
+              </div>
+              <div className={`space-y-6 text-sm sm:text-base leading-relaxed ${
+                isLight ? "text-zinc-600" : "text-zinc-400"
+              }`}>
+                <p>
+                  JUUL has revolutionized the vaping industry globally with its clean, pocket-friendly design and advanced nicotine delivery technology. Designed in San Francisco, USA, JUUL is engineered to provide a satisfying, user-friendly alternative to adult smokers. Unlike traditional e-cigarettes, JUUL utilizes proprietary e-liquid formulations mixed with organic nicotine salts to replicate the temperature-regulated vapor flow and fast-acting nicotine satisfaction of traditional combustion cigarettes.
+                </p>
+                <p>
+                  The beauty of JUUL lies in its simplicity. There are no buttons, dials, or complex menus. Simply insert a pre-filled e-liquid pod into the lightweight, anodized aluminum device, draw to activate the automatic pressure sensor, and enjoy a consistent vapor experience.
+                </p>
+              </div>
+            </div>
+          </motion.section>
+
+          {/* SECTION: JUUL 1 Classic Series */}
+          <motion.section
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className={`p-8 md:p-12 rounded-[2.5rem] border ${
+              isLight ? "bg-white border-zinc-200" : "bg-zinc-900/40 border-white/10"
+            }`}>
+              <div className="flex items-center gap-3 mb-6">
+                <Layers className="w-8 h-8 text-red-500" />
+                <h2 className="text-2xl sm:text-3xl font-black">JUUL 1 Classic Series: The Original Standard</h2>
+              </div>
+              <div className={`space-y-6 text-sm sm:text-base leading-relaxed ${
+                isLight ? "text-zinc-650" : "text-zinc-400"
+              }`}>
+                <p>
+                  The JUUL 1 Classic series remains one of the most reliable and widely used pod systems in the world. Compatible with 0.7mL pods, JUUL 1 is renowned for its ultra-portable, rectangular form factor and absolute dependability.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+                  <div className={`p-5 rounded-2xl border ${isLight ? "bg-zinc-50 border-zinc-200" : "bg-white/[0.02] border-white/5"}`}>
+                    <h4 className="font-bold text-sm mb-2 text-red-500">Compact Ergonomics</h4>
+                    <p className="text-xs leading-relaxed">Weighing less than 14 grams, JUUL 1 fits comfortably in your pocket or watch pocket, making it the perfect choice for on-the-go discretion.</p>
+                  </div>
+                  <div className={`p-5 rounded-2xl border ${isLight ? "bg-zinc-50 border-zinc-200" : "bg-white/[0.02] border-white/5"}`}>
+                    <h4 className="font-bold text-sm mb-2 text-red-500">Satisfaction Guaranteed</h4>
+                    <p className="text-xs leading-relaxed">Available in 3.0% (30mg) and 5.0% (50mg) nicotine strengths, JUUL 1 pods offer a strong throat hit with signature flavors like Virginia Tobacco and Crisp Menthol.</p>
+                  </div>
+                  <div className={`p-5 rounded-2xl border ${isLight ? "bg-zinc-50 border-zinc-200" : "bg-white/[0.02] border-white/5"}`}>
+                    <h4 className="font-bold text-sm mb-2 text-red-500">Universal Charging</h4>
+                    <p className="text-xs leading-relaxed">Charges effortlessly on any USB port using the standard magnetic USB adapter dock, going from 0% to 100% in under 45 minutes.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.section>
+
+          {/* SECTION: JUUL 1 vs JUUL 2 Comparison */}
+          <motion.section
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className={`p-8 md:p-12 rounded-[2.5rem] border ${
+              isLight ? "bg-white border-zinc-200" : "bg-zinc-900/40 border-white/10"
+            }`}>
+              <div className="flex items-center gap-3 mb-6">
+                <SlidersHorizontal className="w-8 h-8 text-red-500" />
+                <h2 className="text-2xl sm:text-3xl font-black">JUUL 1 vs JUUL 2: Side-by-Side Comparison</h2>
+              </div>
+              <p className={`text-sm sm:text-base mb-8 leading-relaxed ${isLight ? "text-zinc-650" : "text-zinc-400"}`}>
+                Choosing between JUUL 1 and JUUL 2 depends on your preference for features and smart integration. JUUL 2 features smart pod detection, Bluetooth app pairing, and larger e-liquid capacity, while JUUL 1 delivers absolute simplicity and high nicotine strength pods.
+              </p>
+              
+              <div className="overflow-x-auto rounded-2xl border border-zinc-200 dark:border-white/10">
+                <table className="w-full text-left border-collapse text-xs sm:text-sm">
+                  <thead>
+                    <tr className={`border-b ${isLight ? "bg-zinc-100/50 border-zinc-200" : "bg-white/[0.02] border-white/10"}`}>
+                      <th className="p-4 font-bold uppercase tracking-wider">Features</th>
+                      <th className="p-4 font-bold uppercase tracking-wider text-red-500">JUUL 1 Series</th>
+                      <th className="p-4 font-bold uppercase tracking-wider text-emerald-500">JUUL 2 Series</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-zinc-200 dark:divide-white/5">
+                    <tr>
+                      <td className="p-4 font-bold">Pod Capacity</td>
+                      <td className="p-4">0.7 mL per pod</td>
+                      <td className="p-4">1.2 mL per pod (+70% more liquid)</td>
+                    </tr>
+                    <tr className={isLight ? "bg-zinc-50/50" : "bg-white/[0.01]"}>
+                      <td className="p-4 font-bold">Battery Capacity</td>
+                      <td className="p-4">200 mAh (Classic)</td>
+                      <td className="p-4">350 mAh (Extended Life)</td>
+                    </tr>
+                    <tr>
+                      <td className="p-4 font-bold">Bluetooth Connection</td>
+                      <td className="p-4">No</td>
+                      <td className="p-4">Yes (Find My Vape, Lock Device, Puff Stats)</td>
+                    </tr>
+                    <tr className={isLight ? "bg-zinc-50/50" : "bg-white/[0.01]"}>
+                      <td className="p-4 font-bold">Nicotine Strengths</td>
+                      <td className="p-4">3.0% (30mg) / 5.0% (50mg)</td>
+                      <td className="p-4">1.8% (18mg/mL) UK Edition</td>
+                    </tr>
+                    <tr>
+                      <td className="p-4 font-bold">Draw Technology</td>
+                      <td className="p-4">Standard draw-activated</td>
+                      <td className="p-4">Enhanced vapor draw-activated</td>
+                    </tr>
+                    <tr className={isLight ? "bg-zinc-50/50" : "bg-white/[0.01]"}>
+                      <td className="p-4 font-bold">Charging Time</td>
+                      <td className="p-4">~45 minutes</td>
+                      <td className="p-4">~30 minutes (Fast Charging)</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </motion.section>
+
           {/* Feature Badges */}
           <motion.section
             initial={{ opacity: 0, y: 30 }}
