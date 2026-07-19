@@ -353,8 +353,8 @@ export default function ShopCollection({ onAddToCart, setCurrentPage, setSelecte
                     onClick={() => onAddToCart(prod)}
                     className={`flex items-center gap-1.5 font-bold text-[10px] uppercase tracking-wider px-4 py-2 rounded-full transition-all duration-300 cursor-pointer ${
                       isLight
-                        ? "bg-zinc-950 hover:bg-red-600 text-white shadow-md shadow-zinc-950/10"
-                        : "bg-white/5 hover:bg-red-500 text-white hover:text-white border border-white/10 hover:border-transparent"
+                        ? "bg-zinc-950 hover:bg-emerald-500 text-white shadow-md shadow-zinc-950/10"
+                        : "bg-white/5 hover:bg-emerald-500 text-white hover:text-white border border-white/10 hover:border-transparent"
                     }`}
                   >
                     <ShoppingCart className="w-3.5 h-3.5" /> Buy
