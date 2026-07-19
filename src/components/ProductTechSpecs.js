@@ -44,8 +44,8 @@ export default function ProductTechSpecs({ product, theme }) {
     }`}>
       {/* Decorative Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className={`absolute -top-[20%] -right-[10%] w-[50%] h-[50%] rounded-full blur-[120px] opacity-20 ${isLight ? "bg-indigo-400" : "bg-indigo-600"}`}></div>
-        <div className={`absolute bottom-[10%] -left-[10%] w-[40%] h-[40%] rounded-full blur-[100px] opacity-20 ${isLight ? "bg-rose-400" : "bg-rose-600"}`}></div>
+        <div className={`absolute -top-[20%] -right-[10%] w-[50%] h-[50%] rounded-full blur-[120px] opacity-20 ${isLight ? "bg-red-200" : "bg-red-950/40"}`}></div>
+        <div className={`absolute bottom-[10%] -left-[10%] w-[40%] h-[40%] rounded-full blur-[100px] opacity-20 ${isLight ? "bg-red-200" : "bg-red-950/40"}`}></div>
       </div>
 
       <div className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12 relative z-10">
@@ -61,7 +61,7 @@ export default function ProductTechSpecs({ product, theme }) {
                 isLight ? "bg-white border-zinc-200 shadow-sm" : "bg-white/5 border-white/10"
               }`}
             >
-              <Zap className={`w-4 h-4 ${isLight ? "text-indigo-600" : "text-indigo-400"}`} />
+              <Zap className={`w-4 h-4 ${isLight ? "text-red-500" : "text-red-400"}`} />
               <span className={`text-[10px] sm:text-xs font-black uppercase tracking-widest ${isLight ? "text-zinc-700" : "text-zinc-300"}`}>
                 Technical Specifications
               </span>
@@ -76,7 +76,7 @@ export default function ProductTechSpecs({ product, theme }) {
               isLight ? "text-zinc-950" : "text-white"
             }`}>
               Engineered for <br className="hidden lg:block" /> 
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-rose-500">Excellence</span>
+              <span className="text-red-500">Excellence</span>
             </motion.h2>
             
             <motion.p 
@@ -95,6 +95,18 @@ export default function ProductTechSpecs({ product, theme }) {
           <div className="lg:w-2/3 w-full grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             {specs.map((spec, index) => {
               const Icon = spec.icon;
+              
+              // Red theme classes
+              const hoverBorderClass = isLight 
+                ? "hover:border-red-300 hover:shadow-red-500/10" 
+                : "hover:border-red-500/30 hover:shadow-[0_8px_30px_rgba(239,68,68,0.15)]";
+                  
+              const iconContainerClass = isLight
+                ? "bg-gradient-to-br from-red-50 to-orange-50 text-red-500 shadow-inner"
+                : "bg-gradient-to-br from-red-500/10 to-orange-500/10 text-red-400";
+                  
+              const labelHoverClass = isLight ? "group-hover:text-red-500" : "group-hover:text-red-400";
+
               return (
                 <motion.div 
                   initial={{ opacity: 0, y: 20 }}
@@ -102,23 +114,17 @@ export default function ProductTechSpecs({ product, theme }) {
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   key={index} 
-                  className={`group flex items-center gap-5 p-5 sm:p-6 rounded-3xl border transition-all duration-500 cursor-default ${
+                  className={`group flex items-center gap-5 p-5 sm:p-6 rounded-3xl border transition-all duration-500 cursor-default hover:-translate-y-1 ${
                     isLight 
-                      ? "bg-white/80 backdrop-blur-xl border-zinc-200/80 hover:border-indigo-300 hover:shadow-xl hover:shadow-indigo-500/10 hover:-translate-y-1" 
-                      : "bg-[#121214]/80 backdrop-blur-xl border-white/5 hover:border-indigo-500/30 hover:shadow-[0_8px_30px_rgba(99,102,241,0.15)] hover:-translate-y-1"
+                      ? `bg-white/80 backdrop-blur-xl border-zinc-200/80 hover:shadow-xl ${hoverBorderClass}` 
+                      : `bg-[#121214]/80 backdrop-blur-xl border-white/5 ${hoverBorderClass}`
                   }`}
                 >
-                  <div className={`p-3.5 sm:p-4 rounded-2xl flex-shrink-0 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3 ${
-                    isLight 
-                      ? "bg-gradient-to-br from-indigo-50 to-purple-50 text-indigo-600 shadow-inner" 
-                      : "bg-gradient-to-br from-indigo-500/10 to-purple-500/10 text-indigo-400"
-                  }`}>
+                  <div className={`p-3.5 sm:p-4 rounded-2xl flex-shrink-0 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3 ${iconContainerClass}`}>
                     <Icon className="w-6 h-6 sm:w-7 sm:h-7" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <h4 className={`text-[10px] sm:text-xs font-black uppercase tracking-widest mb-1 truncate ${
-                      isLight ? "text-zinc-500 group-hover:text-indigo-500 transition-colors" : "text-zinc-500 group-hover:text-indigo-400 transition-colors"
-                    }`}>
+                    <h4 className={`text-[10px] sm:text-xs font-black uppercase tracking-widest mb-1 truncate text-zinc-500 transition-colors ${labelHoverClass}`}>
                       {spec.label}
                     </h4>
                     <p className={`text-sm sm:text-base font-bold truncate ${

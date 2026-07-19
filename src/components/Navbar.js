@@ -88,7 +88,7 @@ export default function Navbar({ cartCount, setIsCartOpen, theme, setTheme }) {
               href={item.href}
               className={`relative text-[10px] font-bold tracking-wider uppercase transition-all py-2 px-3 lg:px-5 rounded-full cursor-pointer whitespace-nowrap ${isItemActive(item.href)
                   ? isLight ? "text-white font-semibold" : "text-zinc-950 font-semibold"
-                  : isLight ? "text-zinc-650 hover:text-zinc-950" : "text-zinc-400 hover:text-white"
+                  : isLight ? "text-zinc-650 hover:text-red-500" : "text-zinc-400 hover:text-red-400"
                 }`}
             >
               <span className="relative z-10">{item.label}</span>
@@ -174,8 +174,8 @@ export default function Navbar({ cartCount, setIsCartOpen, theme, setTheme }) {
                     ? "bg-zinc-100 text-zinc-950 font-black border-l-2 border-zinc-950 pl-4"
                     : "bg-white/5 text-white font-bold border-l-2 border-white pl-4"
                   : isLight
-                    ? "text-zinc-500 hover:text-zinc-950 pl-3"
-                    : "text-zinc-400 hover:text-white pl-3"
+                    ? "text-zinc-500 hover:text-red-500 pl-3"
+                    : "text-zinc-400 hover:text-red-400 pl-3"
                 }`}
             >
               {item.label}

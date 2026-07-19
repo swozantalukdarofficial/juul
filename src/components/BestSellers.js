@@ -295,8 +295,8 @@ export default function BestSellers({ onAddToCart, setCurrentPage, setSelectedPr
                         onClick={() => onAddToCart(prod)}
                         className={`w-full py-3 rounded-2xl flex items-center justify-center gap-2 text-[11px] font-black uppercase tracking-wider transition-all cursor-pointer border ${
                           isLight
-                            ? "bg-zinc-950 border-zinc-950 text-white hover:bg-red-600 hover:border-red-600 shadow-md shadow-zinc-950/10"
-                            : "bg-white border-white text-zinc-950 hover:bg-red-500 hover:border-red-500"
+                            ? "bg-zinc-950 border-zinc-950 text-white hover:bg-emerald-500 hover:border-emerald-500 shadow-md shadow-zinc-950/10"
+                            : "bg-white border-white text-zinc-950 hover:bg-emerald-500 hover:border-emerald-500 hover:text-white"
                         }`}
                       >
                         <ShoppingBag className="w-3.5 h-3.5" /> ADD TO CART

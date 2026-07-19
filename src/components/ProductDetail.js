@@ -8,7 +8,6 @@ import Image from "next/image";
 import { ShoppingCart, Star, Shield, ArrowLeft, Check, CheckCircle2, Truck, Award, ChevronDown, ChevronRight, Clock } from "lucide-react";
 import ProductGallery from "./ProductGallery";
 
-import ProductReviews from "./ProductReviews";
 import ProductRecommendations from "./ProductRecommendations";
 import ProductFeatures from "./ProductFeatures";
 import ProductRichDescription from "./ProductRichDescription";
@@ -476,8 +475,8 @@ export default function ProductDetail({ selectedProduct, onAddToCart, setCurrent
                   onClick={handleAddToCart}
                   className={`flex-1 h-12 font-bold uppercase tracking-widest text-[10px] sm:text-xs rounded-full flex items-center justify-center gap-2 transition-all transform hover:scale-[1.02] cursor-pointer shadow-md whitespace-nowrap ${
                     isLight 
-                      ? "bg-zinc-950 hover:bg-zinc-800 text-white" 
-                      : "bg-white hover:bg-zinc-200 text-zinc-950"
+                      ? "bg-zinc-950 hover:bg-emerald-500 hover:border-emerald-500 text-white" 
+                      : "bg-white hover:bg-emerald-500 hover:border-emerald-500 hover:text-white text-zinc-950"
                   }`}
                 >
                   <ShoppingCart className="w-4 h-4" /> ADD TO CART
@@ -534,12 +533,6 @@ export default function ProductDetail({ selectedProduct, onAddToCart, setCurrent
 
 
 
-        {/* Verified Reviews Section (Moved to the bottom) */}
-        <ProductReviews
-          productName={product.name}
-          theme={theme}
-        />
-
         {/* FAQ Section */}
         <FAQ theme={theme} />
 
@@ -586,8 +579,8 @@ export default function ProductDetail({ selectedProduct, onAddToCart, setCurrent
                 onClick={handleAddToCart}
                 className={`p-3 rounded-full border flex items-center justify-center transition-colors cursor-pointer ${
                   isLight 
-                    ? "bg-zinc-100 hover:bg-zinc-200 border-zinc-200 text-zinc-900" 
-                    : "bg-white/5 hover:bg-white/10 border-white/5 text-white"
+                    ? "bg-zinc-100 hover:bg-emerald-500 hover:border-emerald-500 hover:text-white border-zinc-200 text-zinc-900" 
+                    : "bg-white/5 hover:bg-emerald-500 hover:border-emerald-500 hover:text-white border-white/5 text-white"
                 }`}
                 title="Add to Cart"
               >

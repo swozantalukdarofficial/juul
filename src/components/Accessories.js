@@ -249,8 +249,8 @@ export default function Accessories({ onAddToCart, setSelectedProduct, setCurren
                       onClick={() => onAddToCart(chargerProduct)}
                       className={`w-full py-3.5 rounded-xl text-xs font-black uppercase tracking-widest flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer ${
                         isLight 
-                          ? "bg-zinc-950 hover:bg-zinc-800 text-white shadow-lg hover:shadow-xl hover:shadow-zinc-900/20" 
-                          : "bg-white hover:bg-zinc-200 text-black shadow-lg hover:shadow-xl hover:shadow-white/20"
+                          ? "bg-zinc-950 hover:bg-emerald-500 text-white shadow-lg hover:shadow-xl hover:shadow-zinc-900/20" 
+                          : "bg-white hover:bg-emerald-500 hover:text-white text-black shadow-lg hover:shadow-xl hover:shadow-white/20"
                       }`}
                     >
                       <ShoppingBag className="w-4 h-4" /> ADD TO CART

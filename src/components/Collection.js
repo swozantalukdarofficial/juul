@@ -6,6 +6,7 @@ import { ShoppingCart, Star, Filter, Heart, Eye, BookOpen, Award, Droplet, Layer
 import { useApp } from "@/context/AppContext";
 import { allProducts as defaultProducts } from "@/data/products";
 import FAQ from "./FAQ";
+import ProductReviews from "./ProductReviews";
 
 export default function Collection({ onAddToCart, setCurrentPage, setSelectedProduct, theme, activeCategory = "all", setActiveCategory, versionFilter = "all", setVersionFilter }) {
   const { products: contextProducts } = useApp();
@@ -886,70 +887,7 @@ export default function Collection({ onAddToCart, setCurrentPage, setSelectedPro
           </motion.section>
 
           {/* SECTION 8: Customer Reviews */}
-          <motion.section
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className={`py-8 md:py-12 rounded-[2.5rem] border overflow-hidden ${isLight ? "bg-white border-zinc-200" : "bg-zinc-900/40 border-white/10"}`}>
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-4 px-8 md:px-12">
-                <div className="flex items-center gap-3">
-                  <Star className="w-8 h-8 text-yellow-500 fill-yellow-500" />
-                  <h2 className="text-3xl font-black">8. Customer Reviews</h2>
-                </div>
-                <div className={`px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2 ${isLight ? "bg-zinc-100 text-zinc-900" : "bg-white/10 text-white"}`}>
-                  <span className="text-yellow-500">★</span> 4.9/5 Average Rating
-                </div>
-              </div>
-
-              <div className="relative w-full flex overflow-hidden">
-                {/* Gradient Masks for smooth fading edges */}
-                <div className={`absolute left-0 top-0 bottom-0 w-16 md:w-32 z-10 pointer-events-none bg-gradient-to-r ${isLight ? "from-white to-transparent" : "from-[#09090A] to-transparent"}`} />
-                <div className={`absolute right-0 top-0 bottom-0 w-16 md:w-32 z-10 pointer-events-none bg-gradient-to-l ${isLight ? "from-white to-transparent" : "from-[#09090A] to-transparent"}`} />
-
-                <motion.div
-                  animate={{ x: ["0%", "-50%"] }}
-                  transition={{ repeat: Infinity, ease: "linear", duration: 30 }}
-                  className="flex w-max gap-6 px-4"
-                >
-                  {[
-                    { name: "Ahmed R.", review: "Switched to the smart device and the difference is night and day. The Ruby Sunset flavor is my absolute favorite. Fast delivery in Dubai too!", rating: 5, date: "2 days ago" },
-                    { name: "Sarah K.", review: "100% genuine products. I've bought from other places before and got fakes, but VapePod always delivers authentic pods with great packaging.", rating: 5, date: "1 week ago" },
-                    { name: "Omar M.", review: "The smart app integration is actually super useful for tracking my usage. The battery lasts all day easily. Highly recommended starter kit.", rating: 5, date: "3 weeks ago" },
-                    { name: "Fatima H.", review: "Best disposable alternative. The pods don't leak and it's super easy to change flavors. Customer service is also fantastic.", rating: 5, date: "1 month ago" },
-                    { name: "Tariq B.", review: "Device is sleek and charges in no time. The Polar Mint flavor gives a great hit. Very satisfied with my purchase here.", rating: 5, date: "1 month ago" },
-                    // Duplicate for seamless infinite scroll
-                    { name: "Ahmed R.", review: "Switched to the smart device and the difference is night and day. The Ruby Sunset flavor is my absolute favorite. Fast delivery in Dubai too!", rating: 5, date: "2 days ago" },
-                    { name: "Sarah K.", review: "100% genuine products. I've bought from other places before and got fakes, but VapePod always delivers authentic pods with great packaging.", rating: 5, date: "1 week ago" },
-                    { name: "Omar M.", review: "The smart app integration is actually super useful for tracking my usage. The battery lasts all day easily. Highly recommended starter kit.", rating: 5, date: "3 weeks ago" },
-                    { name: "Fatima H.", review: "Best disposable alternative. The pods don't leak and it's super easy to change flavors. Customer service is also fantastic.", rating: 5, date: "1 month ago" },
-                    { name: "Tariq B.", review: "Device is sleek and charges in no time. The Polar Mint flavor gives a great hit. Very satisfied with my purchase here.", rating: 5, date: "1 month ago" }
-                  ].map((review, i) => (
-                    <div key={i} className={`w-[320px] shrink-0 p-6 rounded-2xl border flex flex-col justify-between ${isLight ? "bg-zinc-50 border-zinc-200" : "bg-zinc-800/40 border-white/10"}`}>
-                      <div>
-                        <div className="flex gap-1 mb-3">
-                          {[...Array(5)].map((_, idx) => (
-                            <Star key={idx} className={`w-4 h-4 ${idx < review.rating ? "text-yellow-500 fill-yellow-500" : "text-zinc-300 dark:text-zinc-600"}`} />
-                          ))}
-                        </div>
-                        <p className={`text-sm leading-relaxed mb-6 italic ${isLight ? "text-zinc-600" : "text-zinc-400"}`}>"{review.review}"</p>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <div className="w-8 h-8 rounded-full bg-red-500 flex items-center justify-center text-white font-bold text-xs">
-                            {review.name.charAt(0)}
-                          </div>
-                          <p className={`font-bold ${isLight ? "text-zinc-900" : "text-white"}`}>{review.name}</p>
-                        </div>
-                        <p className={`text-xs ${isLight ? "text-zinc-500" : "text-zinc-500"}`}>{review.date}</p>
-                      </div>
-                    </div>
-                  ))}
-                </motion.div>
-              </div>
-            </div>
-          </motion.section>
+          <ProductReviews productName="JUUL 2" theme={theme} />
 
         </div>
       </div>

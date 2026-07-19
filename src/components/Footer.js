@@ -154,7 +154,7 @@ export default function Footer({ theme }) {
               <li key={idx}>
                 <Link
                   href={link.href}
-                  className={`transition-colors cursor-pointer text-left block w-full ${isLight ? "hover:text-blue-600 text-zinc-500" : "hover:text-emerald-400 text-zinc-450"}`}
+                  className={`transition-colors cursor-pointer text-left block w-full ${isLight ? "hover:text-emerald-600 text-zinc-500" : "hover:text-emerald-400 text-zinc-450"}`}
                 >
                   {link.label}
                 </Link>
@@ -180,7 +180,7 @@ export default function Footer({ theme }) {
               <li key={idx}>
                 <Link
                   href={item.href}
-                  className={`transition-colors cursor-pointer block w-full text-left ${isLight ? "hover:text-blue-600 text-zinc-500" : "hover:text-emerald-400 text-zinc-450"}`}
+                  className={`transition-colors cursor-pointer block w-full text-left ${isLight ? "hover:text-emerald-600 text-zinc-500" : "hover:text-emerald-400 text-zinc-450"}`}
                 >
                   {item.name}
                 </Link>
@@ -206,12 +206,12 @@ export default function Footer({ theme }) {
               <div
                 key={phone.id}
                 className={`flex items-center justify-between px-3 py-2 rounded-xl border transition-all ${isLight
-                    ? "bg-white border-zinc-200 hover:border-blue-200 hover:bg-blue-50/50 shadow-sm"
-                    : "bg-zinc-900/50 border-white/5 hover:border-emerald-500/20 hover:bg-emerald-950/20"
+                    ? "bg-white border-zinc-200 hover:border-red-200 hover:bg-red-50/50 shadow-sm"
+                    : "bg-zinc-900/50 border-white/5 hover:border-red-500/20 hover:bg-red-950/20"
                   }`}
               >
                 <div className="flex items-center gap-2.5">
-                  <div className={`p-1 rounded-md ${isLight ? "bg-blue-100 text-blue-600" : "bg-emerald-500/10 text-emerald-400"}`}>
+                  <div className={`p-1 rounded-md ${isLight ? "bg-red-100 text-red-500" : "bg-red-500/10 text-red-500"}`}>
                     <Phone className="w-3.5 h-3.5" />
                   </div>
                   <span className={`text-xs font-black tracking-wide ${isLight ? "text-zinc-800" : "text-zinc-200"}`}>
@@ -223,7 +223,7 @@ export default function Footer({ theme }) {
                   className={`p-1.5 rounded-lg transition-all cursor-pointer ${copiedText === phone.id
                       ? "bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400"
                       : isLight
-                        ? "bg-zinc-100 text-zinc-500 hover:bg-blue-100 hover:text-blue-700"
+                        ? "bg-zinc-100 text-zinc-500 hover:bg-emerald-100 hover:text-emerald-700"
                         : "bg-zinc-800 text-zinc-400 hover:bg-emerald-900/40 hover:text-emerald-400"
                     }`}
                   title="Copy Number"
@@ -272,11 +272,11 @@ export default function Footer({ theme }) {
               type="email"
               placeholder="Newsletter Email"
               className={`w-full text-[11px] py-1.5 pl-3 pr-8 rounded-lg border transition-all focus:outline-none ${isLight
-                ? "bg-white border-zinc-200 text-zinc-900 focus:border-blue-600"
+                ? "bg-white border-zinc-200 text-zinc-900 focus:border-emerald-600"
                 : "bg-white/5 border-white/10 text-white focus:border-emerald-400"
                 }`}
             />
-            <button className={`absolute right-1.5 p-1 rounded transition-all cursor-pointer ${isLight ? "text-blue-650 hover:text-blue-800" : "text-emerald-400 hover:text-emerald-300"
+            <button className={`absolute right-1.5 p-1 rounded transition-all cursor-pointer ${isLight ? "text-emerald-600 hover:text-emerald-700" : "text-emerald-400 hover:text-emerald-300"
               }`} aria-label="Submit email">
               <ChevronRight className="w-3.5 h-3.5 stroke-[3px]" />
             </button>
@@ -313,13 +313,13 @@ export default function Footer({ theme }) {
           <div className="flex items-center gap-6 font-bold">
             <Link
               href="/"
-              className={`transition-colors cursor-pointer ${isLight ? "hover:text-blue-600 text-zinc-500" : "hover:text-emerald-400 text-zinc-450"}`}
+              className={`transition-colors cursor-pointer ${isLight ? "hover:text-emerald-600 text-zinc-500" : "hover:text-emerald-400 text-zinc-450"}`}
             >
               Terms
             </Link>
             <Link
               href="/"
-              className={`transition-colors cursor-pointer ${isLight ? "hover:text-blue-600 text-zinc-500" : "hover:text-emerald-400 text-zinc-450"}`}
+              className={`transition-colors cursor-pointer ${isLight ? "hover:text-emerald-600 text-zinc-500" : "hover:text-emerald-400 text-zinc-450"}`}
             >
               Privacy
             </Link>
@@ -327,7 +327,7 @@ export default function Footer({ theme }) {
             <button
               onClick={scrollToTop}
               className={`p-2 rounded-full border transition-all cursor-pointer hover:scale-105 active:scale-95 flex items-center justify-center ${isLight
-                ? "bg-white border-zinc-200 text-zinc-700 hover:text-blue-650 hover:bg-zinc-50 hover:border-blue-200 shadow-sm"
+                ? "bg-white border-zinc-200 text-zinc-700 hover:text-emerald-600 hover:bg-zinc-50 hover:border-emerald-200 shadow-sm"
                 : "bg-white/5 border-white/10 text-zinc-350 hover:text-emerald-400 hover:bg-white/10 hover:border-emerald-500/20"
                 }`}
               title="Scroll to top"

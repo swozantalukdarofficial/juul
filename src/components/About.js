@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { 
   ShoppingCart, 
@@ -15,8 +16,72 @@ import {
   Package,
   Lock,
   Smartphone,
-  Banknote
+  Banknote,
+  Sparkles
 } from "lucide-react";
+
+function AnimatedNumber({ value, suffix = "", divisor = 1, isFormatted = false }) {
+  const [displayValue, setDisplayValue] = useState(0);
+  const elementRef = useRef(null);
+  const [hasAnimated, setHasAnimated] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAnimated) {
+          setHasAnimated(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    const currentEl = elementRef.current;
+    if (currentEl) {
+      observer.observe(currentEl);
+    }
+
+    return () => {
+      if (currentEl) {
+        observer.unobserve(currentEl);
+      }
+    };
+  }, [hasAnimated]);
+
+  useEffect(() => {
+    if (!hasAnimated) return;
+
+    const end = value;
+    const duration = 1500; // 1.5 seconds duration
+    const startTime = performance.now();
+
+    const updateNumber = (currentTime) => {
+      const elapsedTime = currentTime - startTime;
+      if (elapsedTime < duration) {
+        const progress = elapsedTime / duration;
+        const currentCount = Math.floor(progress * end);
+        setDisplayValue(currentCount);
+        requestAnimationFrame(updateNumber);
+      } else {
+        setDisplayValue(end);
+      }
+    };
+
+    requestAnimationFrame(updateNumber);
+  }, [hasAnimated, value]);
+
+  const formatted = divisor > 1 
+    ? (displayValue / divisor).toFixed(1)
+    : isFormatted
+    ? displayValue.toLocaleString()
+    : displayValue;
+
+  return (
+    <span ref={elementRef}>
+      {formatted}
+      {suffix}
+    </span>
+  );
+}
 
 export default function About({ theme, shopifyPage }) {
   const isLight = theme === "light";
@@ -64,30 +129,52 @@ export default function About({ theme, shopifyPage }) {
   return (
     <div className={`min-h-screen pt-32 pb-20 px-4 sm:px-6 w-full max-w-7xl mx-auto ${isLight ? "text-zinc-900" : "text-white"}`}>
       
-      {/* SECTION 1: E-commerce Hero */}
+      {/* SECTION 1: Brand Hero */}
       <motion.div 
         initial="hidden"
         animate="visible"
         variants={staggerContainer}
-        className="flex flex-col items-center text-center mb-32"
+        className="flex flex-col items-center text-center mb-32 relative pt-8"
       >
-        <motion.div variants={staggerItem} className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest mb-6 bg-red-500/10 text-red-500">
-          <ShoppingCart className="w-4 h-4" /> The Ultimate Online Store
+        {/* Ghost Watermark */}
+        <div
+          className={`absolute top-0 left-1/2 -translate-x-1/2 select-none pointer-events-none font-black tracking-tighter hidden sm:block ${
+            isLight ? "text-zinc-200/25" : "text-white/[0.015]"
+          }`}
+          style={{ fontSize: "clamp(100px, 12vw, 200px)", lineHeight: 1, zIndex: 0 }}
+          aria-hidden="true"
+        >
+          VAPEPODS
+        </div>
+
+        {/* Ambient glow orb */}
+        <div
+          className="absolute -top-10 left-1/2 -translate-x-1/2 w-[300px] h-[300px] rounded-full pointer-events-none transition-colors duration-1000 z-0"
+          style={{
+            background: `radial-gradient(circle, #10B98108 0%, transparent 70%)`,
+          }}
+          aria-hidden="true"
+        />
+
+        <motion.div variants={staggerItem} className="relative z-10 inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest mb-6 bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+          <Sparkles className="w-4 h-4" /> Premium Vaping UAE
         </motion.div>
+
         <motion.h1 
           variants={staggerItem}
-          className="text-5xl sm:text-6xl md:text-8xl font-black tracking-tighter mb-8 leading-tight"
+          className="relative z-10 text-5xl sm:text-7xl md:text-8xl font-black tracking-tight mb-8 leading-tight font-outfit"
         >
-          Dubai's #1 Online <br/>
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-600">
-            Vape Marketplace
+          Pure Authentic Quality <br/>
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-emerald-600">
+            Hand-Delivered.
           </span>
         </motion.h1>
+
         <motion.p 
           variants={staggerItem}
-          className={`max-w-2xl text-lg sm:text-2xl leading-relaxed ${isLight ? "text-zinc-600" : "text-zinc-400"}`}
+          className={`relative z-10 max-w-3xl text-lg sm:text-xl leading-relaxed ${isLight ? "text-zinc-600" : "text-zinc-400"}`}
         >
-          Experience seamless online shopping. We bring the world's most premium vape brands directly to your doorstep with unmatched speed and security.
+          We started with a simple goal: to make genuine, high-quality JUUL devices, premium pods, and accessories accessible with the speed and reliability of next-gen digital retail.
         </motion.p>
       </motion.div>
 
@@ -107,7 +194,7 @@ export default function About({ theme, shopifyPage }) {
                 What started as a vision to make authentic vaping products easily accessible has evolved into a state-of-the-art e-commerce platform. We've built an infrastructure designed entirely around the customer's shopping experience.
               </p>
               <p className={`text-lg leading-relaxed ${isLight ? "text-zinc-600" : "text-zinc-400"}`}>
-                From real-time inventory syncing to intelligent logistics and secure checkout gateways, VapePod is engineered to provide a flawless, hassle-free online buying journey from cart to doorstep.
+                From real-time inventory syncing to intelligent logistics and secure checkout gateways, VAPEPODS is engineered to provide a flawless, hassle-free online buying journey from cart to doorstep.
               </p>
             </div>
             
@@ -120,10 +207,10 @@ export default function About({ theme, shopifyPage }) {
               className="grid grid-cols-2 gap-4 md:gap-6"
             >
               {[
-                { label: "Products Listed", value: "1,500+" },
-                { label: "Orders Shipped", value: "50k+" },
-                { label: "Happy Customers", value: "30k+" },
-                { label: "Delivery Success", value: "99.9%" }
+                { label: "Products Listed", target: 1500, suffix: "+", isFormatted: true },
+                { label: "Orders Shipped", target: 50, suffix: "k+" },
+                { label: "Happy Customers", target: 30, suffix: "k+" },
+                { label: "Delivery Success", target: 999, divisor: 10, suffix: "%" }
               ].map((stat, i) => (
                 <motion.div 
                   variants={staggerItem}
@@ -132,7 +219,14 @@ export default function About({ theme, shopifyPage }) {
                     isLight ? "bg-zinc-50 border-zinc-200" : "bg-zinc-800/50 border-white/5"
                   }`}
                 >
-                  <h3 className="text-4xl sm:text-5xl font-black text-red-500 mb-2">{stat.value}</h3>
+                  <h3 className="text-4xl sm:text-5xl font-black text-red-500 mb-2">
+                    <AnimatedNumber 
+                      value={stat.target} 
+                      suffix={stat.suffix} 
+                      divisor={stat.divisor} 
+                      isFormatted={stat.isFormatted} 
+                    />
+                  </h3>
                   <p className={`text-xs sm:text-sm font-bold uppercase tracking-widest ${isLight ? "text-zinc-500" : "text-zinc-400"}`}>{stat.label}</p>
                 </motion.div>
               ))}
@@ -167,7 +261,7 @@ export default function About({ theme, shopifyPage }) {
               }`}
             >
               <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 ${
-                isLight ? "bg-red-50 text-red-500" : "bg-red-500/10 text-red-400"
+                isLight ? "bg-emerald-50 text-emerald-500" : "bg-emerald-500/10 text-emerald-400"
               }`}>
                 {feature.icon}
               </div>
@@ -192,7 +286,7 @@ export default function About({ theme, shopifyPage }) {
           isLight ? "bg-zinc-950 text-white" : "bg-[#09090A] border border-white/10 text-white"
         }`}>
           <div className="relative z-10 max-w-2xl">
-            <Package className="w-12 h-12 mb-8 text-red-500" />
+            <Package className="w-12 h-12 mb-8 text-emerald-500" />
             <h2 className="text-4xl sm:text-5xl font-black mb-6 tracking-tight">Unrivaled Catalog</h2>
             <p className="text-xl opacity-90 leading-relaxed mb-10 text-zinc-300">
               We stock everything from starter kits and disposable pods to premium e-liquids and advanced mods. Our inventory is synced in real-time, meaning if you can add it to your cart, it's sitting in our warehouse ready to ship.
@@ -202,7 +296,7 @@ export default function About({ theme, shopifyPage }) {
             </button>
           </div>
           {/* Decorative background element */}
-          <div className="absolute top-0 right-0 w-[30rem] h-[30rem] bg-red-500 rounded-full blur-[120px] opacity-20 transform translate-x-1/4 -translate-y-1/4 pointer-events-none" />
+          <div className="absolute top-0 right-0 w-[30rem] h-[30rem] bg-emerald-500 rounded-full blur-[120px] opacity-20 transform translate-x-1/4 -translate-y-1/4 pointer-events-none" />
         </div>
       </motion.section>
 
@@ -222,7 +316,7 @@ export default function About({ theme, shopifyPage }) {
               animate={{ rotate: [0, 10, -10, 0] }} 
               transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
             >
-              <Headset className="w-24 h-24 text-red-500 mb-8" />
+              <Headset className="w-24 h-24 text-emerald-500 mb-8" />
             </motion.div>
             <h3 className="text-3xl font-black mb-4 tracking-tight">24/7 Live Support</h3>
             <p className={`text-lg leading-relaxed max-w-sm ${isLight ? "text-zinc-600" : "text-zinc-400"}`}>
@@ -241,7 +335,7 @@ export default function About({ theme, shopifyPage }) {
                 "Wholesale & bulk order discounts available"
               ].map((point, i) => (
                 <motion.div variants={staggerItem} key={i} className={`flex items-start gap-4 p-4 rounded-2xl ${isLight ? "hover:bg-zinc-50" : "hover:bg-zinc-900/50"} transition-colors`}>
-                  <CheckCircle className="w-7 h-7 text-red-500 shrink-0 mt-0.5" />
+                  <CheckCircle className="w-7 h-7 text-emerald-500 shrink-0 mt-0.5" />
                   <p className={`text-xl font-medium ${isLight ? "text-zinc-800" : "text-zinc-200"}`}>
                     {point}
                   </p>
@@ -336,21 +430,21 @@ export default function About({ theme, shopifyPage }) {
         variants={fadeUp}
       >
         <div className={`p-12 md:p-20 rounded-[2.5rem] text-center border relative overflow-hidden ${
-          isLight ? "bg-red-50 border-red-100" : "bg-red-500/10 border-red-500/20"
+          isLight ? "bg-emerald-50 border-emerald-100" : "bg-emerald-500/10 border-emerald-500/20"
         }`}>
           <div className="relative z-10">
             <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight">Ready to Fill Your Cart?</h2>
-            <p className={`max-w-2xl mx-auto mb-10 text-xl leading-relaxed ${isLight ? "text-zinc-700" : "text-red-100/80"}`}>
+            <p className={`max-w-2xl mx-auto mb-10 text-xl leading-relaxed ${isLight ? "text-zinc-700" : "text-emerald-100/80"}`}>
               Browse our catalog, add your favorite pods to the cart, and experience the most streamlined checkout in the industry.
             </p>
             <button className={`px-10 py-5 rounded-full font-black uppercase tracking-widest text-sm transition-all flex items-center justify-center gap-3 mx-auto hover:scale-105 shadow-xl ${
-              isLight ? "bg-red-500 text-white hover:bg-red-600 shadow-red-500/30" : "bg-red-500 text-white hover:bg-red-400 shadow-red-500/20"
+              isLight ? "bg-emerald-500 text-white hover:bg-emerald-600 shadow-emerald-500/30" : "bg-emerald-500 text-white hover:bg-emerald-400 shadow-emerald-500/20"
             }`}>
               <ShoppingCart className="w-5 h-5" /> Start Shopping Now
             </button>
           </div>
           
-          <div className="absolute bottom-0 left-0 w-[40rem] h-[40rem] bg-red-500 rounded-full blur-[150px] opacity-10 transform -translate-x-1/2 translate-y-1/2 pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-[40rem] h-[40rem] bg-emerald-500 rounded-full blur-[150px] opacity-10 transform -translate-x-1/2 translate-y-1/2 pointer-events-none" />
         </div>
       </motion.section>
 

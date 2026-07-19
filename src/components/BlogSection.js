@@ -42,13 +42,13 @@ export default function BlogSection({ theme }) {
     }`}>
       {/* Decorative Blur Orbs */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/5 blur-[120px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/5 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-emerald-500/5 blur-[120px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
           <div className="space-y-3">
             <span className={`text-xs font-bold uppercase tracking-widest ${
-              isLight ? "text-blue-600" : "text-emerald-400"
+              isLight ? "text-emerald-600" : "text-emerald-400"
             }`}>
               Latest Journal
             </span>
@@ -65,11 +65,11 @@ export default function BlogSection({ theme }) {
           </div>
           
           <button className={`hidden md:flex items-center gap-2 text-xs font-bold uppercase tracking-widest transition-colors group ${
-            isLight ? "text-zinc-900 hover:text-blue-600" : "text-white hover:text-emerald-400"
+            isLight ? "text-zinc-900 hover:text-emerald-600" : "text-white hover:text-emerald-400"
           }`}>
             View All Articles 
             <span className={`w-6 h-6 rounded-full flex items-center justify-center transition-colors ${
-              isLight ? "bg-zinc-100 group-hover:bg-blue-50" : "bg-white/5 group-hover:bg-emerald-500/10"
+              isLight ? "bg-zinc-100 group-hover:bg-emerald-50" : "bg-white/5 group-hover:bg-emerald-500/10"
             }`}>
               <ArrowRight className="w-3 h-3" />
             </span>
@@ -120,20 +120,20 @@ export default function BlogSection({ theme }) {
 
                 <h3 className={`text-lg sm:text-xl font-black leading-tight mb-3 transition-colors ${
                   isLight 
-                    ? "text-zinc-900 group-hover:text-blue-600" 
+                    ? "text-zinc-900 group-hover:text-emerald-600" 
                     : "text-white group-hover:text-emerald-400"
                 }`}>
                   {post.title}
                 </h3>
                 
                 <p className={`text-sm font-light leading-relaxed mb-6 flex-1 line-clamp-3 ${
-                  isLight ? "text-zinc-600" : "text-zinc-400"
+                  isLight ? "text-zinc-650" : "text-zinc-400"
                 }`}>
                   {post.excerpt}
                 </p>
 
                 <div className={`flex items-center gap-2 text-xs font-bold tracking-widest uppercase mt-auto transition-colors ${
-                  isLight ? "text-zinc-950 group-hover:text-blue-600" : "text-white group-hover:text-emerald-400"
+                  isLight ? "text-zinc-950 group-hover:text-emerald-600" : "text-white group-hover:text-emerald-400"
                 }`}>
                   Read Article
                   <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />

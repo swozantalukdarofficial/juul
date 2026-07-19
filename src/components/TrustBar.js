@@ -50,7 +50,7 @@ export default function TrustBar({ theme }) {
       subtitle: "100% genuine guaranteed",
     },
     {
-      icon: <Zap className={`w-5 h-5 transition-transform duration-300 group-hover:scale-110 group-hover:text-amber-500 ${isLight ? "text-zinc-800" : "text-zinc-200"}`} />,
+      icon: <Zap className={`w-5 h-5 transition-transform duration-300 group-hover:scale-110 ${isLight ? "text-zinc-800" : "text-zinc-200"}`} />,
       title: "Fast Shipping UAE",
       subtitle: "Same day dispatch Dubai",
     },

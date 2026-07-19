@@ -233,8 +233,8 @@ function DealCard({ deal, isLight, onAddToCart, index, onProductClick }) {
               added
                 ? "bg-emerald-500 border-emerald-500 text-white"
                 : isLight
-                ? "bg-zinc-950 border-zinc-950 text-white hover:bg-red-600 hover:border-red-600 shadow-md shadow-zinc-950/10"
-                : "bg-white border-white text-zinc-950 hover:bg-red-500 hover:border-red-500"
+                ? "bg-zinc-950 border-zinc-950 text-white hover:bg-emerald-500 hover:border-emerald-500 shadow-md shadow-zinc-950/10"
+                : "bg-white border-white text-zinc-950 hover:bg-emerald-500 hover:border-emerald-500 hover:text-white"
             }`}
           >
             {added ? (
