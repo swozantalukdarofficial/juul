@@ -100,13 +100,10 @@ export default function ShopByCategory({ setCurrentPage, setCategoryFilter, setV
               {/* Product Image Area */}
               <div className="absolute inset-0 z-0 overflow-hidden">
                 <div className="relative w-full h-full transition-transform duration-500 ease-out group-hover:scale-[1.04]">
-                  <Image
+                  <img
                     src={cat.image}
                     alt={cat.title}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    priority
+                    className="w-full h-full object-cover"
                   />
                 </div>
               </div>
