@@ -13,9 +13,7 @@ export default function Contact({ theme, shopifyPage }) {
           animate={{ opacity: 1, y: 0 }}
           className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tighter mb-6"
         >
-          {shopifyPage ? shopifyPage.title : (
-            <>Get In <span className="text-red-500">Touch</span></>
-          )}
+          <>Get In <span className="text-red-500">Touch</span></>
         </motion.h1>
         {shopifyPage?.body ? (
           <motion.div 
