@@ -23,6 +23,7 @@ export default function Navbar({ cartCount, setIsCartOpen, theme, setTheme }) {
   });
 
   const navItems = [
+    { id: "shop", label: "Shop", href: "/shop" },
     { id: "juul1", label: "Juul 1", href: "/juul1" },
     { id: "juul2", label: "Juul 2", href: "/juul2" },
     { id: "wholesale", label: "Wholesale", href: "/wholesale" },
