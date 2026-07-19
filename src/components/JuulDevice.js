@@ -7,19 +7,19 @@ export default function JuulDevice({ flavorColor = "#10B981", activeFlavor = "mi
   const flavorThemes = {
     mint: {
       glow: "shadow-[0_0_50px_rgba(16,185,129,0.35)]",
-      ledColor: "bg-emerald-400 shadow-[0_0_15px_#34d399,0_0_30px_#10B981]",
+      ledColor: "bg-emerald-500 shadow-[0_0_15px_#a7f3d0,0_0_30px_#10b981]",
     },
     mango: {
       glow: "shadow-[0_0_50px_rgba(245,158,11,0.35)]",
-      ledColor: "bg-amber-400 shadow-[0_0_15px_#fbbf24,0_0_30px_#F59E0B]",
+      ledColor: "bg-amber-500 shadow-[0_0_15px_#fde68a,0_0_30px_#f59e0b]",
     },
     classic: {
       glow: "shadow-[0_0_50px_rgba(120,113,108,0.35)]",
       ledColor: "bg-zinc-400 shadow-[0_0_15px_#a1a1aa,0_0_30px_#78716C]",
     },
     menthol: {
-      glow: "shadow-[0_0_50px_rgba(6,182,212,0.35)]",
-      ledColor: "bg-cyan-400 shadow-[0_0_15px_#22d3ee,0_0_30px_#06B6D4]",
+      glow: "shadow-[0_0_50px_rgba(5,150,105,0.35)]",
+      ledColor: "bg-emerald-600 shadow-[0_0_15px_#6ee7b7,0_0_30px_#059669]",
     }
   };
 

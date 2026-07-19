@@ -303,12 +303,12 @@ export default function ProductDetail({ selectedProduct, onAddToCart, setCurrent
                 
                 {/* Star Rating & Reviews */}
                 <div className="flex items-center gap-1.5 text-xs font-semibold">
-                  <div className="flex items-center gap-0.5 text-pink-500">
+                  <div className="flex items-center gap-0.5 text-amber-500">
                     {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-3 h-3 fill-current text-pink-500" />
+                      <Star key={i} className="w-3 h-3 fill-current text-amber-500" />
                     ))}
                   </div>
-                  <span className={`font-semibold text-[10px] ${isLight ? "text-zinc-500" : "text-zinc-450"}`}>
+                  <span className={`font-semibold text-[10px] ${isLight ? "text-zinc-500" : "text-zinc-400"}`}>
                     ({product.reviewsCount || 10} reviews)
                   </span>
                   <span className="text-zinc-400 dark:text-zinc-650 text-[9px]">|</span>
@@ -328,14 +328,14 @@ export default function ProductDetail({ selectedProduct, onAddToCart, setCurrent
                 </div>
 
                 {/* Gradient Divider Line */}
-                <div className="h-[1px] w-full bg-gradient-to-r from-pink-500 via-pink-500/20 to-transparent mt-3 mb-2" />
+                <div className={`h-[1px] w-full bg-gradient-to-r ${isLight ? "from-zinc-200" : "from-white/10"} to-transparent mt-3 mb-2`} />
 
                 {/* Price Display */}
                 <div className="flex items-baseline gap-3 flex-wrap">
                   <span className={`text-[10px] font-bold uppercase tracking-wider ${isLight ? "text-zinc-500" : "text-zinc-400"}`}>
                     Price:
                   </span>
-                  <span className="text-xl sm:text-2xl font-black text-[#FF5A36] tracking-tight leading-none">
+                  <span className={`text-xl sm:text-2xl font-black tracking-tight leading-none ${isLight ? "text-zinc-950" : "text-white"}`}>
                     Dhs. {toDhs(getCalculatedPrice())}
                   </span>
                   {product.originalPrice && product.originalPrice > getCalculatedPrice() && (
@@ -367,7 +367,7 @@ export default function ProductDetail({ selectedProduct, onAddToCart, setCurrent
                     "Next day delivery to other Emirates"
                   ].map((bullet, idx) => (
                     <li key={idx} className="flex items-start gap-2.5 leading-snug text-zinc-650 dark:text-zinc-300">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#FF2A7A] mt-1.5 flex-shrink-0" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-1.5 flex-shrink-0" />
                       <span>{bullet}</span>
                     </li>
                   ))}
@@ -379,8 +379,8 @@ export default function ProductDetail({ selectedProduct, onAddToCart, setCurrent
                 <div className="w-full">
                   <h4 className={`w-full text-xs sm:text-[13px] uppercase font-bold tracking-widest py-2.5 px-3 rounded-lg border flex items-center justify-center gap-2.5 ${
                     isLight 
-                      ? "bg-gradient-to-r from-pink-50 to-orange-50 text-pink-600 border-pink-200/50 shadow-sm shadow-pink-100/50" 
-                      : "bg-gradient-to-r from-[#FF2A7A]/10 to-[#FF7A00]/10 text-pink-400 border-[#FF2A7A]/20"
+                      ? "bg-emerald-50/50 text-emerald-650 border-emerald-200/60" 
+                      : "bg-emerald-500/5 text-emerald-400 border-emerald-500/10"
                   }`}>
                     <Star className="w-4 h-4 fill-current" />
                     <span>Upgrade Your Experience <span className="opacity-75 font-semibold">(Compatible Add-ons)</span></span>
@@ -399,7 +399,7 @@ export default function ProductDetail({ selectedProduct, onAddToCart, setCurrent
                           isChecked
                             ? isLight
                               ? "bg-white border border-zinc-200 shadow-sm"
-                              : "bg-[#202024]/80 border border-[#FF2A7A]/50 shadow-[0_0_15px_rgba(255,42,122,0.08)]"
+                              : "bg-[#202024]/80 border border-emerald-500/50 shadow-[0_0_15px_rgba(16,185,129,0.08)]"
                             : isLight
                             ? "bg-transparent border border-transparent hover:bg-white/50"
                             : "bg-transparent border border-transparent hover:bg-white/[0.02]"
@@ -408,7 +408,7 @@ export default function ProductDetail({ selectedProduct, onAddToCart, setCurrent
                         {/* Checkbox */}
                         <div className={`w-4 h-4 rounded flex items-center justify-center border transition-all flex-shrink-0 ${
                           isChecked 
-                            ? "bg-[#FF2A7A] border-[#FF2A7A] text-white" 
+                            ? "bg-emerald-500 border-emerald-500 text-white" 
                             : isLight ? "border-zinc-300 bg-white" : "border-white/20 bg-white/5"
                         }`}>
                           {isChecked && <Check className="w-3 h-3 stroke-[3]" />}
@@ -432,7 +432,7 @@ export default function ProductDetail({ selectedProduct, onAddToCart, setCurrent
                           <p className={`text-[11px] font-bold truncate ${isLight ? "text-zinc-850" : "text-zinc-200"}`} title={addon.name}>
                             {addon.name}
                           </p>
-                          <p className="text-[10px] font-black text-[#FF2A7A] flex-shrink-0">
+                          <p className="text-[10px] font-black text-emerald-500 flex-shrink-0">
                             +Dhs. {addon.price.toFixed(2)}
                           </p>
                         </div>
@@ -465,7 +465,7 @@ export default function ProductDetail({ selectedProduct, onAddToCart, setCurrent
 
                 {/* Total Price */}
                 <span className={`text-xs font-semibold uppercase tracking-wider ${isLight ? "text-zinc-500" : "text-zinc-455"}`}>
-                  Total: <span className="text-[#FF5A36] font-black text-xl ml-1.5">Dhs. {toDhs(totalPrice)}</span>
+                  Total: <span className={`font-black text-xl ml-1.5 ${isLight ? "text-zinc-950" : "text-white"}`}>Dhs. {toDhs(totalPrice)}</span>
                 </span>
               </div>
 
@@ -474,7 +474,11 @@ export default function ProductDetail({ selectedProduct, onAddToCart, setCurrent
                 {/* Add to Cart */}
                 <button
                   onClick={handleAddToCart}
-                  className="flex-1 h-12 font-bold uppercase tracking-widest text-[10px] sm:text-xs rounded-full flex items-center justify-center gap-2 transition-all transform hover:scale-[1.02] cursor-pointer bg-gradient-to-r from-[#FF7A00] to-[#FF007A] text-white shadow-md hover:brightness-110 whitespace-nowrap"
+                  className={`flex-1 h-12 font-bold uppercase tracking-widest text-[10px] sm:text-xs rounded-full flex items-center justify-center gap-2 transition-all transform hover:scale-[1.02] cursor-pointer shadow-md whitespace-nowrap ${
+                    isLight 
+                      ? "bg-zinc-950 hover:bg-zinc-800 text-white" 
+                      : "bg-white hover:bg-zinc-200 text-zinc-950"
+                  }`}
                 >
                   <ShoppingCart className="w-4 h-4" /> ADD TO CART
                 </button>
@@ -566,7 +570,7 @@ export default function ProductDetail({ selectedProduct, onAddToCart, setCurrent
                   {product.name}
                 </h4>
                 <div className="flex items-center gap-1.5">
-                  <span className={`text-xs font-black ${isLight ? "text-zinc-900" : "text-[#FF2A7A]"}`}>
+                  <span className={`text-xs font-black ${isLight ? "text-zinc-950" : "text-white"}`}>
                     Dhs. {toDhs(totalPrice)}
                   </span>
                   <span className="text-[10px] text-zinc-500 line-through">
@@ -596,7 +600,7 @@ export default function ProductDetail({ selectedProduct, onAddToCart, setCurrent
                 className={`px-5 py-2.5 rounded-full text-xs font-black uppercase tracking-wider transition-colors cursor-pointer whitespace-nowrap shadow-md ${
                   isLight 
                     ? "bg-zinc-950 hover:bg-zinc-900 text-white shadow-zinc-950/20" 
-                    : "bg-gradient-to-r from-[#FF7A00] to-[#FF007A] text-white shadow-lg"
+                    : "bg-white hover:bg-zinc-200 text-zinc-950"
                 }`}
               >
                 ⚡ Buy Now

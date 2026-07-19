@@ -9,7 +9,7 @@ const slides = [
     id: "juul2", badge: "GEN 2 ARRIVAL",
     title: "JUUL 2", subtitle: "Next-Gen Vaping.",
     desc: "Intelligent puff-sensors, premium glowing indicators & robust vapor draw. Hand-delivered across Dubai in under 2 hours.",
-    cta: "Shop JUUL 2", color: "#E11D48", version: "juul2",
+    cta: "Shop JUUL 2", color: "#ef4444", version: "juul2",
     specs: [
       { label: "Battery", value: "250mAh+" },
       { label: "Draw", value: "Auto-Sensor" },
@@ -33,7 +33,7 @@ const slides = [
     id: "express", badge: "UAE DISPATCH",
     title: "2-Hour Express", subtitle: "100% Authentic.",
     desc: "Fast dispatch across Dubai, Abu Dhabi & Sharjah. Free shipping on orders over AED 150. Genuine products only.",
-    cta: "Explore Catalog", color: "#F59E0B", version: "all",
+    cta: "Explore Catalog", color: "#ef4444", version: "all",
     specs: [
       { label: "Delivery", value: "2 Hours" },
       { label: "Quality", value: "Authentic" },
@@ -194,7 +194,7 @@ export default function HeroSection({ setCurrentPage, setCategoryFilter, setVers
                 </h1>
 
                 {/* Description */}
-                <p className={`text-sm sm:text-[15px] leading-relaxed max-w-lg mx-auto lg:mx-0 ${isLight ? "text-zinc-500" : "text-zinc-400"
+                <p className={`text-sm sm:text-[15px] leading-relaxed max-w-lg mx-auto lg:mx-0 ${isLight ? "text-zinc-550" : "text-zinc-450"
                   }`}>
                   {s.desc}
                 </p>
@@ -203,12 +203,11 @@ export default function HeroSection({ setCurrentPage, setCategoryFilter, setVers
                 <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start pt-2">
                   <button
                     onClick={() => go(s.version)}
-                    className={`group inline-flex items-center justify-center gap-2.5 px-9 py-4 rounded-full text-[11px] font-black uppercase tracking-widest transition-all active:scale-95 cursor-pointer relative overflow-hidden ${isLight ? "bg-zinc-950 text-white" : "text-white"
-                      }`}
-                    style={!isLight ? {
-                      background: `linear-gradient(135deg, ${s.color}cc, ${s.color}66)`,
-                      boxShadow: `0 8px 32px ${s.color}30`,
-                    } : undefined}
+                    className={`group inline-flex items-center justify-center gap-2.5 px-9 py-4 rounded-full text-[11px] font-black uppercase tracking-widest transition-all active:scale-95 cursor-pointer relative overflow-hidden ${
+                      isLight 
+                        ? "bg-zinc-950 text-white hover:bg-zinc-800 border border-zinc-950 shadow-md shadow-zinc-950/10" 
+                        : "bg-white text-zinc-950 hover:bg-zinc-100 border border-white shadow-md shadow-white/5"
+                    }`}
                   >
                     {/* Shine sweep on button */}
                     <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent" />

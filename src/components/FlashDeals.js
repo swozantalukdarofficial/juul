@@ -147,14 +147,13 @@ function DealCard({ deal, isLight, onAddToCart, index, onProductClick }) {
       transition={{ delay: index * 0.09, duration: 0.45, ease: "easeOut" }}
       className={`group relative rounded-3xl border overflow-hidden flex flex-col transition-all duration-300 hover:-translate-y-1.5 ${
         isLight
-          ? "bg-white border-zinc-200/80 shadow-[0_2px_20px_rgba(0,0,0,0.05)] hover:shadow-[0_10px_36px_rgba(0,0,0,0.09)]"
-          : "bg-[#111112] border-white/[0.06] hover:border-white/10"
+          ? "bg-white border-zinc-200/80 shadow-[0_2px_20px_rgba(0,0,0,0.05)] hover:border-red-500/40 hover:shadow-[0_10px_36px_rgba(239,68,68,0.04)]"
+          : "bg-[#111112] border-white/[0.06] hover:border-red-500/30 hover:shadow-[0_10px_36px_rgba(239,68,68,0.06)]"
       }`}
     >
       {/* Discount pill */}
       <div
-        className="absolute top-3 left-3 z-10 px-2.5 py-1 rounded-full text-white text-[10px] font-black uppercase tracking-wider shadow-md"
-        style={{ backgroundColor: deal.accentColor }}
+        className="absolute top-3 left-3 z-10 px-2.5 py-1 rounded-full text-white text-[10px] font-black uppercase tracking-wider shadow-md bg-emerald-600"
       >
         -{deal.discount}% OFF
       </div>
@@ -201,7 +200,7 @@ function DealCard({ deal, isLight, onAddToCart, index, onProductClick }) {
           </span>
           <Link
             href={`/product/${deal.id}`}
-            className={`text-sm font-black leading-snug cursor-pointer hover:underline block ${isLight ? "text-zinc-950" : "text-white"}`}
+            className={`text-sm font-black leading-snug cursor-pointer hover:text-red-500 block ${isLight ? "text-zinc-950" : "text-white"}`}
           >
             {deal.name}
           </Link>
@@ -213,7 +212,7 @@ function DealCard({ deal, isLight, onAddToCart, index, onProductClick }) {
         {/* Pricing row */}
         <div className="space-y-3">
           <div className="flex items-end flex-wrap gap-x-2 gap-y-1">
-            <span className="text-2xl font-black" style={{ color: deal.accentColor }}>
+            <span className={`text-2xl font-black ${isLight ? "text-black" : "text-white"}`}>
               AED {deal.salePrice}
             </span>
             <span className={`text-sm line-through mb-0.5 ${isLight ? "text-zinc-400" : "text-zinc-600"}`}>
@@ -234,8 +233,8 @@ function DealCard({ deal, isLight, onAddToCart, index, onProductClick }) {
               added
                 ? "bg-emerald-500 border-emerald-500 text-white"
                 : isLight
-                ? "bg-zinc-950 border-zinc-950 text-white hover:bg-zinc-800"
-                : "bg-white border-white text-zinc-950 hover:bg-zinc-100"
+                ? "bg-zinc-950 border-zinc-950 text-white hover:bg-red-600 hover:border-red-600 shadow-md shadow-zinc-950/10"
+                : "bg-white border-white text-zinc-950 hover:bg-red-500 hover:border-red-500"
             }`}
           >
             {added ? (

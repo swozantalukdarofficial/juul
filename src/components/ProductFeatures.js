@@ -11,28 +11,28 @@ export default function ProductFeatures({ theme }) {
       icon: <Truck className="w-5 h-5 text-white" />,
       title: "Free Shipping",
       desc: "On all orders above 300 AED",
-      gradient: "from-[#FF5A36] to-[#FF2A7A]",
+      gradient: "from-emerald-500 to-teal-500",
     },
     {
       id: 2,
       icon: <RefreshCcw className="w-5 h-5 text-white" />,
       title: "Fast Delivery",
       desc: "Delivery inside Dubai Within 3hrs",
-      gradient: "from-[#FF5A36] to-[#FF2A7A]",
+      gradient: "from-emerald-500 to-teal-500",
     },
     {
       id: 3,
       icon: <Banknote className="w-5 h-5 text-white" />,
       title: "Cash On Delivery",
       desc: "Cash on delivery available all over UAE",
-      gradient: "from-[#FF5A36] to-[#FF2A7A]",
+      gradient: "from-emerald-500 to-teal-500",
     },
     {
       id: 4,
       icon: <CreditCard className="w-5 h-5 text-white" />,
       title: "Secure Payment",
       desc: "100% Safe & Secure Checkout",
-      gradient: "from-[#FF5A36] to-[#FF2A7A]",
+      gradient: "from-emerald-500 to-teal-500",
     },
   ];
 
@@ -47,7 +47,7 @@ export default function ProductFeatures({ theme }) {
                 : "bg-[#121214] border border-white/5 hover:border-white/10"
               }`}
           >
-            <div className={`w-10 h-10 rounded-xl flex items-center justify-center bg-gradient-to-br ${feature.gradient} shadow-lg shadow-pink-500/20`}>
+            <div className={`w-10 h-10 rounded-xl flex items-center justify-center bg-gradient-to-br ${feature.gradient} shadow-lg shadow-emerald-500/15`}>
               {feature.icon}
             </div>
             <div>

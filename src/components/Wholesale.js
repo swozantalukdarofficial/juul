@@ -101,7 +101,7 @@ export default function Wholesale({ theme, shopifyPage }) {
           transition={{ duration: 0.6 }}
         >
           <span className={`inline-block px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6 border ${
-            isLight ? "bg-blue-50 text-blue-600 border-blue-200" : "bg-emerald-900/30 text-emerald-400 border-emerald-500/30"
+            isLight ? "bg-emerald-50 text-emerald-600 border-emerald-200" : "bg-emerald-950/30 text-emerald-400 border-emerald-500/30"
           }`}>
             B2B Partnership Program
           </span>
@@ -162,11 +162,11 @@ export default function Wholesale({ theme, shopifyPage }) {
             <p className={`text-lg font-medium leading-relaxed mb-8 ${isLight ? "text-zinc-600" : "text-zinc-400"}`}>
               We've streamlined our onboarding so you can start placing bulk orders in less than 24 hours. Our automated portal handles everything from invoices to tracking.
             </p>
-            <div className={`p-6 rounded-2xl border flex items-start gap-4 ${isLight ? "bg-amber-50 border-amber-200" : "bg-amber-900/10 border-amber-500/20"}`}>
-              <AlertCircle className={`w-6 h-6 shrink-0 ${isLight ? "text-amber-600" : "text-amber-500"}`} />
+            <div className={`p-6 rounded-2xl border flex items-start gap-4 ${isLight ? "bg-red-50 border-red-200" : "bg-red-950/10 border-red-500/20"}`}>
+              <AlertCircle className={`w-6 h-6 shrink-0 ${isLight ? "text-red-600" : "text-red-500"}`} />
               <div>
-                <h4 className={`font-bold ${isLight ? "text-amber-900" : "text-amber-400"}`}>Trade License Required</h4>
-                <p className={`text-sm mt-1 ${isLight ? "text-amber-700" : "text-amber-500/80"}`}>
+                <h4 className={`font-bold ${isLight ? "text-red-950" : "text-red-400"}`}>Trade License Required</h4>
+                <p className={`text-sm mt-1 ${isLight ? "text-red-700" : "text-red-500/80"}`}>
                   To access wholesale pricing, you must provide a valid business registration or trade license during application.
                 </p>
               </div>
@@ -222,9 +222,7 @@ export default function Wholesale({ theme, shopifyPage }) {
                 </p>
                 <button
                   onClick={() => setIsSubmitted(false)}
-                  className={`mt-8 font-bold text-sm tracking-widest uppercase ${
-                    isLight ? "text-blue-600 hover:text-blue-700" : "text-emerald-400 hover:text-emerald-300"
-                  }`}
+                  className="mt-8 font-bold text-sm tracking-widest uppercase text-emerald-500 hover:text-emerald-600"
                 >
                   Submit Another Application
                 </button>
@@ -245,7 +243,7 @@ export default function Wholesale({ theme, shopifyPage }) {
                       type="text" required name="firstName" value={formData.firstName} onChange={handleChange}
                       className={`w-full px-5 py-4 rounded-xl border focus:outline-none focus:ring-2 transition-all ${
                         isLight 
-                          ? "bg-zinc-50 border-zinc-200 focus:ring-blue-500 focus:border-blue-500" 
+                          ? "bg-zinc-50 border-zinc-200 focus:ring-emerald-500 focus:border-emerald-500" 
                           : "bg-black/50 border-white/10 focus:ring-emerald-500 focus:border-emerald-500 text-white placeholder-zinc-600"
                       }`}
                       placeholder="John"
@@ -257,7 +255,7 @@ export default function Wholesale({ theme, shopifyPage }) {
                       type="text" required name="lastName" value={formData.lastName} onChange={handleChange}
                       className={`w-full px-5 py-4 rounded-xl border focus:outline-none focus:ring-2 transition-all ${
                         isLight 
-                          ? "bg-zinc-50 border-zinc-200 focus:ring-blue-500 focus:border-blue-500" 
+                          ? "bg-zinc-50 border-zinc-200 focus:ring-emerald-500 focus:border-emerald-500" 
                           : "bg-black/50 border-white/10 focus:ring-emerald-500 focus:border-emerald-500 text-white placeholder-zinc-600"
                       }`}
                       placeholder="Doe"
@@ -273,7 +271,7 @@ export default function Wholesale({ theme, shopifyPage }) {
                       type="text" required name="businessName" value={formData.businessName} onChange={handleChange}
                       className={`w-full px-5 py-4 rounded-xl border focus:outline-none focus:ring-2 transition-all ${
                         isLight 
-                          ? "bg-zinc-50 border-zinc-200 focus:ring-blue-500 focus:border-blue-500" 
+                          ? "bg-zinc-50 border-zinc-200 focus:ring-emerald-500 focus:border-emerald-500" 
                           : "bg-black/50 border-white/10 focus:ring-emerald-500 focus:border-emerald-500 text-white placeholder-zinc-600"
                       }`}
                       placeholder="e.g. Vape Oasis LLC"
@@ -285,7 +283,7 @@ export default function Wholesale({ theme, shopifyPage }) {
                       type="text" required name="tradeLicense" value={formData.tradeLicense} onChange={handleChange}
                       className={`w-full px-5 py-4 rounded-xl border focus:outline-none focus:ring-2 transition-all ${
                         isLight 
-                          ? "bg-zinc-50 border-zinc-200 focus:ring-blue-500 focus:border-blue-500" 
+                          ? "bg-zinc-50 border-zinc-200 focus:ring-emerald-500 focus:border-emerald-500" 
                           : "bg-black/50 border-white/10 focus:ring-emerald-500 focus:border-emerald-500 text-white placeholder-zinc-600"
                       }`}
                       placeholder="License or Tax Registration Number"
@@ -301,7 +299,7 @@ export default function Wholesale({ theme, shopifyPage }) {
                       type="email" required name="email" value={formData.email} onChange={handleChange}
                       className={`w-full px-5 py-4 rounded-xl border focus:outline-none focus:ring-2 transition-all ${
                         isLight 
-                          ? "bg-zinc-50 border-zinc-200 focus:ring-blue-500 focus:border-blue-500" 
+                          ? "bg-zinc-50 border-zinc-200 focus:ring-emerald-500 focus:border-emerald-500" 
                           : "bg-black/50 border-white/10 focus:ring-emerald-500 focus:border-emerald-500 text-white placeholder-zinc-600"
                       }`}
                       placeholder="john@business.com"
@@ -313,7 +311,7 @@ export default function Wholesale({ theme, shopifyPage }) {
                       type="tel" required name="phone" value={formData.phone} onChange={handleChange}
                       className={`w-full px-5 py-4 rounded-xl border focus:outline-none focus:ring-2 transition-all ${
                         isLight 
-                          ? "bg-zinc-50 border-zinc-200 focus:ring-blue-500 focus:border-blue-500" 
+                          ? "bg-zinc-50 border-zinc-200 focus:ring-emerald-500 focus:border-emerald-500" 
                           : "bg-black/50 border-white/10 focus:ring-emerald-500 focus:border-emerald-500 text-white placeholder-zinc-600"
                       }`}
                       placeholder="+971 50 123 4567"
@@ -329,7 +327,7 @@ export default function Wholesale({ theme, shopifyPage }) {
                       name="businessType" value={formData.businessType} onChange={handleChange}
                       className={`w-full px-5 py-4 rounded-xl border focus:outline-none focus:ring-2 transition-all appearance-none cursor-pointer ${
                         isLight 
-                          ? "bg-zinc-50 border-zinc-200 focus:ring-blue-500" 
+                          ? "bg-zinc-50 border-zinc-200 focus:ring-emerald-500" 
                           : "bg-black/50 border-white/10 focus:ring-emerald-500 text-white"
                       }`}
                     >
@@ -345,7 +343,7 @@ export default function Wholesale({ theme, shopifyPage }) {
                       name="monthlyVolume" value={formData.monthlyVolume} onChange={handleChange}
                       className={`w-full px-5 py-4 rounded-xl border focus:outline-none focus:ring-2 transition-all appearance-none cursor-pointer ${
                         isLight 
-                          ? "bg-zinc-50 border-zinc-200 focus:ring-blue-500" 
+                          ? "bg-zinc-50 border-zinc-200 focus:ring-emerald-500" 
                           : "bg-black/50 border-white/10 focus:ring-emerald-500 text-white"
                       }`}
                     >
@@ -362,11 +360,11 @@ export default function Wholesale({ theme, shopifyPage }) {
                   <label className={`text-xs font-bold uppercase tracking-wider ${isLight ? "text-zinc-500" : "text-zinc-400"}`}>Additional Details / Target Brands</label>
                   <textarea 
                     name="message" value={formData.message} onChange={handleChange} rows="4"
-                    className={`w-full px-5 py-4 rounded-xl border focus:outline-none focus:ring-2 transition-all resize-none ${
-                      isLight 
-                        ? "bg-zinc-50 border-zinc-200 focus:ring-blue-500 focus:border-blue-500" 
-                        : "bg-black/50 border-white/10 focus:ring-emerald-500 focus:border-emerald-500 text-white placeholder-zinc-600"
-                    }`}
+                  className={`w-full px-5 py-4 rounded-xl border focus:outline-none focus:ring-2 transition-all resize-none ${
+                    isLight 
+                      ? "bg-zinc-50 border-zinc-200 focus:ring-emerald-500 focus:border-emerald-500" 
+                      : "bg-black/50 border-white/10 focus:ring-emerald-500 focus:border-emerald-500 text-white placeholder-zinc-600"
+                  }`}
                     placeholder="Tell us about the specific products you're interested in..."
                   />
                 </div>

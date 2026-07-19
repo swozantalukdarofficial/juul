@@ -190,19 +190,18 @@ export default function BestSellers({ onAddToCart, setCurrentPage, setSelectedPr
                 : null;
               
               return (
-                <div
+                 <div
                   key={`${prod.id}-${idx}`}
                   className={`group relative rounded-3xl border overflow-hidden flex flex-col transition-all duration-300 hover:-translate-y-1.5 snap-center flex-shrink-0 w-[calc(100vw-48px)] sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] ${
                     isLight
-                      ? "bg-white border-zinc-200/80 shadow-[0_2px_20px_rgba(0,0,0,0.05)] hover:shadow-[0_10px_36px_rgba(0,0,0,0.09)]"
-                      : "bg-[#111112] border-white/[0.06] hover:border-white/10"
+                      ? "bg-white border-zinc-200/80 shadow-[0_2px_20px_rgba(0,0,0,0.05)] hover:border-red-500/40 hover:shadow-[0_10px_36px_rgba(239,68,68,0.04)]"
+                      : "bg-[#111112] border-white/[0.06] hover:border-red-500/30 hover:shadow-[0_10px_36px_rgba(239,68,68,0.06)]"
                   }`}
                 >
                   {/* Discount pill */}
                   {prod.discount && (
                     <div
-                      className="absolute top-3 left-3 z-10 px-2.5 py-1 rounded-full text-white text-[10px] font-black uppercase tracking-wider shadow-md"
-                      style={{ backgroundColor: prod.imgColor }}
+                      className="absolute top-3 left-3 z-10 px-2.5 py-1 rounded-full text-white text-[10px] font-black uppercase tracking-wider shadow-md bg-emerald-600"
                     >
                       -{prod.discount}% OFF
                     </div>
@@ -243,10 +242,10 @@ export default function BestSellers({ onAddToCart, setCurrentPage, setSelectedPr
                         /* Fallback Mockup */
                         <div
                           className="w-8 h-28 rounded-md border flex flex-col items-center justify-between p-1 transition-all shadow-lg"
-                          style={{ backgroundColor: "#18181A", boxShadow: `0 10px 30px ${prod.imgColor}15` }}
+                          style={{ backgroundColor: "#18181A", borderColor: "rgba(255,255,255,0.1)" }}
                         >
-                           <div className="w-full h-8 rounded-sm border-b border-black/40" style={{ backgroundColor: `${prod.imgColor}20` }} />
-                           <div className="w-2 h-2 rounded-full" style={{ backgroundColor: prod.imgColor }} />
+                           <div className="w-full h-8 rounded-sm border-b border-black/40" style={{ backgroundColor: "rgba(255,255,255,0.05)", borderColor: "rgba(255,255,255,0.1)" }} />
+                           <div className="w-2 h-2 rounded-full" style={{ backgroundColor: "#10B981", boxShadow: "0 0 5px #10B981" }} />
                         </div>
                       )}
                     </motion.div>
@@ -256,12 +255,12 @@ export default function BestSellers({ onAddToCart, setCurrentPage, setSelectedPr
                   <div className="flex flex-col gap-3 p-5 flex-1 justify-between">
                     <div className="space-y-1.5 text-left">
                       {/* Badge */}
-                      <span className={`text-[9px] font-black uppercase tracking-widest`} style={{ color: prod.imgColor }}>
+                      <span className={`text-[9px] font-black uppercase tracking-widest ${isLight ? "text-zinc-500" : "text-zinc-400"}`}>
                         🔥 {prod.tag}
                       </span>
                       <Link
                         href={`/product/${prod.id}`}
-                        className={`text-sm sm:text-base font-black leading-snug cursor-pointer hover:underline block ${isLight ? "text-zinc-950" : "text-white"}`}
+                        className={`text-sm sm:text-base font-black leading-snug cursor-pointer hover:text-red-500 block ${isLight ? "text-zinc-950" : "text-white"}`}
                       >
                         {prod.name}
                       </Link>
@@ -273,11 +272,11 @@ export default function BestSellers({ onAddToCart, setCurrentPage, setSelectedPr
                     {/* Pricing row */}
                     <div className="space-y-3 text-left">
                       <div className="flex items-end flex-wrap gap-x-2 gap-y-1">
-                        <span className="text-2xl font-black" style={{ color: prod.imgColor }}>
+                        <span className={`text-2xl font-black ${isLight ? "text-black" : "text-white"}`}>
                           AED {parseFloat(prod.salePrice || prod.price).toFixed(2)}
                         </span>
                         {prod.originalPrice && (
-                          <span className={`text-sm line-through mb-0.5 ${isLight ? "text-zinc-400" : "text-zinc-655"}`}>
+                          <span className={`text-sm line-through mb-0.5 ${isLight ? "text-zinc-400" : "text-zinc-500"}`}>
                             AED {parseFloat(prod.originalPrice).toFixed(2)}
                           </span>
                         )}
@@ -296,8 +295,8 @@ export default function BestSellers({ onAddToCart, setCurrentPage, setSelectedPr
                         onClick={() => onAddToCart(prod)}
                         className={`w-full py-3 rounded-2xl flex items-center justify-center gap-2 text-[11px] font-black uppercase tracking-wider transition-all cursor-pointer border ${
                           isLight
-                            ? "bg-zinc-950 border-zinc-950 text-white hover:bg-zinc-800"
-                            : "bg-white border-white text-zinc-950 hover:bg-zinc-100"
+                            ? "bg-zinc-950 border-zinc-950 text-white hover:bg-red-600 hover:border-red-600 shadow-md shadow-zinc-950/10"
+                            : "bg-white border-white text-zinc-950 hover:bg-red-500 hover:border-red-500"
                         }`}
                       >
                         <ShoppingBag className="w-3.5 h-3.5" /> ADD TO CART

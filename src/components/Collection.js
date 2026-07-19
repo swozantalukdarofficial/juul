@@ -316,8 +316,8 @@ export default function Collection({ onAddToCart, setCurrentPage, setSelectedPro
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.4 }}
                 className={`group relative flex flex-col justify-between rounded-3xl p-5 border transition-all duration-300 ${isLight
-                    ? "bg-white border-zinc-200/80 shadow-[0_8px_30px_rgba(0,0,0,0.02)] hover:border-zinc-300/80 hover:shadow-[0_20px_50px_rgba(0,0,0,0.06)]"
-                    : "bg-white/[0.01] border-white/5 hover:border-white/10 p-5 hover:bg-white/[0.02]"
+                    ? "bg-white border-zinc-200/80 shadow-[0_8px_30px_rgba(0,0,0,0.02)] hover:border-red-500/40 hover:shadow-[0_20px_40px_rgba(239,68,68,0.04)]"
+                    : "bg-white/[0.01] border-white/5 hover:border-red-500/30 hover:shadow-[0_20px_40px_rgba(239,68,68,0.06)] p-5 hover:bg-white/[0.02]"
                   }`}
               >
                 {/* Image Showcase Box */}
@@ -359,12 +359,12 @@ export default function Collection({ onAddToCart, setCurrentPage, setSelectedPro
                         }`}
                       style={{
                         backgroundColor: "#18181A",
-                        boxShadow: isLight ? `0 10px 30px ${prod.imgColor}15` : `0 0 30px ${prod.imgColor}20`
+                        boxShadow: isLight ? `0 10px 30px rgba(0,0,0,0.05)` : `0 0 30px rgba(0,0,0,0.4)`
                       }}
                     >
                       <div
                         className="w-full h-10 rounded-sm border-b border-black/40 flex flex-col justify-end p-0.5"
-                        style={{ backgroundColor: `${prod.imgColor}20`, borderColor: `${prod.imgColor}40` }}
+                        style={{ backgroundColor: "rgba(255,255,255,0.05)", borderColor: "rgba(255,255,255,0.1)" }}
                       >
                         <div className="w-full h-3 bg-black/60 rounded-sm" />
                       </div>
@@ -375,9 +375,8 @@ export default function Collection({ onAddToCart, setCurrentPage, setSelectedPro
                               key={i}
                               className="w-1.5 h-1.5 rounded-full shadow-lg"
                               style={{
-                                backgroundColor: prod.imgColor,
-                                boxShadow: `0 0 5px ${prod.imgColor}`,
-                                opacity: i === 0 ? 1 : 0.4
+                                backgroundColor: i === 0 ? "#10B981" : "rgba(255,255,255,0.2)",
+                                boxShadow: i === 0 ? `0 0 5px #10B981` : "none"
                               }}
                             />
                           ))}
@@ -386,8 +385,8 @@ export default function Collection({ onAddToCart, setCurrentPage, setSelectedPro
                         <div
                           className="w-2.5 h-2.5 rounded-full shadow-lg"
                           style={{
-                            backgroundColor: prod.imgColor,
-                            boxShadow: `0 0 10px ${prod.imgColor}`
+                            backgroundColor: "#10B981",
+                            boxShadow: `0 0 5px #10B981`
                           }}
                         />
                       )}
@@ -399,15 +398,13 @@ export default function Collection({ onAddToCart, setCurrentPage, setSelectedPro
                   <div className="absolute inset-0 bg-black/40 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
                     <button
                       onClick={() => handleProductClick(prod)}
-                      className={`p-3 rounded-full bg-white text-black transition-colors shadow-lg cursor-pointer ${isLight ? "hover:bg-blue-600 hover:text-white" : "hover:bg-emerald-400"
-                        }`}
+                      className="p-3 rounded-full bg-white text-black transition-colors shadow-lg cursor-pointer hover:bg-red-500 hover:text-white"
                     >
                       <Eye className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => onAddToCart(prod)}
-                      className={`p-3 rounded-full bg-white text-black transition-colors shadow-lg cursor-pointer ${isLight ? "hover:bg-blue-600 hover:text-white" : "hover:bg-emerald-400"
-                        }`}
+                      className="p-3 rounded-full bg-white text-black transition-colors shadow-lg cursor-pointer hover:bg-red-500 hover:text-white"
                     >
                       <ShoppingCart className="w-4 h-4" />
                     </button>
@@ -430,8 +427,8 @@ export default function Collection({ onAddToCart, setCurrentPage, setSelectedPro
                   <h3
                     onClick={() => handleProductClick(prod)}
                     className={`text-base font-bold transition-colors cursor-pointer line-clamp-1 ${isLight
-                        ? "text-zinc-900 hover:text-blue-600"
-                        : "text-white hover:text-emerald-400"
+                        ? "text-zinc-900 hover:text-red-500"
+                        : "text-white hover:text-red-500"
                       }`}
                   >
                     {prod.name}
@@ -447,7 +444,7 @@ export default function Collection({ onAddToCart, setCurrentPage, setSelectedPro
                   }`}>
                   <div className="flex flex-col text-left">
                     <div className="flex items-baseline gap-2">
-                      <span className={`text-lg font-black ${isLight ? "text-zinc-950" : "text-white"}`}>AED {parseFloat(prod.price).toFixed(2)}</span>
+                      <span className={`text-lg font-black ${isLight ? "text-black" : "text-white"}`}>AED {parseFloat(prod.price).toFixed(2)}</span>
                       {prod.originalPrice && prod.originalPrice > prod.price && (
                         <span className="text-xs line-through text-zinc-500 font-semibold">
                           AED {parseFloat(prod.originalPrice).toFixed(2)}
@@ -458,8 +455,8 @@ export default function Collection({ onAddToCart, setCurrentPage, setSelectedPro
                   <button
                     onClick={() => onAddToCart(prod)}
                     className={`flex items-center gap-1.5 font-bold text-[10px] uppercase tracking-wider px-4 py-2 rounded-full transition-all duration-300 cursor-pointer ${isLight
-                        ? "bg-zinc-950 hover:bg-zinc-800 text-white shadow-md shadow-zinc-950/10"
-                        : "bg-white/5 hover:bg-emerald-400 text-white hover:text-black border border-white/10 hover:border-transparent"
+                        ? "bg-zinc-950 hover:bg-red-600 text-white shadow-md shadow-zinc-950/10"
+                        : "bg-white/5 hover:bg-red-500 text-white hover:text-white border border-white/10 hover:border-transparent"
                       }`}
                   >
                     <ShoppingCart className="w-3.5 h-3.5" /> Buy

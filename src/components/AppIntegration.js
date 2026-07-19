@@ -22,42 +22,42 @@ const APP_FEATURES = [
     icon: <Bluetooth className="w-5 h-5" />,
     title: "Instant Bluetooth Connect",
     desc: "Pair with your JUUL 2 device in seconds. Auto-reconnects every time.",
-    color: "#3B82F6",
+    color: "#10b981",
     screen: 0,
   },
   {
     icon: <BarChart3 className="w-5 h-5" />,
     title: "Usage Analytics",
     desc: "Track daily puff count, weekly trends, and nicotine intake in real-time.",
-    color: "#10B981",
+    color: "#10b981",
     screen: 1,
   },
   {
     icon: <Lock className="w-5 h-5" />,
     title: "Device Lock & Find",
     desc: "Remotely lock your JUUL if lost and locate it via Bluetooth proximity scan.",
-    color: "#E11D48",
+    color: "#ef4444",
     screen: 2,
   },
   {
     icon: <BatteryFull className="w-5 h-5" />,
     title: "Battery Monitoring",
     desc: "Live battery status with low-battery push alerts before you run out.",
-    color: "#F59E0B",
+    color: "#10b981",
     screen: 0,
   },
   {
     icon: <Bell className="w-5 h-5" />,
     title: "Smart Notifications",
     desc: "Get notified when your pod is running low or a firmware update is ready.",
-    color: "#8B5CF6",
+    color: "#10b981",
     screen: 1,
   },
   {
     icon: <Shield className="w-5 h-5" />,
     title: "Age Verification Lock",
     desc: "Built-in age gate — only verified adults can operate the connected device.",
-    color: "#06B6D4",
+    color: "#ef4444",
     screen: 2,
   },
 ];
@@ -127,7 +127,7 @@ export default function AppIntegration({ theme }) {
             isLight ? "text-zinc-950" : "text-white"
           }`}>
             Control Your JUUL 2 <br className="xs:block hidden" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-indigo-400 to-purple-500">
+            <span className={`text-transparent bg-clip-text bg-gradient-to-r ${isLight ? "from-zinc-900 to-zinc-600" : "from-white to-zinc-400"}`}>
               Directly From Your Phone
             </span>
           </h2>

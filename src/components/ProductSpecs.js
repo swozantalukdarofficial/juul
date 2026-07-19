@@ -89,21 +89,21 @@ export default function ProductSpecs({ category, theme }) {
         return (
           <div className={`space-y-4 text-xs font-light ${isLight ? "text-zinc-650" : "text-zinc-400"}`}>
             <div className="flex gap-3 items-start border-b border-zinc-100 dark:border-white/5 pb-3">
-              <Truck className="w-5 h-5 text-[#FF2A7A] flex-shrink-0" />
+              <Truck className="w-5 h-5 text-emerald-500 flex-shrink-0" />
               <div>
                 <h5 className={`font-bold mb-0.5 ${isLight ? "text-zinc-800" : "text-white"}`}>Same Day Delivery</h5>
                 <p>Order within Dubai, Sharjah, & Ajman before 2:00 PM for same-day delivery. Abu Dhabi & others delivered in 24-48 hrs.</p>
               </div>
             </div>
             <div className="flex gap-3 items-start border-b border-zinc-100 dark:border-white/5 pb-3">
-              <ShieldCheck className="w-5 h-5 text-[#FF2A7A] flex-shrink-0" />
+              <ShieldCheck className="w-5 h-5 text-emerald-500 flex-shrink-0" />
               <div>
                 <h5 className={`font-bold mb-0.5 ${isLight ? "text-zinc-800" : "text-white"}`}>Age Verification</h5>
                 <p>Strictly for adults 18+ (21+ depending on region). Valid ID check is mandatory at the time of delivery.</p>
               </div>
             </div>
             <div className="flex gap-3 items-start">
-              <RotateCcw className="w-5 h-5 text-[#FF2A7A] flex-shrink-0" />
+              <RotateCcw className="w-5 h-5 text-emerald-500 flex-shrink-0" />
               <div>
                 <h5 className={`font-bold mb-0.5 ${isLight ? "text-zinc-800" : "text-white"}`}>Return Policy</h5>
                 <p>Hassle-free 7-day returns on unopened, sealed products. Defective devices covered under standard manufacturer warranty.</p>

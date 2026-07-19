@@ -34,8 +34,8 @@ export default function ProductRecommendations({ category, currentProductId, onP
             viewport={{ once: true, margin: "-20px" }}
             transition={{ duration: 0.4 }}
             className={`group relative flex flex-col justify-between rounded-3xl p-4 border transition-all duration-300 ${isLight
-                ? "bg-white border-zinc-200 hover:border-zinc-300 shadow-[0_4px_20px_rgba(0,0,0,0.01)] hover:shadow-[0_12px_30px_rgba(0,0,0,0.04)]"
-                : "bg-[#111112] border-white/5 hover:border-white/10"
+                ? "bg-white border-zinc-200 hover:border-red-500/40 shadow-[0_4px_20px_rgba(0,0,0,0.01)] hover:shadow-[0_12px_30px_rgba(239,68,68,0.04)]"
+                : "bg-[#111112] border-white/5 hover:border-red-500/30 hover:shadow-[0_12px_30px_rgba(239,68,68,0.06)]"
               }`}
           >
             {/* Image Box */}
@@ -56,10 +56,10 @@ export default function ProductRecommendations({ category, currentProductId, onP
                 /* Fallback device block */
                 <div
                   className="w-6 h-20 rounded border flex flex-col items-center justify-between p-0.5 shadow-lg"
-                  style={{ backgroundColor: "#18181A", borderColor: `${prod.imgColor}25` }}
+                  style={{ backgroundColor: "#18181A", borderColor: "rgba(255,255,255,0.1)" }}
                 >
                   <div className="w-full h-5 bg-zinc-800 rounded-sm" />
-                  <div className="w-2 h-2 rounded-full" style={{ backgroundColor: prod.imgColor }} />
+                  <div className="w-2 h-2 rounded-full" style={{ backgroundColor: "#10B981", boxShadow: "0 0 5px #10B981" }} />
                   <div className="w-full h-1 bg-zinc-700 rounded-full" />
                 </div>
               )}
@@ -79,7 +79,7 @@ export default function ProductRecommendations({ category, currentProductId, onP
 
               <Link
                 href={`/product/${prod.id}`}
-                className={`text-xs font-bold transition-colors cursor-pointer line-clamp-1 hover:underline block ${isLight ? "text-zinc-900" : "text-white"
+                className={`text-xs font-bold transition-colors cursor-pointer line-clamp-1 hover:text-red-500 block ${isLight ? "text-zinc-900" : "text-white"
                   }`}
               >
                 {prod.name}
@@ -90,7 +90,7 @@ export default function ProductRecommendations({ category, currentProductId, onP
             <div className="flex items-center justify-between mt-4 pt-3 border-t border-zinc-100 dark:border-white/5">
               <div className="flex flex-col text-left">
                 <div className="flex items-baseline gap-1.5">
-                  <span className={`text-sm font-black ${isLight ? "text-zinc-950" : "text-white"}`}>AED {parseFloat(prod.price).toFixed(2)}</span>
+                  <span className={`text-sm font-black ${isLight ? "text-black" : "text-white"}`}>AED {parseFloat(prod.price).toFixed(2)}</span>
                   {prod.originalPrice && prod.originalPrice > prod.price && (
                     <span className="text-[10px] line-through text-zinc-500 font-semibold">
                       AED {parseFloat(prod.originalPrice).toFixed(2)}
@@ -101,8 +101,8 @@ export default function ProductRecommendations({ category, currentProductId, onP
               <button
                 onClick={() => onAddToCart(prod)}
                 className={`p-2 rounded-full transition-all duration-300 cursor-pointer ${isLight
-                    ? "bg-zinc-950 hover:bg-zinc-800 text-white"
-                    : "bg-white/5 hover:bg-emerald-450 hover:text-black text-white"
+                    ? "bg-zinc-950 hover:bg-red-600 text-white shadow-md shadow-zinc-950/10"
+                    : "bg-white/5 hover:bg-red-500 hover:text-white text-white border border-white/10 hover:border-transparent"
                   }`}
               >
                 <ShoppingCart className="w-3.5 h-3.5" />

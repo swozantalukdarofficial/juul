@@ -18,7 +18,7 @@ export default function ProductReviews({ productName = "JUUL Product", theme }) 
       helpfulCount: 24,
       isVerified: true,
       tag: "Polar Mint Pods",
-      avatarGradient: "from-emerald-400 to-teal-500 text-teal-950"
+      avatarGradient: "from-emerald-500 to-emerald-600 text-white"
     },
     {
       id: 2,
@@ -29,7 +29,7 @@ export default function ProductReviews({ productName = "JUUL Product", theme }) 
       helpfulCount: 15,
       isVerified: true,
       tag: "JUUL 2 Ruby Starter Kit",
-      avatarGradient: "from-rose-400 to-pink-500 text-pink-950"
+      avatarGradient: "from-red-500 to-red-600 text-white"
     },
     {
       id: 3,
@@ -40,7 +40,7 @@ export default function ProductReviews({ productName = "JUUL Product", theme }) 
       helpfulCount: 7,
       isVerified: true,
       tag: "USB Charging Dock",
-      avatarGradient: "from-sky-400 to-blue-500 text-blue-950"
+      avatarGradient: "from-zinc-500 to-zinc-650 text-white"
     }
   ]);
 
@@ -166,10 +166,10 @@ export default function ProductReviews({ productName = "JUUL Product", theme }) 
               <span className="text-[9px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400">
                 ⚡ 3-Hour Dubai Delivery
               </span>
-              <span className="text-[9px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-400">
+              <span className="text-[9px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400">
                 📦 100% Sealed Genuine
               </span>
-              <span className="text-[9px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-purple-500/10 text-purple-400">
+              <span className="text-[9px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400">
                 ⭐ Rated 4.9 by users
               </span>
             </div>

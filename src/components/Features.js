@@ -8,28 +8,24 @@ export default function Features({ theme }) {
 
   const specs = [
     {
-      icon: <ShieldCheck className={`w-6 h-6 ${isLight ? "text-zinc-950" : "text-white"}`} />,
+      icon: ShieldCheck,
       title: "100% Authentic",
-      desc: "Direct brand sourcing ensures guaranteed safety and zero counterfeit products.",
-      glow: isLight ? "hover:shadow-zinc-950/[0.03]" : "hover:shadow-white/5"
+      desc: "Direct brand sourcing ensures guaranteed safety and zero counterfeit products."
     },
     {
-      icon: <Truck className={`w-6 h-6 ${isLight ? "text-zinc-950" : "text-white"}`} />,
+      icon: Truck,
       title: "Express UAE Shipping",
-      desc: "Same-day courier dispatch inside Dubai and rapid next-day delivery to other emirates.",
-      glow: isLight ? "hover:shadow-zinc-950/[0.03]" : "hover:shadow-white/5"
+      desc: "Same-day courier dispatch inside Dubai and rapid next-day delivery to other emirates."
     },
     {
-      icon: <UserCheck className={`w-6 h-6 ${isLight ? "text-zinc-950" : "text-white"}`} />,
+      icon: UserCheck,
       title: "Age Compliant",
-      desc: "Strict age 21+ verification compliance at checkout and upon delivery for adult smokers.",
-      glow: isLight ? "hover:shadow-zinc-950/[0.03]" : "hover:shadow-white/5"
+      desc: "Strict age 21+ verification compliance at checkout and upon delivery for adult smokers."
     },
     {
-      icon: <Tag className={`w-6 h-6 ${isLight ? "text-zinc-950" : "text-white"}`} />,
+      icon: Tag,
       title: "Guaranteed Best Price",
-      desc: "Enjoy authentic vaping systems at highly competitive retail pricing and bulk deals.",
-      glow: isLight ? "hover:shadow-zinc-950/[0.03]" : "hover:shadow-white/5"
+      desc: "Enjoy authentic vaping systems at highly competitive retail pricing and bulk deals."
     }
   ];
 
@@ -57,12 +53,12 @@ export default function Features({ theme }) {
     }`}>
       {/* Background element (GPU Optimized) */}
       <div className="absolute right-0 bottom-0 w-[500px] h-[500px] rounded-full pointer-events-none"
-           style={{ background: isLight ? "radial-gradient(circle, rgba(59,130,246,0.03) 0%, transparent 70%)" : "radial-gradient(circle, rgba(16,185,129,0.06) 0%, transparent 70%)" }} />
+           style={{ background: isLight ? "radial-gradient(circle, rgba(16,185,129,0.02) 0%, transparent 70%)" : "radial-gradient(circle, rgba(16,185,129,0.06) 0%, transparent 70%)" }} />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
           <span className={`text-xs font-bold uppercase tracking-widest ${
-            isLight ? "text-blue-600" : "text-emerald-400"
+            isLight ? "text-emerald-600" : "text-emerald-400"
           }`}>
             Engineered Perfection
           </span>
@@ -81,32 +77,39 @@ export default function Features({ theme }) {
           viewport={{ once: true, margin: "-100px" }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
         >
-          {specs.map((spec, i) => (
-            <motion.div
-              key={i}
-              variants={cardVariants}
-              whileHover={{ y: -8, transition: { duration: 0.2 } }}
-              className={`p-8 rounded-3xl border transition-all duration-300 flex flex-col justify-between h-72 ${
-                isLight 
-                  ? "bg-zinc-50 border-zinc-200/80 shadow-[0_8px_30px_rgba(0,0,0,0.03)] hover:border-zinc-300 hover:bg-zinc-100/60" 
-                  : "bg-white/[0.02] border-white/5 hover:border-white/10"
-              } ${spec.glow}`}
-            >
-              <div className="space-y-4">
-                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center border ${
-                  isLight ? "bg-white border-zinc-200 shadow-sm" : "bg-white/5 border-white/10"
-                }`}>
-                  {spec.icon}
+          {specs.map((spec, i) => {
+            const IconComponent = spec.icon;
+            return (
+              <motion.div
+                key={i}
+                variants={cardVariants}
+                whileHover={{ y: -8, transition: { duration: 0.2 } }}
+                className={`group p-8 rounded-3xl border transition-all duration-300 flex flex-col justify-between h-72 ${
+                  isLight 
+                    ? "bg-zinc-50 border-zinc-200/80 shadow-[0_8px_30px_rgba(0,0,0,0.03)] hover:border-emerald-500/40 hover:bg-white hover:shadow-[0_20px_40px_rgba(16,185,129,0.06)]" 
+                    : "bg-white/[0.02] border-white/5 hover:border-emerald-500/30 hover:bg-emerald-950/5 hover:shadow-[0_20px_40px_rgba(16,185,129,0.08)]"
+                }`}
+              >
+                <div className="space-y-4">
+                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center border transition-all duration-300 ${
+                    isLight 
+                      ? "bg-white border-zinc-200 shadow-sm group-hover:border-emerald-200 group-hover:bg-emerald-50" 
+                      : "bg-white/5 border-white/10 group-hover:border-emerald-500/30 group-hover:bg-emerald-500/10"
+                  }`}>
+                    <IconComponent className={`w-6 h-6 transition-colors duration-300 ${
+                      isLight ? "text-zinc-950 group-hover:text-emerald-600" : "text-white group-hover:text-emerald-400"
+                    }`} />
+                  </div>
+                  <h3 className={`text-lg font-bold ${isLight ? "text-zinc-800" : "text-white"}`}>{spec.title}</h3>
+                  <p className={`text-xs sm:text-sm font-light leading-relaxed ${
+                    isLight ? "text-zinc-500" : "text-zinc-400"
+                  }`}>
+                    {spec.desc}
+                  </p>
                 </div>
-                <h3 className={`text-lg font-bold ${isLight ? "text-zinc-800" : "text-white"}`}>{spec.title}</h3>
-                <p className={`text-xs sm:text-sm font-light leading-relaxed ${
-                  isLight ? "text-zinc-500" : "text-zinc-400"
-                }`}>
-                  {spec.desc}
-                </p>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
         </motion.div>
       </div>
     </section>

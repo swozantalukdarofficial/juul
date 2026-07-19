@@ -162,7 +162,7 @@ export default function Juul2Flavors({ theme, onAddToCart }) {
           </div>
           <h2 className={`text-3xl sm:text-5xl font-black tracking-tight leading-tight ${isLight ? "text-zinc-950" : "text-white"}`}>
             Fully Compatible With <br className="hidden xs:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-indigo-500 to-emerald-400">
+            <span className="text-red-500">
               JUUL 2 PODS
             </span>
           </h2>
@@ -185,8 +185,8 @@ export default function Juul2Flavors({ theme, onAddToCart }) {
                 key={flavor.id}
                 className={`group flex flex-col justify-between rounded-3xl p-4 sm:p-6 border transition-all duration-300 relative overflow-hidden ${
                   isLight 
-                    ? "bg-white border-zinc-200 hover:border-zinc-300 hover:shadow-lg hover:shadow-zinc-200/50" 
-                    : "bg-[#121214] border-white/5 hover:border-white/10 hover:shadow-[0_12px_40px_rgba(0,0,0,0.4)]"
+                    ? "bg-white border-zinc-200 hover:border-red-500/40 hover:shadow-lg hover:shadow-zinc-200/50" 
+                    : "bg-[#121214] border-white/5 hover:border-red-500/30 hover:shadow-[0_12px_40px_rgba(0,0,0,0.4)]"
                 }`}
               >
                 {/* Top spec tag */}
@@ -232,7 +232,7 @@ export default function Juul2Flavors({ theme, onAddToCart }) {
                       {/* Small Heating Coil representation */}
                       <div className="absolute bottom-3 left-1/2 -translate-x-1/2 w-4 h-3 bg-zinc-650 rounded-xs flex flex-col justify-center items-center opacity-70">
                         <div className="w-2.5 h-[1px] bg-zinc-400" />
-                        <div className="w-2 h-[1px] bg-zinc-400 mt-0.5" />
+                        <div className="w-2.5 h-[1px] bg-zinc-400 mt-0.5" />
                       </div>
                     </div>
 
@@ -249,7 +249,7 @@ export default function Juul2Flavors({ theme, onAddToCart }) {
                   <h3 className={`text-base font-black ${isLight ? "text-zinc-950" : "text-white"}`}>
                     {flavor.name}
                   </h3>
-                  <p className="text-xs font-semibold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-indigo-500 dark:from-emerald-400 dark:to-teal-300">
+                  <p className="text-xs font-bold text-red-500 dark:text-red-400">
                     {flavor.note}
                   </p>
                   <p className={`text-[11px] font-medium italic leading-relaxed py-1.5 px-2 ${isLight ? "text-zinc-600" : "text-zinc-400"}`}>
@@ -258,7 +258,7 @@ export default function Juul2Flavors({ theme, onAddToCart }) {
                   <p className={`text-[10px] font-bold ${isLight ? "text-zinc-500" : "text-zinc-400"}`}>
                     Strength: {flavor.strength}
                   </p>
-                  <p className={`text-sm font-black pt-1 ${isLight ? "text-zinc-900" : "text-zinc-100"}`}>
+                  <p className={`text-sm font-black pt-1 ${isLight ? "text-black" : "text-white"}`}>
                     AED {flavor.price}
                   </p>
                 </div>

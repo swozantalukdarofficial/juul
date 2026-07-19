@@ -91,7 +91,7 @@ export default function ProductRichDescription({ product, theme }) {
               {product.id === "juul1-slate" ? (
                 <>
                   <div className="space-y-4 text-center sm:text-left">
-                    <h1 className={`text-2xl sm:text-3xl font-black ${isLight ? "text-blue-900" : "text-blue-400"}`}>
+                    <h1 className={`text-2xl sm:text-3xl font-black ${isLight ? "text-zinc-950" : "text-white"}`}>
                       Buy Juul Device in UAE - Elevate Your Vaping Experience
                     </h1>
                     <p className={`text-[13px] sm:text-sm leading-relaxed font-medium ${isLight ? "text-zinc-600" : "text-zinc-400"}`}>
@@ -113,8 +113,8 @@ export default function ProductRichDescription({ product, theme }) {
 
                   <div className="space-y-4">
                     <div className="flex items-center">
-                      <div className="w-1 h-6 sm:h-7 bg-orange-500 rounded-full mr-3"></div>
-                      <h3 className={`text-lg sm:text-xl font-black ${isLight ? "text-blue-900" : "text-blue-400"}`}>
+                      <div className="w-1 h-6 sm:h-7 bg-red-500 rounded-full mr-3"></div>
+                      <h3 className={`text-lg sm:text-xl font-black ${isLight ? "text-zinc-950" : "text-white"}`}>
                         JUUL 1 Kit — Everything You Need to Know
                       </h3>
                     </div>
@@ -148,7 +148,7 @@ export default function ProductRichDescription({ product, theme }) {
                 <>
                   {/* Text Section 1 */}
                   <div className="space-y-4 text-center sm:text-left">
-                    <h2 className={`text-xl sm:text-2xl font-black ${isLight ? "text-blue-900" : "text-blue-400"}`}>
+                    <h2 className={`text-xl sm:text-2xl font-black ${isLight ? "text-zinc-950" : "text-white"}`}>
                       Buy {product.name} in UAE – Premium Vaping Experience
                     </h2>
                     <p className={`text-[13px] sm:text-sm leading-relaxed font-medium ${isLight ? "text-zinc-600" : "text-zinc-400"}`}>
@@ -162,8 +162,8 @@ export default function ProductRichDescription({ product, theme }) {
                   {/* Text Section 2 (Product Overview with Border) */}
                   <div className="space-y-4">
                     <div className="flex items-center">
-                      <div className="w-1 h-6 sm:h-7 bg-orange-500 rounded-full mr-3"></div>
-                      <h3 className={`text-lg sm:text-xl font-black ${isLight ? "text-blue-900" : "text-blue-400"}`}>
+                      <div className="w-1 h-6 sm:h-7 bg-red-500 rounded-full mr-3"></div>
+                      <h3 className={`text-lg sm:text-xl font-black ${isLight ? "text-zinc-950" : "text-white"}`}>
                         {product.name} – Product Overview
                       </h3>
                     </div>
@@ -190,13 +190,13 @@ export default function ProductRichDescription({ product, theme }) {
                   className={`${cardClassName} grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center`}
                 >
                   <div className="lg:col-span-7 space-y-6">
-                    <motion.div variants={textItemVariants} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-blue-500/10 to-indigo-500/10 border border-blue-500/20">
-                      <Sparkles className="w-4 h-4 text-blue-500" />
-                      <span className="text-[10px] font-black uppercase tracking-[0.15em] text-blue-600 dark:text-blue-400">Get familiar with every part of JUUL 1 device</span>
+                    <motion.div variants={textItemVariants} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-500/5 border border-red-500/10">
+                      <Sparkles className="w-4 h-4 text-red-500" />
+                      <span className="text-[10px] font-black uppercase tracking-[0.15em] text-red-500">Get familiar with every part of JUUL 1 device</span>
                     </motion.div>
                     
                     <motion.h3 variants={textItemVariants} className={`text-4xl sm:text-5xl lg:text-6xl font-black tracking-tighter leading-[1.05] ${isLight ? "text-zinc-950" : "text-white"}`}>
-                      Meet Your <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-indigo-400">JUUL Kit</span>
+                      Meet Your <br/><span className="text-red-500">JUUL Kit</span>
                     </motion.h3>
                     
                     <motion.p variants={textItemVariants} className={`text-base font-medium leading-relaxed ${isLight ? "text-zinc-600" : "text-zinc-400"}`}>
@@ -224,13 +224,13 @@ export default function ProductRichDescription({ product, theme }) {
                   </motion.div>
           
                   <div className="lg:col-span-7 space-y-6">
-                    <motion.div variants={textItemVariants} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20">
-                      <Droplet className="w-4 h-4 text-purple-500" />
-                      <span className="text-[10px] font-black uppercase tracking-[0.15em] text-purple-600 dark:text-purple-400">Inside Your JUUL Pod</span>
+                    <motion.div variants={textItemVariants} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-500/5 border border-red-500/10">
+                      <Droplet className="w-4 h-4 text-red-500" />
+                      <span className="text-[10px] font-black uppercase tracking-[0.15em] text-red-500">Inside Your JUUL Pod</span>
                     </motion.div>
                     
                     <motion.h3 variants={textItemVariants} className={`text-4xl sm:text-5xl lg:text-6xl font-black tracking-tighter leading-[1.05] ${isLight ? "text-zinc-950" : "text-white"}`}>
-                      Inside the <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-500">JUUL Pod</span>
+                      Inside the <br/><span className="text-red-500">JUUL Pod</span>
                     </motion.h3>
                     
                     <motion.p variants={textItemVariants} className={`text-base font-medium leading-relaxed ${isLight ? "text-zinc-600" : "text-zinc-400"}`}>
@@ -246,13 +246,13 @@ export default function ProductRichDescription({ product, theme }) {
                   className={`${cardClassName} grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center`}
                 >
                   <div className="lg:col-span-7 space-y-6">
-                    <motion.div variants={textItemVariants} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border border-emerald-500/20">
+                    <motion.div variants={textItemVariants} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/5 border border-emerald-500/10">
                       <ShieldAlert className="w-4 h-4 text-emerald-500" />
-                      <span className="text-[10px] font-black uppercase tracking-[0.15em] text-emerald-600 dark:text-emerald-400">Check Your JUUL Battery Level</span>
+                      <span className="text-[10px] font-black uppercase tracking-[0.15em] text-emerald-500">Check Your JUUL Battery Level</span>
                     </motion.div>
                     
                     <motion.h3 variants={textItemVariants} className={`text-4xl sm:text-5xl lg:text-6xl font-black tracking-tighter leading-[1.05] ${isLight ? "text-zinc-950" : "text-white"}`}>
-                      How to Check <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-400">Battery Level</span>
+                      How to Check <br/><span className="text-emerald-500">Battery Level</span>
                     </motion.h3>
                     
                     <motion.p variants={textItemVariants} className={`text-base font-medium leading-relaxed ${isLight ? "text-zinc-600" : "text-zinc-400"}`}>
@@ -299,13 +299,13 @@ export default function ProductRichDescription({ product, theme }) {
                   </motion.div>
           
                   <div className="lg:col-span-7 space-y-6">
-                    <motion.div variants={textItemVariants} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20">
-                      <Droplet className="w-4 h-4 text-purple-500" />
-                      <span className="text-[10px] font-black uppercase tracking-[0.15em] text-purple-600 dark:text-purple-400">Check Your JUUL E-Liquid Level</span>
+                    <motion.div variants={textItemVariants} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/5 border border-emerald-500/10">
+                      <Droplet className="w-4 h-4 text-emerald-500" />
+                      <span className="text-[10px] font-black uppercase tracking-[0.15em] text-emerald-500">Check Your JUUL E-Liquid Level</span>
                     </motion.div>
                     
                     <motion.h3 variants={textItemVariants} className={`text-4xl sm:text-5xl lg:text-6xl font-black tracking-tighter leading-[1.05] ${isLight ? "text-zinc-950" : "text-white"}`}>
-                      How to Check Your <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-500">E-Liquid Level</span>
+                      How to Check Your <br/><span className="text-emerald-500">E-Liquid Level</span>
                     </motion.h3>
                     
                     <motion.p variants={textItemVariants} className={`text-base font-medium leading-relaxed ${isLight ? "text-zinc-600" : "text-zinc-400"}`}>
@@ -321,13 +321,13 @@ export default function ProductRichDescription({ product, theme }) {
                   className={`${cardClassName} grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center`}
                 >
                   <div className="lg:col-span-7 space-y-6">
-                    <motion.div variants={textItemVariants} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-orange-500/10 to-rose-500/10 border border-orange-500/20">
-                      <Zap className="w-4 h-4 text-orange-500" />
-                      <span className="text-[10px] font-black uppercase tracking-[0.15em] text-orange-600 dark:text-orange-400">Charging Your JUUL Device</span>
+                    <motion.div variants={textItemVariants} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/5 border border-emerald-500/10">
+                      <Zap className="w-4 h-4 text-emerald-500" />
+                      <span className="text-[10px] font-black uppercase tracking-[0.15em] text-emerald-500">Charging Your JUUL Device</span>
                     </motion.div>
                     
                     <motion.h3 variants={textItemVariants} className={`text-4xl sm:text-5xl lg:text-6xl font-black tracking-tighter leading-[1.05] ${isLight ? "text-zinc-950" : "text-white"}`}>
-                      How To Charge <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-rose-500">JUUL Device</span>
+                      How To Charge <br/><span className="text-emerald-500">JUUL Device</span>
                     </motion.h3>
                     
                     <motion.p variants={textItemVariants} className={`text-base font-medium leading-relaxed ${isLight ? "text-zinc-600" : "text-zinc-400"}`}>
@@ -336,8 +336,8 @@ export default function ProductRichDescription({ product, theme }) {
                     
                     <motion.div variants={textItemVariants} className="space-y-3 pt-2">
                       <div className="flex items-center gap-3 text-sm font-bold">
-                        <div className="w-6 h-6 rounded-full bg-orange-500/20 flex items-center justify-center">
-                          <CheckSquare className="w-3.5 h-3.5 text-orange-500" />
+                        <div className="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center">
+                          <CheckSquare className="w-3.5 h-3.5 text-green-500" />
                         </div>
                         <span className={isLight ? "text-zinc-800" : "text-zinc-200"}>White Light Pulsing: Charging in progress</span>
                       </div>
@@ -348,8 +348,8 @@ export default function ProductRichDescription({ product, theme }) {
                         <span className={isLight ? "text-zinc-800" : "text-zinc-200"}>Solid Green Light: Fully charged</span>
                       </div>
                       <div className="flex items-center gap-3 text-sm font-bold">
-                        <div className="w-6 h-6 rounded-full bg-zinc-500/20 flex items-center justify-center">
-                          <CheckSquare className="w-3.5 h-3.5 text-zinc-500" />
+                        <div className="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center">
+                          <CheckSquare className="w-3.5 h-3.5 text-green-500" />
                         </div>
                         <span className={isLight ? "text-zinc-800" : "text-zinc-200"}>No Light: Device is disconnected or charging is complete</span>
                       </div>
@@ -382,13 +382,13 @@ export default function ProductRichDescription({ product, theme }) {
         className={`${cardClassName} grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center`}
       >
         <div className="lg:col-span-7 space-y-6">
-          <motion.div variants={textItemVariants} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-blue-500/10 to-indigo-500/10 border border-blue-500/20">
-            <Sparkles className="w-4 h-4 text-blue-500" />
-            <span className="text-[10px] font-black uppercase tracking-[0.15em] text-blue-600 dark:text-blue-400">Advanced Anatomy</span>
+          <motion.div variants={textItemVariants} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-500/5 border border-red-500/10">
+            <Sparkles className="w-4 h-4 text-red-500" />
+            <span className="text-[10px] font-black uppercase tracking-[0.15em] text-red-500">Advanced Anatomy</span>
           </motion.div>
           
           <motion.h3 variants={textItemVariants} className={`text-4xl sm:text-5xl lg:text-6xl font-black tracking-tighter leading-[1.05] ${isLight ? "text-zinc-950" : "text-white"}`}>
-            JUUL Pod <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-indigo-400">Specification</span>
+            JUUL Pod <br/><span className="text-red-500">Specification</span>
           </motion.h3>
           
           <motion.p variants={textItemVariants} className={`text-base font-medium leading-relaxed ${isLight ? "text-zinc-600" : "text-zinc-400"}`}>
@@ -427,13 +427,13 @@ export default function ProductRichDescription({ product, theme }) {
         </motion.div>
 
         <div className="lg:col-span-7 space-y-6">
-          <motion.div variants={textItemVariants} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20">
-            <Droplet className="w-4 h-4 text-purple-500" />
-            <span className="text-[10px] font-black uppercase tracking-[0.15em] text-purple-600 dark:text-purple-400">E-Liquid Visibility</span>
+          <motion.div variants={textItemVariants} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/5 border border-emerald-500/10">
+            <Droplet className="w-4 h-4 text-emerald-500" />
+            <span className="text-[10px] font-black uppercase tracking-[0.15em] text-emerald-500">E-Liquid Visibility</span>
           </motion.div>
           
           <motion.h3 variants={textItemVariants} className={`text-4xl sm:text-5xl lg:text-6xl font-black tracking-tighter leading-[1.05] ${isLight ? "text-zinc-950" : "text-white"}`}>
-            Hexagonal <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-500">Liquid Window</span>
+            Hexagonal <br/><span className="text-emerald-500">Liquid Window</span>
           </motion.h3>
           
           <motion.p variants={textItemVariants} className={`text-base font-medium leading-relaxed ${isLight ? "text-zinc-600" : "text-zinc-400"}`}>
@@ -466,13 +466,13 @@ export default function ProductRichDescription({ product, theme }) {
         </motion.div>
 
         <div className="lg:col-span-7 space-y-6">
-          <motion.div variants={textItemVariants} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-orange-500/10 to-rose-500/10 border border-orange-500/20">
-            <Zap className="w-4 h-4 text-orange-500" />
-            <span className="text-[10px] font-black uppercase tracking-[0.15em] text-orange-600 dark:text-orange-400">Magnetic Docking</span>
+          <motion.div variants={textItemVariants} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/5 border border-emerald-500/10">
+            <Zap className="w-4 h-4 text-emerald-500" />
+            <span className="text-[10px] font-black uppercase tracking-[0.15em] text-emerald-500">Magnetic Docking</span>
           </motion.div>
           
           <motion.h3 variants={textItemVariants} className={`text-4xl sm:text-5xl lg:text-6xl font-black tracking-tighter leading-[1.05] ${isLight ? "text-zinc-950" : "text-white"}`}>
-            How To Charge <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-rose-500">Your JUUL2</span>
+            How To Charge <br/><span className="text-emerald-500">Your JUUL2</span>
           </motion.h3>
           
           <motion.p variants={textItemVariants} className={`text-base font-medium leading-relaxed ${isLight ? "text-zinc-600" : "text-zinc-400"}`}>
@@ -481,14 +481,14 @@ export default function ProductRichDescription({ product, theme }) {
           
           <motion.div variants={textItemVariants} className="space-y-3 pt-2">
             <div className="flex items-center gap-3 text-sm font-bold">
-              <div className="w-6 h-6 rounded-full bg-orange-500/20 flex items-center justify-center">
-                <CheckSquare className="w-3.5 h-3.5 text-orange-500" />
+              <div className="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center">
+                <CheckSquare className="w-3.5 h-3.5 text-green-500" />
               </div>
               <span className={isLight ? "text-zinc-800" : "text-zinc-200"}>Sequential Cascade Flash Confirmation</span>
             </div>
             <div className="flex items-center gap-3 text-sm font-bold">
-              <div className="w-6 h-6 rounded-full bg-orange-500/20 flex items-center justify-center">
-                <CheckSquare className="w-3.5 h-3.5 text-orange-500" />
+              <div className="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center">
+                <CheckSquare className="w-3.5 h-3.5 text-green-500" />
               </div>
               <span className={isLight ? "text-zinc-800" : "text-zinc-200"}>Estimated Charge Time: 60 Minutes</span>
             </div>
@@ -503,13 +503,13 @@ export default function ProductRichDescription({ product, theme }) {
         className={`${cardClassName} grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center`}
       >
         <div className="lg:col-span-7 space-y-6">
-          <motion.div variants={textItemVariants} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border border-emerald-500/20">
+          <motion.div variants={textItemVariants} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/5 border border-emerald-500/10">
             <ShieldAlert className="w-4 h-4 text-emerald-500" />
-            <span className="text-[10px] font-black uppercase tracking-[0.15em] text-emerald-600 dark:text-emerald-400">Battery Status</span>
+            <span className="text-[10px] font-black uppercase tracking-[0.15em] text-emerald-500">Battery Status</span>
           </motion.div>
           
           <motion.h3 variants={textItemVariants} className={`text-4xl sm:text-5xl lg:text-6xl font-black tracking-tighter leading-[1.05] ${isLight ? "text-zinc-950" : "text-white"}`}>
-            Double Tap To <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-400">Check Battery</span>
+            Double Tap To <br/><span className="text-emerald-500">Check Battery</span>
           </motion.h3>
           
           <motion.p variants={textItemVariants} className={`text-base font-medium leading-relaxed ${isLight ? "text-zinc-600" : "text-zinc-400"}`}>
@@ -556,13 +556,13 @@ export default function ProductRichDescription({ product, theme }) {
         </motion.div>
 
         <div className="lg:col-span-7 space-y-6">
-          <motion.div variants={textItemVariants} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20">
-            <RefreshCcw className="w-4 h-4 text-purple-500" />
-            <span className="text-[10px] font-black uppercase tracking-[0.15em] text-purple-600 dark:text-purple-400">Position, Shake, Connect</span>
+          <motion.div variants={textItemVariants} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/5 border border-emerald-500/10">
+            <RefreshCcw className="w-4 h-4 text-emerald-500" />
+            <span className="text-[10px] font-black uppercase tracking-[0.15em] text-emerald-500">Position, Shake, Connect</span>
           </motion.div>
           
           <motion.h3 variants={textItemVariants} className={`text-4xl sm:text-5xl lg:text-6xl font-black tracking-tighter leading-[1.05] ${isLight ? "text-zinc-950" : "text-white"}`}>
-            Seamless App <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-500">Pairing</span>
+            Seamless App <br/><span className="text-emerald-500">Pairing</span>
           </motion.h3>
           
           <motion.p variants={textItemVariants} className={`text-base font-medium leading-relaxed ${isLight ? "text-zinc-600" : "text-zinc-400"}`}>
@@ -571,20 +571,20 @@ export default function ProductRichDescription({ product, theme }) {
 
           <motion.div variants={textItemVariants} className="space-y-3 pt-2">
             <div className="flex items-center gap-3 text-sm font-bold">
-              <div className="w-6 h-6 rounded-full bg-purple-500/20 flex items-center justify-center">
-                <span className="text-[10px] text-purple-500">1</span>
+              <div className="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                <span className="text-[10px] text-emerald-500">1</span>
               </div>
               <span className={isLight ? "text-zinc-800" : "text-zinc-200"}>Position Devices (3 Meters Max)</span>
             </div>
             <div className="flex items-center gap-3 text-sm font-bold">
-              <div className="w-6 h-6 rounded-full bg-purple-500/20 flex items-center justify-center">
-                <span className="text-[10px] text-purple-500">2</span>
+              <div className="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                <span className="text-[10px] text-emerald-500">2</span>
               </div>
               <span className={isLight ? "text-zinc-800" : "text-zinc-200"}>Shake JUUL2 & Wait 10 Sec</span>
             </div>
             <div className="flex items-center gap-3 text-sm font-bold">
-              <div className="w-6 h-6 rounded-full bg-purple-500/20 flex items-center justify-center">
-                <span className="text-[10px] text-purple-500">3</span>
+              <div className="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                <span className="text-[10px] text-emerald-500">3</span>
               </div>
               <span className={isLight ? "text-zinc-800" : "text-zinc-200"}>JUUL2 Connected Successfully</span>
             </div>
@@ -599,13 +599,13 @@ export default function ProductRichDescription({ product, theme }) {
         className={`${cardClassName} grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center`}
       >
         <div className="lg:col-span-7 space-y-6">
-          <motion.div variants={textItemVariants} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/20">
-            <Sparkles className="w-4 h-4 text-amber-500" />
-            <span className="text-[10px] font-black uppercase tracking-[0.15em] text-amber-600 dark:text-amber-400">Complete Device Control</span>
+          <motion.div variants={textItemVariants} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-500/5 border border-red-500/10">
+            <Sparkles className="w-4 h-4 text-red-500" />
+            <span className="text-[10px] font-black uppercase tracking-[0.15em] text-red-500">Complete Device Control</span>
           </motion.div>
           
           <motion.h3 variants={textItemVariants} className={`text-4xl sm:text-5xl lg:text-6xl font-black tracking-tighter leading-[1.05] ${isLight ? "text-zinc-950" : "text-white"}`}>
-            JUUL2 App <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-orange-500">Features</span>
+            JUUL2 App <br/><span className="text-red-500">Features</span>
           </motion.h3>
           
           <motion.p variants={textItemVariants} className={`text-base font-medium leading-relaxed ${isLight ? "text-zinc-600" : "text-zinc-400"}`}>
@@ -791,11 +791,11 @@ export default function ProductRichDescription({ product, theme }) {
               </ul>
             </div>
 
-            <div className={`p-6 rounded-2xl border ${isLight ? "bg-blue-50 border-blue-200" : "bg-blue-900/20 border-blue-500/20"}`}>
-              <h4 className={`text-lg font-black mb-2 ${isLight ? "text-blue-900" : "text-blue-400"}`}>
+            <div className={`p-6 rounded-2xl border ${isLight ? "bg-zinc-50 border-zinc-200" : "bg-zinc-900/40 border-zinc-800"}`}>
+              <h4 className={`text-lg font-black mb-2 ${isLight ? "text-zinc-950" : "text-white"}`}>
                 Our Promise to You
               </h4>
-              <p className={`text-[13px] sm:text-sm leading-relaxed font-medium ${isLight ? "text-blue-800" : "text-blue-300"}`}>
+              <p className={`text-[13px] sm:text-sm leading-relaxed font-medium ${isLight ? "text-zinc-650" : "text-zinc-400"}`}>
                 We take great care of your order from the moment it leaves us to the moment it reaches you. Your satisfaction is our top priority. We make sure every order is packed and handled with care. We do our best to deliver on time.
               </p>
             </div>

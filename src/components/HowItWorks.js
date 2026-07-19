@@ -33,13 +33,12 @@ export default function HowItWorks({ theme }) {
     }`}>
       {/* Background Soft Glows (GPU Optimized) */}
       <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] pointer-events-none rounded-full" 
-           style={{ background: isLight ? "radial-gradient(circle, rgba(59,130,246,0.05) 0%, transparent 70%)" : "radial-gradient(circle, rgba(16,185,129,0.02) 0%, transparent 70%)" }} />
+           style={{ background: isLight ? "radial-gradient(circle, rgba(16,185,129,0.03) 0%, transparent 70%)" : "radial-gradient(circle, rgba(16,185,129,0.02) 0%, transparent 70%)" }} />
       <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] pointer-events-none rounded-full" 
-           style={{ background: isLight ? "radial-gradient(circle, rgba(99,102,241,0.05) 0%, transparent 70%)" : "radial-gradient(circle, rgba(20,184,166,0.02) 0%, transparent 70%)" }} />
+           style={{ background: isLight ? "radial-gradient(circle, rgba(16,185,129,0.02) 0%, transparent 70%)" : "radial-gradient(circle, rgba(16,185,129,0.02) 0%, transparent 70%)" }} />
 
       <div className="max-w-7xl mx-auto px-6 text-center relative z-10">
         
-        {/* Section Header */}
         {/* Section Header */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -88,14 +87,14 @@ export default function HowItWorks({ theme }) {
                 transition={{ delay: idx * 0.2, duration: 0.6, ease: "easeOut" }}
                 className={`group rounded-3xl p-8 border text-left relative overflow-hidden transition-all duration-500 hover:-translate-y-2 ${
                   isLight 
-                    ? "bg-white border-zinc-200/80 shadow-[0_8px_30px_rgba(0,0,0,0.015)] hover:border-blue-500/30 hover:shadow-[0_20px_45px_rgba(59,130,246,0.06)]" 
+                    ? "bg-white border-zinc-200/80 shadow-[0_8px_30px_rgba(0,0,0,0.015)] hover:border-emerald-500/30 hover:shadow-[0_20px_45px_rgba(16,185,129,0.05)]" 
                     : "bg-white/[0.01] border-white/5 hover:border-emerald-500/30 hover:bg-white/[0.02] hover:shadow-[0_20px_45px_rgba(16,185,129,0.02)]"
                 }`}
               >
                 {/* Step number backdrop */}
                 <span className={`absolute -right-4 -top-8 text-8xl font-black opacity-[0.03] select-none transition-all duration-500 ${
                   isLight 
-                    ? "text-zinc-950 group-hover:text-blue-600 group-hover:opacity-[0.07]" 
+                    ? "text-zinc-950 group-hover:text-emerald-600 group-hover:opacity-[0.07]" 
                     : "text-white group-hover:text-emerald-400 group-hover:opacity-[0.07]"
                 }`}>
                   {step.step}
@@ -104,7 +103,7 @@ export default function HowItWorks({ theme }) {
                 {/* Step badge */}
                 <span className={`inline-block text-[9px] uppercase font-black tracking-[0.2em] px-3 py-1 rounded-full mb-6 border transition-all duration-500 ${
                   isLight 
-                    ? "bg-blue-50/50 text-blue-600 border-blue-100/50 group-hover:bg-blue-100/50" 
+                    ? "bg-emerald-50 text-emerald-600 border-emerald-100/50 group-hover:bg-emerald-100/50" 
                     : "bg-emerald-500/5 text-emerald-400 border-emerald-500/10 group-hover:bg-emerald-500/10"
                 }`}>
                   Step {step.step}
@@ -113,7 +112,7 @@ export default function HowItWorks({ theme }) {
                 {/* Icon wrapper */}
                 <div className={`p-3.5 rounded-2xl border w-fit mb-6 transition-all duration-500 ${
                   isLight 
-                    ? "bg-zinc-50 border-zinc-200 text-zinc-700 group-hover:bg-blue-600 group-hover:border-blue-600 group-hover:text-white group-hover:shadow-lg group-hover:shadow-blue-600/20" 
+                    ? "bg-zinc-50 border-zinc-200 text-zinc-700 group-hover:bg-emerald-500 group-hover:border-emerald-500 group-hover:text-white group-hover:shadow-lg group-hover:shadow-emerald-500/20" 
                     : "bg-white/5 border-white/10 text-zinc-300 group-hover:bg-emerald-500 group-hover:border-emerald-500 group-hover:text-zinc-950 group-hover:shadow-lg group-hover:shadow-emerald-500/20"
                 }`}>
                   {step.icon}
@@ -121,7 +120,7 @@ export default function HowItWorks({ theme }) {
 
                 {/* Content */}
                 <h3 className={`text-lg font-black mb-2.5 transition-colors duration-300 ${
-                  isLight ? "text-zinc-950 group-hover:text-blue-600" : "text-white group-hover:text-emerald-400"
+                  isLight ? "text-zinc-950 group-hover:text-emerald-600" : "text-white group-hover:text-emerald-400"
                 }`}>
                   {step.title}
                 </h3>
